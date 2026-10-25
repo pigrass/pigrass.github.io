@@ -1,5 +1,33 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>pigrass的轻博客</title><link>https://pigrass.github.io</link><description>日常唠叨</description><copyright>pigrass的轻博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://raw.githubusercontent.com/pigrass/pigrass.github.io/bcada41e2e0dfd929b69f443dbe667b903d5d88d/avatar.png</url><title>avatar</title><link>https://pigrass.github.io</link></image><lastBuildDate>Sun, 25 Oct 2026 04:49:07 +0000</lastBuildDate><managingEditor>pigrass的轻博客</managingEditor><ttl>60</ttl><webMaster>pigrass的轻博客</webMaster><item><title>写给使用雷神加速器的VRChat舞蹈房玩家</title><link>https://pigrass.github.io/post/4.html</link><description># 1/ 问题
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>pigrass的轻博客</title><link>https://pigrass.github.io</link><description>日常唠叨</description><copyright>pigrass的轻博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://raw.githubusercontent.com/pigrass/pigrass.github.io/bcada41e2e0dfd929b69f443dbe667b903d5d88d/avatar.png</url><title>avatar</title><link>https://pigrass.github.io</link></image><lastBuildDate>Sun, 25 Oct 2026 08:07:11 +0000</lastBuildDate><managingEditor>pigrass的轻博客</managingEditor><ttl>60</ttl><webMaster>pigrass的轻博客</webMaster><item><title>VRChat赛博仓鼠的库管软件选择</title><link>https://pigrass.github.io/post/5.html</link><description># 前言
+
+VRChat改模(其实是无料小东西下多了)改多了,硬盘里的素材就多了.怎么整理就成了问题.目前使用过3款booth素材整理软件,把使用的感受整理如下:
+
+# 软件使用对比
+
+## 1/ KonoAsset
+
+项目地址 [https://github.com/siloneco/KonoAsset/](https://github.com/siloneco/KonoAsset/)
+
+KonoAsset是用过的第一款booth素材整理软件,软件有自己的存储位置设定.素材包拖动到软件后,添加booth商品页链接,默认抓取第1张商品图(可选择或上传其他图片作为软件内素材展示图),自己手动填写分类/tag信息,完成.
+
+## 2/ booth-vault-toolhub
+
+项目地址 [https://github.com/VRChatCN-Kipfel/booth-vault-toolhub](https://github.com/VRChatCN-Kipfel/booth-vault-toolhub)
+
+软件有自己的存储位置设定,把带有booth id的压缩包,拖动到软件后,软件自动检测booth上的分类,将源文件移动到存储目录的各个分类文件夹,抓取1张商品图和商品信息,完成.
+
+## 3/ BoothNest
+
+项目地址 [https://github.com/VoidCloudCloud/BoothNest](https://github.com/VoidCloudCloud/BoothNest)
+
+软件没有自己的存储位置设定,玩家如果原本有分类存储的习惯,可以直接在软件里指定素材目录.软件会自动读取各个文件的booth id,抓取所有商品图和商品信息,完成
+
+# 软件特点对比
+
+&lt;table data-nomo-table='semantic'&gt;&lt;tbody&gt;&lt;tr&gt;&lt;th&gt;&lt;p&gt;&lt;/p&gt;&lt;/th&gt;&lt;th&gt;&lt;p&gt;KonoAsset&lt;/p&gt;&lt;/th&gt;&lt;th&gt;&lt;p&gt;booth-vault-toolhub&lt;/p&gt;&lt;/th&gt;&lt;th&gt;&lt;p&gt;BoothNest&lt;/p&gt;&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;商品图预览&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;有,导入时选择商品图或者自行上传&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;软件本身没有预览图,但是文件夹图&lt;/p&gt;&lt;p&gt;标是下载的商品图,需要在资源管理&lt;/p&gt;&lt;p&gt;器中预览&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;有,所有商品页图片都可以在网页终&lt;/p&gt;&lt;p&gt;端查看&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;分类&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;完全手动,规避原作者不合适的分类&lt;/p&gt;&lt;p&gt;或者你有自己的分类规则,比较繁琐&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;自动抓取booth分类&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;自动抓取booth分类&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;商品信息&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;不抓取原商品页信息,手动编辑,可自&lt;/p&gt;&lt;p&gt;行添加想要的信息&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;自动抓取原商品页信息,但是需要进&lt;/p&gt;&lt;p&gt;入文件目录查看txt文件&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;自动抓取原商品页信息,可以在网页&lt;/p&gt;&lt;p&gt;终端查看商品页信息&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;存储&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;源文件和软件存储空间各一份,双倍&lt;/p&gt;&lt;p&gt;快乐&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;移动源文件到软件存储空间&lt;/p&gt;&lt;p&gt;&lt;sub&gt;&lt;em&gt;*注:拖动文件夹到软件后,慎用'纠正&lt;/em&gt;&lt;/sub&gt;&lt;/p&gt;&lt;p&gt;&lt;sub&gt;&lt;em&gt;错位'功能,可能导致文件被删除,不&lt;/em&gt;&lt;/sub&gt;&lt;/p&gt;&lt;p&gt;&lt;sub&gt;&lt;em&gt;在回收&lt;/em&gt;&lt;/sub&gt;&lt;sub&gt;站&lt;/sub&gt;&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;不改变原有存档目录结构,不碰源文&lt;/p&gt;&lt;p&gt;件,只在软件配置目录存储商品信息&lt;/p&gt;&lt;p&gt;和缩略图&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+
+综合来看,BoothNest目前最符合我的需求,但KonoAsset的商品手动备注手动分类功能,以及booth-vault-toolhub的漂亮文件夹图标,是BoothNest目前所不具备的。</description><guid isPermaLink="true">https://pigrass.github.io/post/5.html</guid><pubDate>Sun, 25 Oct 2026 08:06:45 +0000</pubDate></item><item><title>写给使用雷神加速器的VRChat舞蹈房玩家</title><link>https://pigrass.github.io/post/4.html</link><description># 1/ 问题
 
 ## 舞蹈房问题
 
