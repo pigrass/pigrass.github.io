@@ -1,5 +1,66 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>pigrass的轻博客</title><link>https://pigrass.github.io</link><description>日常唠叨</description><copyright>pigrass的轻博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://raw.githubusercontent.com/pigrass/pigrass.github.io/bcada41e2e0dfd929b69f443dbe667b903d5d88d/avatar.png</url><title>avatar</title><link>https://pigrass.github.io</link></image><lastBuildDate>Sat, 24 Oct 2026 09:35:04 +0000</lastBuildDate><managingEditor>pigrass的轻博客</managingEditor><ttl>60</ttl><webMaster>pigrass的轻博客</webMaster><item><title>Markdown语法</title><link>https://pigrass.github.io/post/3.html</link><description>原文摘自 https://markdown.buxiantang.top/
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>pigrass的轻博客</title><link>https://pigrass.github.io</link><description>日常唠叨</description><copyright>pigrass的轻博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://raw.githubusercontent.com/pigrass/pigrass.github.io/bcada41e2e0dfd929b69f443dbe667b903d5d88d/avatar.png</url><title>avatar</title><link>https://pigrass.github.io</link></image><lastBuildDate>Sun, 25 Oct 2026 04:49:07 +0000</lastBuildDate><managingEditor>pigrass的轻博客</managingEditor><ttl>60</ttl><webMaster>pigrass的轻博客</webMaster><item><title>写给使用雷神加速器的VRChat舞蹈房玩家</title><link>https://pigrass.github.io/post/4.html</link><description># 1/ 问题
+
+## 舞蹈房问题
+
+目前VRChat的舞蹈房里,pypydance和wannadance都已经是cloudflare的cdn了，这对国内的网络环境非常不友好
+
+涉及的域名如下:
+
+```
+api.udon.dance
+play.udon.dance
+api.pypy.dance
+cdn.pypy.dance
+```
+
+目前常用的解决办法是[CloudflareSpeedTest](https://github.com/XIU2/CloudflareSpeedTest),优选当前网络环境下速度和稳定性的ip,在hosts文件中将上述域名指向优选的ip,中文社区有好几个工具，原理都是[CloudflareSpeedTest](https://github.com/XIU2/CloudflareSpeedTest)套壳
+
+这个方案唯一的要求就是读写hosts文件
+
+## 雷神加速器问题
+
+雷神加速器便宜大碗,但是跟其他加速器比也有硬伤.
+
+对于VRChat游戏,地图&amp;模型加载很重要,相关的域名主要走cloudfront的cdn(少部分涉及fastly).而雷神加速器要想稳定加载地图和模型,大部分时候需要选择模式4,其他模式的加载速度会很慢.而模式4的一大特点就是备份原hosts文件后,新建一个0kb的hosts文件并锁死,不允许任何程序打开或修改
+
+# 2/ 合并问题
+
+那么对于又用雷神加速器又进跳舞房的玩家,问题就很明显了.
+
+想要保视频流畅 → 需要开社区工具 → 需要hosts文件可写入 → 需要雷神加速器不使用模式4 → 地图&amp;模型的加载速度没办法保证
+
+# 3/ Steamcommunity_302再上岗
+
+最近发现老牌的steam工具[Steamcommunity_302](https://www.dogfight360.com/blog/18682/)更新后,新增了一项功能,'DNS重定向CDN优选',开启后即使域名不在软件已知的列表里,只要解析的ip在CDN的范围里,都可以重定向到速度较快的优选ip.
+
+&lt;img width='831' height='609' alt='Image' src='https://github.com/user-attachments/assets/ac7ca417-d8db-433f-8010-a645cd267335' /&gt;
+
+所以,原则上
+
+- [ √ ] 舞蹈房的域名(cloudflare CDN),[Steamcommunity_302](https://www.dogfight360.com/blog/18682/)可以接手
+- [ √ ] VRChat的地图&amp;模型加载域名(cloudfront CDN),[Steamcommunity_302](https://www.dogfight360.com/blog/18682/)可以接手
+- [ √ ] VRChat登陆域名,雷神加速器模式1即可,并且设置允许系统代理
+
+最后实测,[Steamcommunity_302](https://www.dogfight360.com/blog/18682/)开启DNS重定向模式+系统代理,雷神加速器选择美服模式1,VRChat地图&amp;模型加载速度正常,舞蹈房歌曲加载正常
+
+# 4/ 后记
+
+除了VRDancing的定期活动,相比几年前,pypydance和wannadance的公开房我现在很少去了.这里面有我的问题
+
+- [ X ] 公开房列表里的宅舞和Glofy以外的KPOP
+- [ X ] 几年前一起跳舞健身的都不怎么上线或者时间错开了
+- [ X ] 新歌更新不及时
+
+第3点在这个AI时代其实用工作流很好解决:定时追踪那几个舞蹈组合的视频更新 → 调用yt-dlp下载视频 → 在歌曲列表新增.
+
+但是目前大多仍然沿用 玩家递交song request → 管理员审核/下载/上传/新增 的模式.你的request可能会因为管理员喜好/硬盘紧张等原因遭拒.
+
+我曾经尝试给自己喜好的组合去补录缺失的歌曲,说实话,很费时.一首半小时的TML Crew歌单,我花费了半小时以上去摘取10+首歌名 → 找到各个歌名的独立视频链接,bilibili清晰度不够的还要去ytb找 → 一首一首填写request表单.尝试过几次我就放弃了.我喜欢的那几个组合,更新频率高,缺失的歌曲不是一星半点.我自认没有耐心坚持下去.
+
+所以,我后来去了MyDanceHall地图,可以直接搜索B站视频,点击播放,地图没有固定的歌单列表,没有收藏功能.更适合我这种不喜欢公开房氛围,又想跳新歌的.
+
+AI时代存储价格暴涨,要求管理员一下子补足缺失的几百首歌曲也不太现实.所以我在设想,有没有可能出现一个不依赖存储服务器的舞蹈房地图:歌单按B站固定几个搬运作者的更新扒取视频BV号,歌曲链接以'B站解析地址+BV号的形式'录入.即MyDanceHall的基础上管理员新增一份整理好的舞蹈组合歌单.这样存储问题可以极大缓解,歌单更新也不必因为老流程的繁琐而变得缓慢.。</description><guid isPermaLink="true">https://pigrass.github.io/post/4.html</guid><pubDate>Sun, 25 Oct 2026 04:46:54 +0000</pubDate></item><item><title>Markdown语法</title><link>https://pigrass.github.io/post/3.html</link><description>原文摘自 https://markdown.buxiantang.top/
 
 ---------------------------------------------------
 
