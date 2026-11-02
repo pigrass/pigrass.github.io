@@ -1,0 +1,30 @@
+name: Cleanup Actions Runs
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "预览模式（只打印不删除）"
+        required: false
+        default: "true"
+        type: choice
+        options:
+          - "true"
+          - "false"
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete old workflow runs (keep last 2 days)
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          retain_days: 2
+          keep_minimum_runs: 0
+          dry_run: ${{ github.event.inputs.dry_run }}
