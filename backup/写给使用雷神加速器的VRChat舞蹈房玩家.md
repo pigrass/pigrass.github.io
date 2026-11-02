@@ -42,6 +42,8 @@ cdn.pypy.dance
 - [ √ ] VRChat登陆域名,雷神加速器模式1即可,并且设置允许系统代理
 
 最后实测,[Steamcommunity_302](https://www.dogfight360.com/blog/18682/)开启DNS重定向模式+系统代理,雷神加速器选择美服模式1,VRChat地图&模型加载速度正常,舞蹈房歌曲加载正常
+> 26.11.02补充,Steamcommunity_320禁用CloudFront的CDN优选,雷神加速器使用模式4,这样搭配使用也是可以的
+
 
 # 4/ 后记
 
