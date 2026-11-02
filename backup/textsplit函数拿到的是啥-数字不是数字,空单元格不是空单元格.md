@@ -1,4 +1,4 @@
-<img width="981" height="543" alt="Image" src="https://github.com/user-attachments/assets/4acc9984-efc0-40b1-983a-45ff20aeea24" />
+<img width="954" height="395" alt="Image" src="https://github.com/user-attachments/assets/356c7307-dfa1-431a-bb87-8230a2e6d982" />
 
 ## 1. 场景与公式
 
