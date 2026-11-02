@@ -1,5 +1,39 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>pigrass的轻博客</title><link>https://pigrass.github.io</link><description>日常唠叨</description><copyright>pigrass的轻博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://raw.githubusercontent.com/pigrass/pigrass.github.io/bcada41e2e0dfd929b69f443dbe667b903d5d88d/avatar.png</url><title>avatar</title><link>https://pigrass.github.io</link></image><lastBuildDate>Mon, 02 Nov 2026 12:52:53 +0000</lastBuildDate><managingEditor>pigrass的轻博客</managingEditor><ttl>60</ttl><webMaster>pigrass的轻博客</webMaster><item><title>test</title><link>https://pigrass.github.io/post/8.html</link><description>test。</description><guid isPermaLink="true">https://pigrass.github.io/post/8.html</guid><pubDate>Mon, 02 Nov 2026 12:52:23 +0000</pubDate></item><item><title>textsplit函数拿到的是啥?数字不是数字,空单元格不是空单元格</title><link>https://pigrass.github.io/post/7.html</link><description>&lt;img width='954' height='395' alt='Image' src='https://github.com/user-attachments/assets/356c7307-dfa1-431a-bb87-8230a2e6d982' /&gt;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>pigrass的轻博客</title><link>https://pigrass.github.io</link><description>日常唠叨</description><copyright>pigrass的轻博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://raw.githubusercontent.com/pigrass/pigrass.github.io/bcada41e2e0dfd929b69f443dbe667b903d5d88d/avatar.png</url><title>avatar</title><link>https://pigrass.github.io</link></image><lastBuildDate>Mon, 02 Nov 2026 16:11:11 +0000</lastBuildDate><managingEditor>pigrass的轻博客</managingEditor><ttl>60</ttl><webMaster>pigrass的轻博客</webMaster><item><title>test</title><link>https://pigrass.github.io/post/8.html</link><description>## 1. 场景与公式
+
+EXCEL函数,将3行2列的内容合并,行与行之间用'/'分隔,列与列之间用','分隔
+|   | A | B |
+| --- | --- | --- |
+| 1 | 1 | A |
+| 2 | 2 | B |
+| 3 | 3 | C |
+
+```EXCEL
+=TEXTJOIN('/', FALSE, BYROW(A1:B3, LAMBDA(r, TEXTJOIN(',', FALSE, r))))
+```
+#### 结果
+```
+1,A/2,B/3,C
+```
+#### 原理说明
+1. `TEXTJOIN(',', FALSE, r)`
+→ 将每一行的两列用 **逗号 **`,` 合并
+2. `BYROW(...)`
+→ 对每一行执行上面的操作
+3. **外层 **`TEXTJOIN('/', FALSE, ...)`
+→ 把每行结果再用 **斜杠 **`/` 连接起来
+
+## 2. ❌ 有没有像`TEXTSPLIT`那样简单的函数可以合并数组
+- `TEXTSPLIT`：**一维文本 → 二维数组**
+- Excel 目前**没有**类似 `TEXTJOIN2D(区域, 列分隔符, 行分隔符)` 的原生函数
+微软其实**完全可以做**一个这样的函数，但目前还没有.目前版本的office你需要借助`BYROW/LAMBDA`这类非常用函数,如果用旧版office,你甚至需要借助辅助列或其他更复杂的公式
+
+## 3. ✅ 理想中的“对称写法”（如果 Excel 支持）
+```excel
+=TEXTJOIN2D(A1:B3, ',', '/')
+```
+
+但目前只能靠 `TEXTJOIN + BYROW` 模拟。</description><guid isPermaLink="true">https://pigrass.github.io/post/8.html</guid><pubDate>Mon, 02 Nov 2026 12:52:23 +0000</pubDate></item><item><title>textsplit函数拿到的是啥?数字不是数字,空单元格不是空单元格</title><link>https://pigrass.github.io/post/7.html</link><description>&lt;img width='954' height='395' alt='Image' src='https://github.com/user-attachments/assets/356c7307-dfa1-431a-bb87-8230a2e6d982' /&gt;
 
 ## 1. 场景与公式
 
