@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark_colorblind" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    <script src='https://blog.meekdai.com/Gmeek/plugins/GmeekVercount.js'></script>
+    <link rel="icon" href="https://raw.githubusercontent.com/pigrass/pigrass.github.io/bcada41e2e0dfd929b69f443dbe667b903d5d88d/avatar.png"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="## 1. 场景与公式
+
+这篇文章脱胎于上篇关于反向`TEXTSPLIT`函数的讨论,为了将复杂的`=TEXTJOIN('/', FALSE, BYROW(A1:B3, LAMBDA(r, TEXTJOIN(',', FALSE, r))))`函数,精简为`TEXTJOIN2D`这类简单的形式,我们使用了excel的自定义函数功能.但是随工作增加,自定义函数增加,如何管理备份就成了问题.因为excel目前不支持导出自定义名称函数.
+
+## 2. ✅ 解决方案 - VBA函数批量导入自定义函数
+### 2.1 完整代码 - 可维护结构版（直接复制可用）
+
+> ⚠️ 使用前：VBE → 工具 → 引用 → 勾选 **Microsoft Scripting Runtime**（Dict 用）
+
+```vba
+'=========================================================
+'  LAMBDA 函数库注入器
+'  用法：在模块中维护 FunctionDefs 字典，调用 InjectAll 即可
+'=========================================================
+
+Option Explicit
+
+'=========================================================
+'  主入口：注入所有 LAMBDA 函数
+'=========================================================
+Sub InjectLambdaLib()
+
+    Dim dict As Object
+    Set dict = CreateFunctionDefs()
+
+    Dim key As Variant
+    Dim count As Long: count = 0
+
+    For Each key In dict.Keys
+        If InjectOne(CStr(key), CStr(dict(key))) Then
+            count = count + 1
+        End If
+    Next key
+
+    MsgBox 'LAMBDA 函数库注入完成！' & vbCrLf & _
+           '成功注入 ' & count & ' 个函数：' & vbCrLf & _
+           JoinDictKeys(dict), vbInformation, '完成'
+
+End Sub
+
+'=========================================================
+'  单个函数注入（核心逻辑）
+'=========================================================
+Private Function InjectOne(funcName As String, lambdaStr As String) As Boolean
+
+    On Error GoTo ErrHandler
+
+    ' 删除旧定义（如果存在）
+    On Error Resume Next
+    ActiveWorkbook.Names(funcName).Delete
+    On Error GoTo ErrHandler
+
+    ' 注入新定义
+    ActiveWorkbook.Names.Add _
+        Name:=funcName, _
+        RefersTo:=lambdaStr
+
+    InjectOne = True
+    Exit Function
+
+ErrHandler:
+    MsgBox '注入失败：' & funcName & vbCrLf & _
+           '错误：' & Err.Description, vbExclamation, '错误'
+    InjectOne = False
+End Function
+
+'=========================================================
+'  函数定义字典 —— 在这里添加你的 LAMBDA 函数
+'=========================================================
+Private Function CreateFunctionDefs() As Object
+
+    Dim dict As Object
+    Set dict = CreateObject('Scripting.Dictionary')
+
+    '-----------------------------------------------------
+    '  JOIN2D：二维数组合并为一维文本
+    '  参数：array, col_delimiter, row_delimiter
+    '  示例：=JOIN2D(A1:B3, ',', '/')
+    '-----------------------------------------------------
+    dict.Add 'JoinRow', _
+        '=LAMBDA(r,col_delimiter,TEXTJOIN(col_delimiter,FALSE,r))'
+
+    dict.Add 'JOIN2D', _
+        '=LAMBDA(array,col_delimiter,row_delimiter,' & _
+        'TEXTJOIN(row_delimiter,FALSE,BYROW(array,LAMBDA(r,JoinRow(r,col_delimiter)))))'
+
+    '-----------------------------------------------------
+    '  SPLIT2D：一维文本拆分为二维数组（JOIN2D 的反向）
+    '  参数：text, col_delimiter, row_delimiter
+    '  示例：=SPLIT2D('1,A/2,B/3,C', ',', '/')
+    '-----------------------------------------------------
+    dict.Add 'SPLIT2D', _
+        '=LAMBDA(text,col_delimiter,row_delimiter,' & _
+        'TEXTSPLIT(text,col_delimiter,row_delimiter))'
+
+    '-----------------------------------------------------
+    '  JOIN2D_IGNORE：二维数组合并（忽略空单元格）
+    '  参数：array, col_delimiter, row_delimiter
+    '-----------------------------------------------------
+    dict.Add 'JoinRowIgnore', _
+        '=LAMBDA(r,col_delimiter,TEXTJOIN(col_delimiter,TRUE,r))'
+
+    dict.Add 'JOIN2D_IGNORE', _
+        '=LAMBDA(array,col_delimiter,row_delimiter,' & _
+        'TEXTJOIN(row_delimiter,TRUE,BYROW(array,LAMBDA(r,JoinRowIgnore(r,col_delimiter)))))'
+
+    '-----------------------------------------------------
+    '  FLATTEN2D：二维数组展平为一维数组（单列）
+    '  参数：array
+    '  示例：=FLATTEN2D(A1:B3)
+    '-----------------------------------------------------
+    dict.Add 'FLATTEN2D', _
+        '=LAMBDA(array,TOCOL(array,0))'
+
+    '-----------------------------------------------------
+    '  UNIQUE2D：二维数组去重
+    '  参数：array
+    '-----------------------------------------------------
+    dict.Add 'UNIQUE2D', _
+        '=LAMBDA(array,UNIQUE(TOCOL(array,1)))'
+
+    ' ★★★ 在这里继续添加新函数 ★★★
+    ' dict.Add '函数名', '=LAMBDA(参数, 公式)'
+
+    Set CreateFunctionDefs = dict
+End Function
+
+'=========================================================
+'  辅助：拼接已注入的函数名列表
+'=========================================================
+Private Function JoinDictKeys(dict As Object) As String
+    Dim key As Variant, result As String
+    For Each key In dict.Keys
+        result = result & '• ' & CStr(key) & vbCrLf
+    Next key
+    JoinDictKeys = Left(result, Len(result) - 1)
+End Function
+
+'=========================================================
+'  快捷：只注入 JOIN2D（单独调试用）
+'=========================================================
+Sub InjectJOIN2D_Only()
+    Dim dict As Object
+    Set dict = CreateObject('Scripting.Dictionary')
+
+    dict.Add 'JoinRow', _
+        '=LAMBDA(r,col_delimiter,TEXTJOIN(col_delimiter,FALSE,r))'
+    dict.Add 'JOIN2D', _
+        '=LAMBDA(array,col_delimiter,row_delimiter,' & _
+        'TEXTJOIN(row_delimiter,FALSE,BYROW(array,LAMBDA(r,JoinRow(r,col_delimiter)))))'
+
+    InjectOne 'JoinRow', dict('JoinRow')
+    InjectOne 'JOIN2D', dict('JOIN2D')
+
+    MsgBox 'JOIN2D 注入成功！', vbInformation
+End Sub
+```
+---
+### 2.2 使用方式
+
+| 操作 | 步骤 |
+| --- | --- |
+| 注入全部函数 | 运行 `InjectLambdaLib` |
+| 只注入 JOIN2D | 运行 `InjectJOIN2D_Only` |
+| 添加新函数 | 在 `CreateFunctionDefs` 里加一行 `dict.Add` |
+| 绑定按钮 | 把 `InjectLambdaLib` 放到快速访问工具栏 |
+
+---
+
+### 2.3 添加新函数的标准模板
+
+```vba
+' 1. 如果有内层辅助 LAMBDA，先加：
+dict.Add 'HelperName', _
+    '=LAMBDA(参数, 公式)'
+
+' 2. 再加主函数：
+dict.Add 'MYFUNCTION', _
+    '=LAMBDA(参数1,参数2, 你的公式)'
+```
+### 2.4 已内置的函数一览
+
+| 函数名 | 功能 | 示例 |
+| --- | --- | --- |
+| `JOIN2D` | 二维→一维文本（不忽略空值） | `=JOIN2D(A1:B3,',','/')` |
+| `SPLIT2D` | 一维文本→二维数组 | `=SPLIT2D('1,A/2,B',' ',',','/')` |
+| `JOIN2D_IGNORE` | 二维→一维文本（忽略空值） | `=JOIN2D_IGNORE(A1:B3,',','/')` |
+| `FLATTEN2D` | 二维展平为一列 | `=FLATTEN2D(A1:B3)` |
+| `UNIQUE2D` | 二维去重 | `=UNIQUE2D(A1:B3)` |
+
+---
+
+### 2.5 注意事项
+
+1. **名称首字符不能是 **`_`（Excel 限制）
+2. **内层辅助函数必须先于外层函数定义**（字典按顺序注入）
+3. 文件必须是 `.xlsm`
+4. 如果某个函数注入失败，其他函数不受影响（容错设计）
+
+## 3. ❌ 尝试过的其他方案
+### 3.1 维护一份保存了所有自定义函数的excel文档
+这是一个相对简单的做法,其他人需要时把这份文档发给他就好,算不上是差的方案.拿这个模板做的新文件自带函数.
+### 3.2 封装成excel加载宏(.xlam)
+这是当时跟AI讨论时,AI给出的第1个方案,做法如下
+#### 3.2.1 制作函数库文件
+1. 新建一个空白 Excel
+2. 打开 **公式 → 名称管理器 → 新建**
+3. 建好你的 `JOIN2D`：
+
+```excel
+名称：JOIN2D
+引用位置：
+=LAMBDA(array, col_delimiter, row_delimiter,
+    TEXTJOIN(row_delimiter, FALSE,
+        BYROW(array, LAMBDA(r, TEXTJOIN(col_delimiter, FALSE, r)))
+    )
+)
+```
+
+4. 文件 → 另存为
+类型选：**Excel 加载项 (\*****.xlam)**
+文件名：`MyLambdaLib.xlam`
+路径用默认 AddIns 文件夹（或自己记一下）
+
+#### 3.2.2 安装加载宏（只需一次）
+
+1. 文件 → 选项 → 加载项
+2. 底部“管理：Excel 加载项” → 转到
+3. 浏览 → 选中 `MyLambdaLib.xlam` → 勾选启用
+
+#### 3.3.3 导入加载项后,使用`JOIN2D`函数,单元格报错`#NAME?`,问题在哪?
+##### 根本原因:
+> **LAMBDA 自定义名称默认是“工作簿级名称”**
+> 放在 `.xlam` 里，它属于「加载宏工作簿自己」，不会自动注入到「当前新建工作簿」的名称空间。">
+<meta property="og:title" content="我的100个excel自定义函数仓库,开新文档要一个个手动录入?">
+<meta property="og:description" content="## 1. 场景与公式
+
+这篇文章脱胎于上篇关于反向`TEXTSPLIT`函数的讨论,为了将复杂的`=TEXTJOIN('/', FALSE, BYROW(A1:B3, LAMBDA(r, TEXTJOIN(',', FALSE, r))))`函数,精简为`TEXTJOIN2D`这类简单的形式,我们使用了excel的自定义函数功能.但是随工作增加,自定义函数增加,如何管理备份就成了问题.因为excel目前不支持导出自定义名称函数.
+
+## 2. ✅ 解决方案 - VBA函数批量导入自定义函数
+### 2.1 完整代码 - 可维护结构版（直接复制可用）
+
+> ⚠️ 使用前：VBE → 工具 → 引用 → 勾选 **Microsoft Scripting Runtime**（Dict 用）
+
+```vba
+'=========================================================
+'  LAMBDA 函数库注入器
+'  用法：在模块中维护 FunctionDefs 字典，调用 InjectAll 即可
+'=========================================================
+
+Option Explicit
+
+'=========================================================
+'  主入口：注入所有 LAMBDA 函数
+'=========================================================
+Sub InjectLambdaLib()
+
+    Dim dict As Object
+    Set dict = CreateFunctionDefs()
+
+    Dim key As Variant
+    Dim count As Long: count = 0
+
+    For Each key In dict.Keys
+        If InjectOne(CStr(key), CStr(dict(key))) Then
+            count = count + 1
+        End If
+    Next key
+
+    MsgBox 'LAMBDA 函数库注入完成！' & vbCrLf & _
+           '成功注入 ' & count & ' 个函数：' & vbCrLf & _
+           JoinDictKeys(dict), vbInformation, '完成'
+
+End Sub
+
+'=========================================================
+'  单个函数注入（核心逻辑）
+'=========================================================
+Private Function InjectOne(funcName As String, lambdaStr As String) As Boolean
+
+    On Error GoTo ErrHandler
+
+    ' 删除旧定义（如果存在）
+    On Error Resume Next
+    ActiveWorkbook.Names(funcName).Delete
+    On Error GoTo ErrHandler
+
+    ' 注入新定义
+    ActiveWorkbook.Names.Add _
+        Name:=funcName, _
+        RefersTo:=lambdaStr
+
+    InjectOne = True
+    Exit Function
+
+ErrHandler:
+    MsgBox '注入失败：' & funcName & vbCrLf & _
+           '错误：' & Err.Description, vbExclamation, '错误'
+    InjectOne = False
+End Function
+
+'=========================================================
+'  函数定义字典 —— 在这里添加你的 LAMBDA 函数
+'=========================================================
+Private Function CreateFunctionDefs() As Object
+
+    Dim dict As Object
+    Set dict = CreateObject('Scripting.Dictionary')
+
+    '-----------------------------------------------------
+    '  JOIN2D：二维数组合并为一维文本
+    '  参数：array, col_delimiter, row_delimiter
+    '  示例：=JOIN2D(A1:B3, ',', '/')
+    '-----------------------------------------------------
+    dict.Add 'JoinRow', _
+        '=LAMBDA(r,col_delimiter,TEXTJOIN(col_delimiter,FALSE,r))'
+
+    dict.Add 'JOIN2D', _
+        '=LAMBDA(array,col_delimiter,row_delimiter,' & _
+        'TEXTJOIN(row_delimiter,FALSE,BYROW(array,LAMBDA(r,JoinRow(r,col_delimiter)))))'
+
+    '-----------------------------------------------------
+    '  SPLIT2D：一维文本拆分为二维数组（JOIN2D 的反向）
+    '  参数：text, col_delimiter, row_delimiter
+    '  示例：=SPLIT2D('1,A/2,B/3,C', ',', '/')
+    '-----------------------------------------------------
+    dict.Add 'SPLIT2D', _
+        '=LAMBDA(text,col_delimiter,row_delimiter,' & _
+        'TEXTSPLIT(text,col_delimiter,row_delimiter))'
+
+    '-----------------------------------------------------
+    '  JOIN2D_IGNORE：二维数组合并（忽略空单元格）
+    '  参数：array, col_delimiter, row_delimiter
+    '-----------------------------------------------------
+    dict.Add 'JoinRowIgnore', _
+        '=LAMBDA(r,col_delimiter,TEXTJOIN(col_delimiter,TRUE,r))'
+
+    dict.Add 'JOIN2D_IGNORE', _
+        '=LAMBDA(array,col_delimiter,row_delimiter,' & _
+        'TEXTJOIN(row_delimiter,TRUE,BYROW(array,LAMBDA(r,JoinRowIgnore(r,col_delimiter)))))'
+
+    '-----------------------------------------------------
+    '  FLATTEN2D：二维数组展平为一维数组（单列）
+    '  参数：array
+    '  示例：=FLATTEN2D(A1:B3)
+    '-----------------------------------------------------
+    dict.Add 'FLATTEN2D', _
+        '=LAMBDA(array,TOCOL(array,0))'
+
+    '-----------------------------------------------------
+    '  UNIQUE2D：二维数组去重
+    '  参数：array
+    '-----------------------------------------------------
+    dict.Add 'UNIQUE2D', _
+        '=LAMBDA(array,UNIQUE(TOCOL(array,1)))'
+
+    ' ★★★ 在这里继续添加新函数 ★★★
+    ' dict.Add '函数名', '=LAMBDA(参数, 公式)'
+
+    Set CreateFunctionDefs = dict
+End Function
+
+'=========================================================
+'  辅助：拼接已注入的函数名列表
+'=========================================================
+Private Function JoinDictKeys(dict As Object) As String
+    Dim key As Variant, result As String
+    For Each key In dict.Keys
+        result = result & '• ' & CStr(key) & vbCrLf
+    Next key
+    JoinDictKeys = Left(result, Len(result) - 1)
+End Function
+
+'=========================================================
+'  快捷：只注入 JOIN2D（单独调试用）
+'=========================================================
+Sub InjectJOIN2D_Only()
+    Dim dict As Object
+    Set dict = CreateObject('Scripting.Dictionary')
+
+    dict.Add 'JoinRow', _
+        '=LAMBDA(r,col_delimiter,TEXTJOIN(col_delimiter,FALSE,r))'
+    dict.Add 'JOIN2D', _
+        '=LAMBDA(array,col_delimiter,row_delimiter,' & _
+        'TEXTJOIN(row_delimiter,FALSE,BYROW(array,LAMBDA(r,JoinRow(r,col_delimiter)))))'
+
+    InjectOne 'JoinRow', dict('JoinRow')
+    InjectOne 'JOIN2D', dict('JOIN2D')
+
+    MsgBox 'JOIN2D 注入成功！', vbInformation
+End Sub
+```
+---
+### 2.2 使用方式
+
+| 操作 | 步骤 |
+| --- | --- |
+| 注入全部函数 | 运行 `InjectLambdaLib` |
+| 只注入 JOIN2D | 运行 `InjectJOIN2D_Only` |
+| 添加新函数 | 在 `CreateFunctionDefs` 里加一行 `dict.Add` |
+| 绑定按钮 | 把 `InjectLambdaLib` 放到快速访问工具栏 |
+
+---
+
+### 2.3 添加新函数的标准模板
+
+```vba
+' 1. 如果有内层辅助 LAMBDA，先加：
+dict.Add 'HelperName', _
+    '=LAMBDA(参数, 公式)'
+
+' 2. 再加主函数：
+dict.Add 'MYFUNCTION', _
+    '=LAMBDA(参数1,参数2, 你的公式)'
+```
+### 2.4 已内置的函数一览
+
+| 函数名 | 功能 | 示例 |
+| --- | --- | --- |
+| `JOIN2D` | 二维→一维文本（不忽略空值） | `=JOIN2D(A1:B3,',','/')` |
+| `SPLIT2D` | 一维文本→二维数组 | `=SPLIT2D('1,A/2,B',' ',',','/')` |
+| `JOIN2D_IGNORE` | 二维→一维文本（忽略空值） | `=JOIN2D_IGNORE(A1:B3,',','/')` |
+| `FLATTEN2D` | 二维展平为一列 | `=FLATTEN2D(A1:B3)` |
+| `UNIQUE2D` | 二维去重 | `=UNIQUE2D(A1:B3)` |
+
+---
+
+### 2.5 注意事项
+
+1. **名称首字符不能是 **`_`（Excel 限制）
+2. **内层辅助函数必须先于外层函数定义**（字典按顺序注入）
+3. 文件必须是 `.xlsm`
+4. 如果某个函数注入失败，其他函数不受影响（容错设计）
+
+## 3. ❌ 尝试过的其他方案
+### 3.1 维护一份保存了所有自定义函数的excel文档
+这是一个相对简单的做法,其他人需要时把这份文档发给他就好,算不上是差的方案.拿这个模板做的新文件自带函数.
+### 3.2 封装成excel加载宏(.xlam)
+这是当时跟AI讨论时,AI给出的第1个方案,做法如下
+#### 3.2.1 制作函数库文件
+1. 新建一个空白 Excel
+2. 打开 **公式 → 名称管理器 → 新建**
+3. 建好你的 `JOIN2D`：
+
+```excel
+名称：JOIN2D
+引用位置：
+=LAMBDA(array, col_delimiter, row_delimiter,
+    TEXTJOIN(row_delimiter, FALSE,
+        BYROW(array, LAMBDA(r, TEXTJOIN(col_delimiter, FALSE, r)))
+    )
+)
+```
+
+4. 文件 → 另存为
+类型选：**Excel 加载项 (\*****.xlam)**
+文件名：`MyLambdaLib.xlam`
+路径用默认 AddIns 文件夹（或自己记一下）
+
+#### 3.2.2 安装加载宏（只需一次）
+
+1. 文件 → 选项 → 加载项
+2. 底部“管理：Excel 加载项” → 转到
+3. 浏览 → 选中 `MyLambdaLib.xlam` → 勾选启用
+
+#### 3.3.3 导入加载项后,使用`JOIN2D`函数,单元格报错`#NAME?`,问题在哪?
+##### 根本原因:
+> **LAMBDA 自定义名称默认是“工作簿级名称”**
+> 放在 `.xlam` 里，它属于「加载宏工作簿自己」，不会自动注入到「当前新建工作簿」的名称空间。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://pigrass.github.io/post/9.html">
+<meta property="og:image" content="https://raw.githubusercontent.com/pigrass/pigrass.github.io/bcada41e2e0dfd929b69f443dbe667b903d5d88d/avatar.png">
+<title>我的100个excel自定义函数仓库,开新文档要一个个手动录入?</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">我的100个excel自定义函数仓库,开新文档要一个个手动录入?</h1>
+<div class="title-right">
+    <a href="https://pigrass.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/pigrass/pigrass.github.io/issues/9" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h2>1. 场景与公式</h2>
+<p>这篇文章脱胎于上篇关于反向<code class="notranslate">TEXTSPLIT</code>函数的讨论,为了将复杂的<code class="notranslate">=TEXTJOIN("/", FALSE, BYROW(A1:B3, LAMBDA(r, TEXTJOIN(",", FALSE, r))))</code>函数,精简为<code class="notranslate">TEXTJOIN2D</code>这类简单的形式,我们使用了excel的自定义函数功能.但是随工作增加,自定义函数增加,如何管理备份就成了问题.因为excel目前不支持导出自定义名称函数.</p>
+<h2>2. ✅ 解决方案 - VBA函数批量导入自定义函数</h2>
+<h3>2.1 完整代码 - 可维护结构版（直接复制可用）</h3>
+<blockquote>
+<p><g-emoji class="g-emoji" alias="warning">⚠️</g-emoji> 使用前：VBE → 工具 → 引用 → 勾选 <strong>Microsoft Scripting Runtime</strong>（Dict 用）</p>
+</blockquote>
+<div class="highlight highlight-source-vba"><pre class="notranslate"><span class="pl-c">'=========================================================</span>
+<span class="pl-c">'  LAMBDA 函数库注入器</span>
+<span class="pl-c">'  用法：在模块中维护 FunctionDefs 字典，调用 InjectAll 即可</span>
+<span class="pl-c">'=========================================================</span>
+
+<span class="pl-k">Option Explicit</span>
+
+<span class="pl-c">'=========================================================</span>
+<span class="pl-c">'  主入口：注入所有 LAMBDA 函数</span>
+<span class="pl-c">'=========================================================</span>
+<span class="pl-k">Sub</span> <span class="pl-en">InjectLambdaLib</span>()
+
+    <span class="pl-k">Dim</span> dict <span class="pl-k">As</span> <span class="pl-c1">Object</span>
+    <span class="pl-k">Set</span> dict = CreateFunctionDefs()
+
+    <span class="pl-k">Dim</span> key <span class="pl-k">As</span> <span class="pl-c1">Variant</span>
+    <span class="pl-k">Dim</span> count <span class="pl-k">As</span> <span class="pl-c1">Long</span>: count = <span class="pl-c1">0</span>
+
+    <span class="pl-k">For Each</span> key <span class="pl-k">In</span> dict.Keys
+        <span class="pl-k">If</span> InjectOne(CStr(key), CStr(dict(key))) <span class="pl-k">Then</span>
+            count = count + <span class="pl-c1">1</span>
+        <span class="pl-k">End If</span>
+    <span class="pl-k">Next</span> key
+
+    MsgBox <span class="pl-s">"LAMBDA 函数库注入完成！"</span> &amp; vbCrLf &amp; <span class="pl-c1">_</span>
+           <span class="pl-s">"成功注入 "</span> &amp; count &amp; <span class="pl-s">" 个函数："</span> &amp; vbCrLf &amp; <span class="pl-c1">_</span>
+           JoinDictKeys(dict), vbInformation, <span class="pl-s">"完成"</span>
+
+<span class="pl-k">End Sub</span>
+
+<span class="pl-c">'=========================================================</span>
+<span class="pl-c">'  单个函数注入（核心逻辑）</span>
+<span class="pl-c">'=========================================================</span>
+<span class="pl-k">Private</span> <span class="pl-k">Function</span> <span class="pl-en">InjectOne</span>(funcName <span class="pl-k">As</span> <span class="pl-c1">String</span>, lambdaStr <span class="pl-k">As</span> <span class="pl-c1">String</span>) <span class="pl-k">As</span> <span class="pl-c1">Boolean</span>
+
+    <span class="pl-k">On Error</span> <span class="pl-k">GoTo</span> ErrHandler
+
+    <span class="pl-c">' 删除旧定义（如果存在）</span>
+    <span class="pl-k">On Error</span> <span class="pl-k">Resume Next</span>
+    ActiveWorkbook.Names(funcName).Delete
+    <span class="pl-k">On Error</span> <span class="pl-k">GoTo</span> ErrHandler
+
+    <span class="pl-c">' 注入新定义</span>
+    ActiveWorkbook.Names.Add <span class="pl-c1">_</span>
+        Name:=funcName, <span class="pl-c1">_</span>
+        RefersTo:=lambdaStr
+
+    InjectOne = <span class="pl-c1">True</span>
+    <span class="pl-k">Exit Function</span>
+
+ErrHandler:
+    MsgBox <span class="pl-s">"注入失败："</span> &amp; funcName &amp; vbCrLf &amp; <span class="pl-c1">_</span>
+           <span class="pl-s">"错误："</span> &amp; Err.Description, vbExclamation, <span class="pl-s">"错误"</span>
+    InjectOne = <span class="pl-c1">False</span>
+<span class="pl-k">End Function</span>
+
+<span class="pl-c">'=========================================================</span>
+<span class="pl-c">'  函数定义字典 —— 在这里添加你的 LAMBDA 函数</span>
+<span class="pl-c">'=========================================================</span>
+<span class="pl-k">Private</span> <span class="pl-k">Function</span> <span class="pl-en">CreateFunctionDefs</span>() <span class="pl-k">As</span> <span class="pl-c1">Object</span>
+
+    <span class="pl-k">Dim</span> dict <span class="pl-k">As</span> <span class="pl-c1">Object</span>
+    <span class="pl-k">Set</span> dict = CreateObject(<span class="pl-s">"Scripting.Dictionary"</span>)
+
+    <span class="pl-c">'-----------------------------------------------------</span>
+    <span class="pl-c">'  JOIN2D：二维数组合并为一维文本</span>
+    <span class="pl-c">'  参数：array, col_delimiter, row_delimiter</span>
+    <span class="pl-c">'  示例：=JOIN2D(A1:B3, ",", "/")</span>
+    <span class="pl-c">'-----------------------------------------------------</span>
+    dict.Add <span class="pl-s">"JoinRow"</span>, <span class="pl-c1">_</span>
+        <span class="pl-s">"=LAMBDA(r,col_delimiter,TEXTJOIN(col_delimiter,FALSE,r))"</span>
+
+    dict.Add <span class="pl-s">"JOIN2D"</span>, <span class="pl-c1">_</span>
+        <span class="pl-s">"=LAMBDA(array,col_delimiter,row_delimiter,"</span> &amp; <span class="pl-c1">_</span>
+        <span class="pl-s">"TEXTJOIN(row_delimiter,FALSE,BYROW(array,LAMBDA(r,JoinRow(r,col_delimiter)))))"</span>
+
+    <span class="pl-c">'-----------------------------------------------------</span>
+    <span class="pl-c">'  SPLIT2D：一维文本拆分为二维数组（JOIN2D 的反向）</span>
+    <span class="pl-c">'  参数：text, col_delimiter, row_delimiter</span>
+    <span class="pl-c">'  示例：=SPLIT2D("1,A/2,B/3,C", ",", "/")</span>
+    <span class="pl-c">'-----------------------------------------------------</span>
+    dict.Add <span class="pl-s">"SPLIT2D"</span>, <span class="pl-c1">_</span>
+        <span class="pl-s">"=LAMBDA(text,col_delimiter,row_delimiter,"</span> &amp; <span class="pl-c1">_</span>
+        <span class="pl-s">"TEXTSPLIT(text,col_delimiter,row_delimiter))"</span>
+
+    <span class="pl-c">'-----------------------------------------------------</span>
+    <span class="pl-c">'  JOIN2D_IGNORE：二维数组合并（忽略空单元格）</span>
+    <span class="pl-c">'  参数：array, col_delimiter, row_delimiter</span>
+    <span class="pl-c">'-----------------------------------------------------</span>
+    dict.Add <span class="pl-s">"JoinRowIgnore"</span>, <span class="pl-c1">_</span>
+        <span class="pl-s">"=LAMBDA(r,col_delimiter,TEXTJOIN(col_delimiter,TRUE,r))"</span>
+
+    dict.Add <span class="pl-s">"JOIN2D_IGNORE"</span>, <span class="pl-c1">_</span>
+        <span class="pl-s">"=LAMBDA(array,col_delimiter,row_delimiter,"</span> &amp; <span class="pl-c1">_</span>
+        <span class="pl-s">"TEXTJOIN(row_delimiter,TRUE,BYROW(array,LAMBDA(r,JoinRowIgnore(r,col_delimiter)))))"</span>
+
+    <span class="pl-c">'-----------------------------------------------------</span>
+    <span class="pl-c">'  FLATTEN2D：二维数组展平为一维数组（单列）</span>
+    <span class="pl-c">'  参数：array</span>
+    <span class="pl-c">'  示例：=FLATTEN2D(A1:B3)</span>
+    <span class="pl-c">'-----------------------------------------------------</span>
+    dict.Add <span class="pl-s">"FLATTEN2D"</span>, <span class="pl-c1">_</span>
+        <span class="pl-s">"=LAMBDA(array,TOCOL(array,0))"</span>
+
+    <span class="pl-c">'-----------------------------------------------------</span>
+    <span class="pl-c">'  UNIQUE2D：二维数组去重</span>
+    <span class="pl-c">'  参数：array</span>
+    <span class="pl-c">'-----------------------------------------------------</span>
+    dict.Add <span class="pl-s">"UNIQUE2D"</span>, <span class="pl-c1">_</span>
+        <span class="pl-s">"=LAMBDA(array,UNIQUE(TOCOL(array,1)))"</span>
+
+    <span class="pl-c">' ★★★ 在这里继续添加新函数 ★★★</span>
+    <span class="pl-c">' dict.Add "函数名", "=LAMBDA(参数, 公式)"</span>
+
+    <span class="pl-k">Set</span> CreateFunctionDefs = dict
+<span class="pl-k">End Function</span>
+
+<span class="pl-c">'=========================================================</span>
+<span class="pl-c">'  辅助：拼接已注入的函数名列表</span>
+<span class="pl-c">'=========================================================</span>
+<span class="pl-k">Private</span> <span class="pl-k">Function</span> <span class="pl-en">JoinDictKeys</span>(dict <span class="pl-k">As</span> <span class="pl-c1">Object</span>) <span class="pl-k">As</span> <span class="pl-c1">String</span>
+    <span class="pl-k">Dim</span> key <span class="pl-k">As</span> <span class="pl-c1">Variant</span>, result <span class="pl-k">As</span> <span class="pl-c1">String</span>
+    <span class="pl-k">For Each</span> key <span class="pl-k">In</span> dict.Keys
+        result = result &amp; <span class="pl-s">"• "</span> &amp; CStr(key) &amp; vbCrLf
+    <span class="pl-k">Next</span> key
+    JoinDictKeys = Left(result, Len(result) - <span class="pl-c1">1</span>)
+<span class="pl-k">End Function</span>
+
+<span class="pl-c">'=========================================================</span>
+<span class="pl-c">'  快捷：只注入 JOIN2D（单独调试用）</span>
+<span class="pl-c">'=========================================================</span>
+<span class="pl-k">Sub</span> <span class="pl-en">InjectJOIN2D_Only</span>()
+    <span class="pl-k">Dim</span> dict <span class="pl-k">As</span> <span class="pl-c1">Object</span>
+    <span class="pl-k">Set</span> dict = CreateObject(<span class="pl-s">"Scripting.Dictionary"</span>)
+
+    dict.Add <span class="pl-s">"JoinRow"</span>, <span class="pl-c1">_</span>
+        <span class="pl-s">"=LAMBDA(r,col_delimiter,TEXTJOIN(col_delimiter,FALSE,r))"</span>
+    dict.Add <span class="pl-s">"JOIN2D"</span>, <span class="pl-c1">_</span>
+        <span class="pl-s">"=LAMBDA(array,col_delimiter,row_delimiter,"</span> &amp; <span class="pl-c1">_</span>
+        <span class="pl-s">"TEXTJOIN(row_delimiter,FALSE,BYROW(array,LAMBDA(r,JoinRow(r,col_delimiter)))))"</span>
+
+    InjectOne <span class="pl-s">"JoinRow"</span>, dict(<span class="pl-s">"JoinRow"</span>)
+    InjectOne <span class="pl-s">"JOIN2D"</span>, dict(<span class="pl-s">"JOIN2D"</span>)
+
+    MsgBox <span class="pl-s">"JOIN2D 注入成功！"</span>, vbInformation
+<span class="pl-k">End Sub</span></pre></div>
+<hr>
+<h3>2.2 使用方式</h3>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>操作</th>
+<th>步骤</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>注入全部函数</td>
+<td>运行 <code class="notranslate">InjectLambdaLib</code></td>
+</tr>
+<tr>
+<td>只注入 JOIN2D</td>
+<td>运行 <code class="notranslate">InjectJOIN2D_Only</code></td>
+</tr>
+<tr>
+<td>添加新函数</td>
+<td>在 <code class="notranslate">CreateFunctionDefs</code> 里加一行 <code class="notranslate">dict.Add</code></td>
+</tr>
+<tr>
+<td>绑定按钮</td>
+<td>把 <code class="notranslate">InjectLambdaLib</code> 放到快速访问工具栏</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<hr>
+<h3>2.3 添加新函数的标准模板</h3>
+<div class="highlight highlight-source-vba"><pre class="notranslate"><span class="pl-c">' 1. 如果有内层辅助 LAMBDA，先加：</span>
+dict.Add <span class="pl-s">"HelperName"</span>, <span class="pl-c1">_</span>
+    <span class="pl-s">"=LAMBDA(参数, 公式)"</span>
+
+<span class="pl-c">' 2. 再加主函数：</span>
+dict.Add <span class="pl-s">"MYFUNCTION"</span>, <span class="pl-c1">_</span>
+    <span class="pl-s">"=LAMBDA(参数1,参数2, 你的公式)"</span></pre></div>
+<h3>2.4 已内置的函数一览</h3>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>函数名</th>
+<th>功能</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="notranslate">JOIN2D</code></td>
+<td>二维→一维文本（不忽略空值）</td>
+<td><code class="notranslate">=JOIN2D(A1:B3,",","/")</code></td>
+</tr>
+<tr>
+<td><code class="notranslate">SPLIT2D</code></td>
+<td>一维文本→二维数组</td>
+<td><code class="notranslate">=SPLIT2D("1,A/2,B"," ",",","/")</code></td>
+</tr>
+<tr>
+<td><code class="notranslate">JOIN2D_IGNORE</code></td>
+<td>二维→一维文本（忽略空值）</td>
+<td><code class="notranslate">=JOIN2D_IGNORE(A1:B3,",","/")</code></td>
+</tr>
+<tr>
+<td><code class="notranslate">FLATTEN2D</code></td>
+<td>二维展平为一列</td>
+<td><code class="notranslate">=FLATTEN2D(A1:B3)</code></td>
+</tr>
+<tr>
+<td><code class="notranslate">UNIQUE2D</code></td>
+<td>二维去重</td>
+<td><code class="notranslate">=UNIQUE2D(A1:B3)</code></td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<hr>
+<h3>2.5 注意事项</h3>
+<ol>
+<li>**名称首字符不能是 **<code class="notranslate">_</code>（Excel 限制）</li>
+<li><strong>内层辅助函数必须先于外层函数定义</strong>（字典按顺序注入）</li>
+<li>文件必须是 <code class="notranslate">.xlsm</code></li>
+<li>如果某个函数注入失败，其他函数不受影响（容错设计）</li>
+</ol>
+<h2>3. ❌ 尝试过的其他方案</h2>
+<h3>3.1 维护一份保存了所有自定义函数的excel文档</h3>
+<p>这是一个相对简单的做法,其他人需要时把这份文档发给他就好,算不上是差的方案.拿这个模板做的新文件自带函数.</p>
+<h3>3.2 封装成excel加载宏(.xlam)</h3>
+<p>这是当时跟AI讨论时,AI给出的第1个方案,做法如下</p>
+<h4>3.2.1 制作函数库文件</h4>
+<ol>
+<li>新建一个空白 Excel</li>
+<li>打开 <strong>公式 → 名称管理器 → 新建</strong></li>
+<li>建好你的 <code class="notranslate">JOIN2D</code>：</li>
+</ol>
+<pre lang="excel" class="notranslate"><code class="notranslate">名称：JOIN2D
+引用位置：
+=LAMBDA(array, col_delimiter, row_delimiter,
+    TEXTJOIN(row_delimiter, FALSE,
+        BYROW(array, LAMBDA(r, TEXTJOIN(col_delimiter, FALSE, r)))
+    )
+)
+</code></pre>
+<ol start="4">
+<li>文件 → 另存为<br>
+类型选：<strong>Excel 加载项 (*****.xlam)</strong><br>
+文件名：<code class="notranslate">MyLambdaLib.xlam</code><br>
+路径用默认 AddIns 文件夹（或自己记一下）</li>
+</ol>
+<h4>3.2.2 安装加载宏（只需一次）</h4>
+<ol>
+<li>文件 → 选项 → 加载项</li>
+<li>底部“管理：Excel 加载项” → 转到</li>
+<li>浏览 → 选中 <code class="notranslate">MyLambdaLib.xlam</code> → 勾选启用</li>
+</ol>
+<h4>3.3.3 导入加载项后,使用<code class="notranslate">JOIN2D</code>函数,单元格报错<code class="notranslate">#NAME?</code>,问题在哪?</h4>
+<h5>根本原因:</h5>
+<blockquote>
+<p><strong>LAMBDA 自定义名称默认是“工作簿级名称”</strong><br>
+放在 <code class="notranslate">.xlam</code> 里，它属于「加载宏工作簿自己」，不会自动注入到「当前新建工作簿」的名称空间。<br>
+所以新文档直接写 <code class="notranslate">=JOIN2D(...)</code> → Excel 在当前工作簿找不到这个名字 → <code class="notranslate">#NAME?</code></p>
+</blockquote>
+<hr>
+<h5>为什么加载宏没生效（3 个常见坑）</h5>
+<p>坑 1：以为 xlam 勾选后，函数会“全局注册”</p>
+<blockquote>
+<p>实际上：</p>
+<ul>
+<li>xlam 里的 LAMBDA 只在 <strong>xlam 自己内部</strong> 可见</li>
+<li>新工作簿要调用，必须显式带文件名前缀，或把名字注入新簿</li>
+</ul>
+</blockquote>
+<p>坑 2：调用方式不对</p>
+<blockquote>
+<p>如果加载宏文件叫 <code class="notranslate">MyLambdaLib.xlam</code>，新文档里应该写：</p>
+</blockquote>
+<pre lang="excel" class="notranslate"><code class="notranslate">=MyLambdaLib.xlam!JOIN2D(A1:B3, ",", "/")
+</code></pre>
+<blockquote>
+<p>（注意：文件名别带空格，前缀要和加载宏文件名一致）</p>
+</blockquote>
+<p>✅ 这样是能用的，但体验很差，自动补全也没有。</p>
+<p>坑 3：xlam 是“另存为”出来的，名称没带过去</p>
+<blockquote>
+<p>正确做法：<br>
+<strong>先在普通 xlsx 里建好名称管理器 → 测试通过 → 另存为 xlam</strong><br>
+（不是先存 xlam 再打开编辑，容易丢定义）</p>
+</blockquote>
+<h2>4. 核心总结</h2>
+<h3>方案 A：VBA 一键把 LAMBDA 注入当前工作簿（最推荐）</h3>
+<p>在 <code class="notranslate">PERSONAL.xlsb</code> 里放上述宏：</p>
+<p>✅ 新文档立即可用<br>
+✅ 不依赖加载宏前缀<br>
+✅ 适合常用 VBA 的场景</p>
+<h3>方案 B：用“模板文件 .xltx”（适合固定业务）</h3>
+<p>把 JOIN2D 建好 → 另存为 <strong>Excel 模板</strong><br>
+以后“新建”都从模板建，天然带函数。</p>
+<h3>方案 C：接受带前缀调用（最稳，不改架构）</h3>
+<p>加载宏名：<code class="notranslate">MyLambdaLib.xlam</code></p>
+<p>✅ 优点：零风险<br>
+❌ 缺点：名字长、不优雅</p>
+<h2>5. 备注</h2>
+<p>因为加载宏的做法一开始即报错,所以即使后来AI解释应该如何正确调用,我后面也没有继续尝试.目前是使用第2节的可维护结构的VBA宏方案</p></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://pigrass.github.io">pigrass的轻博客</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行 "+diffDay+" 天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.disabled=true;
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","pigrass/pigrass.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+<script src='https://blog.meekdai.com/Gmeek/plugins/GmeekTOC.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script><script>(function(){if(document.getElementById('gmeek-share-tw'))return;var u=encodeURIComponent(location.href),t=encodeURIComponent(document.title);var b=document.createElement('a');b.id='gmeek-share-tw';b.href='https://twitter.com/intent/tweet?url='+u+'&text='+t;b.target='_blank';b.rel='noopener noreferrer';b.title='分享到 X / Twitter';b.innerHTML=`<svg width='18' height='18' viewBox='0 0 24 24' fill='#fff'><path d='M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z'/></svg>`;b.style.cssText='display:inline-flex;width:32px;height:32px;border-radius:50%;background:#000;align-items:center;justify-content:center;vertical-align:middle;text-decoration:none;opacity:.85';b.onmouseenter=function(){b.style.opacity='1'};b.onmouseleave=function(){b.style.opacity='.85'};var p=document.getElementById('postBody');if(!p)return;var box=document.createElement('div');box.style.cssText='margin:28px 0 4px;padding-top:16px;border-top:1px solid rgba(140,140,140,.35);font-size:14px;line-height:32px';var lab=document.createElement('span');lab.textContent='分享到：';lab.style.marginRight='8px';box.appendChild(lab);box.appendChild(b);p.parentNode.insertBefore(box,p.nextSibling)})();</script>
+
+</html>
