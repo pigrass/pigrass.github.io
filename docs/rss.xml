@@ -1,5 +1,24 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>pigrass的轻博客</title><link>https://pigrass.github.io</link><description>日常唠叨</description><copyright>pigrass的轻博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://raw.githubusercontent.com/pigrass/pigrass.github.io/bcada41e2e0dfd929b69f443dbe667b903d5d88d/avatar.png</url><title>avatar</title><link>https://pigrass.github.io</link></image><lastBuildDate>Tue, 03 Nov 2026 16:04:11 +0000</lastBuildDate><managingEditor>pigrass的轻博客</managingEditor><ttl>60</ttl><webMaster>pigrass的轻博客</webMaster><item><title>我的100个excel自定义函数仓库,开新文档要一个个手动录入</title><link>https://pigrass.github.io/post/9.html</link><description>## 1. 场景与公式
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>pigrass的轻博客</title><link>https://pigrass.github.io</link><description>日常唠叨</description><copyright>pigrass的轻博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://raw.githubusercontent.com/pigrass/pigrass.github.io/bcada41e2e0dfd929b69f443dbe667b903d5d88d/avatar.png</url><title>avatar</title><link>https://pigrass.github.io</link></image><lastBuildDate>Thu, 12 Nov 2026 15:53:42 +0000</lastBuildDate><managingEditor>pigrass的轻博客</managingEditor><ttl>60</ttl><webMaster>pigrass的轻博客</webMaster><item><title>一次换笔记本电池的经历</title><link>https://pigrass.github.io/post/10.html</link><description>手头一台年代有点久的笔记本,华硕S4300xx系列,电池充不进电了.拆机看了下电池型号,挺好买的,就下单等快递自己装
+
+装完就发现问题了,充电没事,电池正常,但是笔记本键盘部分按键失灵了.不是整排,也不是区块,是零散的没有规律的失灵
+
+做过下面的测试
+
+1. 拆掉笔记本电池,使用电源线供电.仍然部分按键失灵,且失灵的按键位置变了 
+    - 排除电池的问题
+2. 断电后长按电源键40s,据说可以清除EC,应该会听到一个声音. 
+    - 但是没听到,也没效
+3. 怀疑主板固定螺丝松紧影响到薄膜键盘的应力了,重新拧过主板周边8颗螺丝 
+    - 因为不确定原装螺丝的松紧程度,所以无法完全还原,实际也没有效果,而且以前也拆装过那8颗螺丝,那时候也没出现键盘问题
+4. 键盘排线问题,笔记本硬盘周边是有好几根线,长的短的都有.最后确认长的是键盘排线
+   - 重新插拔且移除电池后,成功过一次按键全正常.确认排线导致按键失灵
+    - 以上面的状态装上笔记本电池后,部分按键再度失灵.高度怀疑键盘排线的提手部分与电池触碰后产生应力,接触不良
+    - 将键盘排线提手部分剪去多余部分后,按键都恢复正常了 
+
+&lt;img width='1000' height='750' alt='IMG_20261112_091225' src='https://github.com/user-attachments/assets/059a47cf-92ca-42ce-ba58-57e4b35fb32e' /&gt;
+
+&lt;img width='1000' height='750' alt='IMG_20261112_091016' src='https://github.com/user-attachments/assets/e20bcc6a-2f70-4e6c-9068-72a700c365f1' /&gt;。</description><guid isPermaLink="true">https://pigrass.github.io/post/10.html</guid><pubDate>Thu, 12 Nov 2026 15:53:11 +0000</pubDate></item><item><title>我的100个excel自定义函数仓库,开新文档要一个个手动录入</title><link>https://pigrass.github.io/post/9.html</link><description>## 1. 场景与公式
 
 这篇文章脱胎于上篇关于反向`TEXTSPLIT`函数的讨论,为了将复杂的`=TEXTJOIN('/', FALSE, BYROW(A1:B3, LAMBDA(r, TEXTJOIN(',', FALSE, r))))`函数,精简为`TEXTJOIN2D`这类简单的形式,我们使用了excel的自定义函数功能.但是随工作增加,自定义函数增加,如何管理备份就成了问题.因为excel目前不支持导出自定义名称函数.
 
