@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>pigrass的轻博客</title><link>https://pigrass.github.io</link><description>日常唠叨</description><copyright>pigrass的轻博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://raw.githubusercontent.com/pigrass/pigrass.github.io/bcada41e2e0dfd929b69f443dbe667b903d5d88d/avatar.png</url><title>avatar</title><link>https://pigrass.github.io</link></image><lastBuildDate>Thu, 12 Nov 2026 15:53:42 +0000</lastBuildDate><managingEditor>pigrass的轻博客</managingEditor><ttl>60</ttl><webMaster>pigrass的轻博客</webMaster><item><title>一次换笔记本电池的经历</title><link>https://pigrass.github.io/post/10.html</link><description>手头一台年代有点久的笔记本,华硕S4300xx系列,电池充不进电了.拆机看了下电池型号,挺好买的,就下单等快递自己装
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>pigrass的轻博客</title><link>https://pigrass.github.io</link><description>日常唠叨</description><copyright>pigrass的轻博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://raw.githubusercontent.com/pigrass/pigrass.github.io/bcada41e2e0dfd929b69f443dbe667b903d5d88d/avatar.png</url><title>avatar</title><link>https://pigrass.github.io</link></image><lastBuildDate>Fri, 13 Nov 2026 15:40:14 +0000</lastBuildDate><managingEditor>pigrass的轻博客</managingEditor><ttl>60</ttl><webMaster>pigrass的轻博客</webMaster><item><title>一次换笔记本电池的经历</title><link>https://pigrass.github.io/post/10.html</link><description>手头一台年代有点久的笔记本,华硕S4300xx系列,电池充不进电了.拆机看了下电池型号,挺好买的,就下单等快递自己装
 
 装完就发现问题了,充电没事,电池正常,但是笔记本键盘部分按键失灵了.不是整排,也不是区块,是零散的没有规律的失灵
 
@@ -15,6 +15,8 @@
    - 重新插拔且移除电池后,成功过一次按键全正常.确认排线导致按键失灵
     - 以上面的状态装上笔记本电池后,部分按键再度失灵.高度怀疑键盘排线的提手部分与电池触碰后产生应力,接触不良
     - 将键盘排线提手部分剪去多余部分后,按键都恢复正常了 
+
+&gt; 26.11.13补充:根据别人的拆机换键盘教程,S4300系列的键盘拆卸很繁琐,主板上所有模块的螺丝基本都要卸掉.如果真的按键坏了,非常不推荐自己购买和更换.一个几十块的USB有线键盘才是正解.
 
 &lt;img width='1000' height='750' alt='IMG_20261112_091225' src='https://github.com/user-attachments/assets/059a47cf-92ca-42ce-ba58-57e4b35fb32e' /&gt;
 
