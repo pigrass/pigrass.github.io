@@ -829,7 +829,7 @@ $(\frac{a}{b})$ vs $\left(\frac{a}{b}\right)$
 
 - 圆括号：$\left( \frac{a}{b} \right)$
 - 方括号：$\left[ \frac{a}{b} \right]$
-- 花括号：$\left\{ \frac{a}{b} \right\}$
+- 花括号：$\left\lbrace \frac{a}{b} \right\rbrace$
 - 尖括号：$\left\langle \frac{a}{b} \right\rangle$
 - 绝对值：$\left| \frac{a}{b} \right|$
 - 范数：$\left\| \vec{v} \right\|$
