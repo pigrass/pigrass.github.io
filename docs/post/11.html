@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark_colorblind" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    <script src='https://blog.meekdai.com/Gmeek/plugins/GmeekVercount.js'></script>
+    <link rel="icon" href="https://raw.githubusercontent.com/pigrass/pigrass.github.io/bcada41e2e0dfd929b69f443dbe667b903d5d88d/avatar.png"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content=">引用: https://www.markdownassistant.com/zh/math
+
+LaTeX/KaTeX 数学公式语法指南：行内公式与块级公式的写法，以及分数、上下标、根号、矩阵、积分、求和、希腊字母等常用符号的用法，每例均有实时渲染效果。">
+<meta property="og:title" content="Markdown 数学公式指南">
+<meta property="og:description" content=">引用: https://www.markdownassistant.com/zh/math
+
+LaTeX/KaTeX 数学公式语法指南：行内公式与块级公式的写法，以及分数、上下标、根号、矩阵、积分、求和、希腊字母等常用符号的用法，每例均有实时渲染效果。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://pigrass.github.io/post/11.html">
+<meta property="og:image" content="https://raw.githubusercontent.com/pigrass/pigrass.github.io/bcada41e2e0dfd929b69f443dbe667b903d5d88d/avatar.png">
+<title>Markdown 数学公式指南</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">Markdown 数学公式指南</h1>
+<div class="title-right">
+    <a href="https://pigrass.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/pigrass/pigrass.github.io/issues/11" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><blockquote>
+<p>引用: <a href="https://www.markdownassistant.com/zh/math" rel="nofollow">https://www.markdownassistant.com/zh/math</a></p>
+</blockquote>
+<p>LaTeX/KaTeX 数学公式语法指南：行内公式与块级公式的写法，以及分数、上下标、根号、矩阵、积分、求和、希腊字母等常用符号的用法，每例均有实时渲染效果。</p>
+<h2>行内公式与块级公式</h2>
+<h3>行内公式 (Inline Math)</h3>
+<p>在 Markdown 中，使用单个 <code class="notranslate">$</code> 符号包裹 LaTeX 公式即可插入<strong>行内公式</strong>。</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate">爱因斯坦的质能方程 $E = mc^2$ 是物理学中最著名的公式之一。
+勾股定理可以表示为 $a^2 + b^2 = c^2$。
+圆的面积公式为 $A = \pi r^2$。</pre></div>
+<p><strong>渲染效果：</strong></p>
+<p>爱因斯坦的质能方程 $E = mc^2$ 是物理学中最著名的公式之一。<br>
+勾股定理可以表示为 $a^2 + b^2 = c^2$。<br>
+圆的面积公式为 $A = \pi r^2$。</p>
+<p>行内公式会与文字在同一行中显示，适合在段落中嵌入简短的数学表达式。</p>
+<hr>
+<h3>块级公式 (Block Math)</h3>
+<p>使用双 <code class="notranslate">$$</code> 符号包裹 LaTeX 公式可以创建<strong>块级公式</strong>，公式会独占一行居中显示。</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">E = mc^2</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span>
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">\sum_{i=1}^{n} i = \frac{n(n+1)}{2}</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<p>$$
+E = mc^2
+$$</p>
+<p>$$
+\sum_{i=1}^{n} i = \frac{n(n+1)}{2}
+$$</p>
+<p>块级公式适合展示较长或需要突出显示的数学表达式。</p>
+<hr>
+<h2>基本运算符</h2>
+<h3>加减乘除与幂运算</h3>
+<p>LaTeX 支持常见的数学运算符。</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">**</span>加减法<span class="pl-s">**</span>：$a + b$、$a - b$
+
+<span class="pl-s">**</span>乘法<span class="pl-s">**</span>：$a \times b$、$a \cdot b$
+
+<span class="pl-s">**</span>除法<span class="pl-s">**</span>：$a \div b$
+
+<span class="pl-s">**</span>幂运算<span class="pl-s">**</span>：$x^2$、$x^3$、$2^{10}$
+
+<span class="pl-s">**</span>取模<span class="pl-s">**</span>：$a \mod b$
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">(x + y)^2 = x^2 + 2xy + y^2</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<p><strong>加减法</strong>：$a + b$、$a - b$</p>
+<p><strong>乘法</strong>：$a \times b$、$a \cdot b$</p>
+<p><strong>除法</strong>：$a \div b$</p>
+<p><strong>幂运算</strong>：$x^2$、$x^3$、$2^{10}$</p>
+<p><strong>取模</strong>：$a \mod b$</p>
+<p>$$
+(x + y)^2 = x^2 + 2xy + y^2
+$$</p>
+<hr>
+<h3>比较运算符</h3>
+<p>常用比较运算符。</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-v">-</span> 等于：$a = b$
+<span class="pl-v">-</span> 不等于：$a \neq b$
+<span class="pl-v">-</span> 大于：$a &gt; b$
+<span class="pl-v">-</span> 小于：$a &lt; b$
+<span class="pl-v">-</span> 大于等于：$a \geq b$
+<span class="pl-v">-</span> 小于等于：$a \leq b$
+<span class="pl-v">-</span> 约等于：$a \approx b$
+<span class="pl-v">-</span> 相当于：$a \equiv b$</pre></div>
+<p><strong>渲染效果：</strong></p>
+<ul>
+<li>等于：$a = b$</li>
+<li>不等于：$a \neq b$</li>
+<li>大于：$a &gt; b$</li>
+<li>小于：$a &lt; b$</li>
+<li>大于等于：$a \geq b$</li>
+<li>小于等于：$a \leq b$</li>
+<li>约等于：$a \approx b$</li>
+<li>相当于：$a \equiv b$</li>
+</ul>
+<hr>
+<h2>分数与根式</h2>
+<h3>分数 (Fractions)</h3>
+<p>使用 <code class="notranslate">\frac{分子}{分母}</code> 创建分数。</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate">简单分数：$\frac{1}{2}$、$\frac{3}{4}$
+
+复杂分数：$\frac{a+b}{c-d}$
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">\frac{1}{1+\frac{1}{1+\frac{1}{2}}}</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span>
+
+使用 <span class="pl-s">`</span><span class="pl-c1">\dfrac</span><span class="pl-s">`</span> 可以让行内分数更大：$\dfrac{a}{b}$ vs $\frac{a}{b}$</pre></div>
+<p><strong>渲染效果：</strong></p>
+<p>简单分数：$\frac{1}{2}$、$\frac{3}{4}$</p>
+<p>复杂分数：$\frac{a+b}{c-d}$</p>
+<p>$$
+\frac{1}{1+\frac{1}{1+\frac{1}{2}}}
+$$</p>
+<p>使用 <code class="notranslate">\dfrac</code> 可以让行内分数更大：$\dfrac{a}{b}$ vs $\frac{a}{b}$</p>
+<hr>
+<h3>根式 (Roots)</h3>
+<p>使用 <code class="notranslate">\sqrt{}</code> 创建平方根，<code class="notranslate">\sqrt[n]{ }</code> 创建 n 次方根。</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate">平方根：$\sqrt{2}$、$\sqrt{x^2 + y^2}$
+
+n 次方根：$\sqrt<span class="pl-s">[</span>3<span class="pl-s">]</span>{8}$、$\sqrt<span class="pl-s">[</span>n<span class="pl-s">]</span>{x}$
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<p>平方根：$\sqrt{2}$、$\sqrt{x^2 + y^2}$</p>
+<p>n 次方根：$\sqrt[3]{8}$、$\sqrt[n]{x}$</p>
+<p>$$
+x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+$$</p>
+<p>这就是著名的<strong>一元二次方程求根公式</strong>。</p>
+<hr>
+<h2>上下标</h2>
+<h3>上标 (Superscripts)</h3>
+<p>使用 <code class="notranslate">^</code> 创建上标。</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate">$x^2$、$x^3$、$x^{n+1}$
+
+多字符上标需要花括号：$x^{10}$
+
+<span class="pl-v">-</span> 指数：$e^{x}$
+<span class="pl-v">-</span> 幂：$2^{32}$
+<span class="pl-v">-</span> 转置：$A^{T}$
+<span class="pl-v">-</span> 导数：$f^{\prime}(x)$、$f^{\prime\prime}(x)$</pre></div>
+<p><strong>渲染效果：</strong></p>
+<p>$x^2$、$x^3$、$x^{n+1}$</p>
+<p>多字符上标需要花括号：$x^{10}$</p>
+<ul>
+<li>指数：$e^{x}$</li>
+<li>幂：$2^{32}$</li>
+<li>转置：$A^{T}$</li>
+<li>导数：$f^{\prime}(x)$、$f^{\prime\prime}(x)$</li>
+</ul>
+<hr>
+<h3>下标 (Subscripts)</h3>
+<p>使用 <code class="notranslate">_</code> 创建下标。</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate">$x_1$、$x_2$、$x<span class="pl-s">_</span>{i,j}$
+
+多字符下标需要花括号：$a<span class="pl-s">_</span>{max}$
+
+<span class="pl-v">-</span> 序号：$x_1, x_2, \ldots, x_n$
+<span class="pl-v">-</span> 矩阵元素：$a<span class="pl-s">_</span>{ij}$
+<span class="pl-v">-</span> 偏导：$f<span class="pl-s">_</span>{x}$
+
+上下标组合使用：$x_1^2$、$a<span class="pl-s">_</span>{i}^{n}$</pre></div>
+<p><strong>渲染效果：</strong></p>
+<p>$x_1$、$x_2$、$x_{i,j}$</p>
+<p>多字符下标需要花括号：$a_{max}$</p>
+<ul>
+<li>序号：$x_1, x_2, \ldots, x_n$</li>
+<li>矩阵元素：$a_{ij}$</li>
+<li>偏导：$f_{x}$</li>
+</ul>
+<p>上下标组合使用：$x_1^2$、$a_{i}^{n}$</p>
+<hr>
+<h2>希腊字母</h2>
+<h3>常用希腊字母</h3>
+<p>LaTeX 提供了完整的希腊字母支持。</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">**</span>小写字母<span class="pl-s">**</span>：
+$\alpha$、$\beta$、$\gamma$、$\delta$、$\epsilon$、$\zeta$、$\eta$、$\theta$、$\lambda$、$\mu$、$\nu$、$\xi$、$\pi$、$\rho$、$\sigma$、$\tau$、$\phi$、$\chi$、$\psi$、$\omega$
+
+<span class="pl-s">**</span>大写字母<span class="pl-s">**</span>：
+$\Gamma$、$\Delta$、$\Theta$、$\Lambda$、$\Xi$、$\Pi$、$\Sigma$、$\Phi$、$\Psi$、$\Omega$
+
+<span class="pl-s">**</span>变体形式<span class="pl-s">**</span>：
+$\varepsilon$（变体 epsilon）、$\vartheta$（变体 theta）、$\varphi$（变体 phi）</pre></div>
+<p><strong>渲染效果：</strong></p>
+<p><strong>小写字母</strong>：<br>
+$\alpha$、$\beta$、$\gamma$、$\delta$、$\epsilon$、$\zeta$、$\eta$、$\theta$、$\lambda$、$\mu$、$\nu$、$\xi$、$\pi$、$\rho$、$\sigma$、$\tau$、$\phi$、$\chi$、$\psi$、$\omega$</p>
+<p><strong>大写字母</strong>：<br>
+$\Gamma$、$\Delta$、$\Theta$、$\Lambda$、$\Xi$、$\Pi$、$\Sigma$、$\Phi$、$\Psi$、$\Omega$</p>
+<p><strong>变体形式</strong>：<br>
+$\varepsilon$（变体 epsilon）、$\vartheta$（变体 theta）、$\varphi$（变体 phi）</p>
+<hr>
+<h3>希腊字母应用示例</h3>
+<p>希腊字母在数学公式中广泛应用。</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">**</span>物理学<span class="pl-s">**</span>：
+$F = ma$（力）、$\omega = 2\pi f$（角频率）、$\lambda$（波长）、$\rho$（密度）
+
+<span class="pl-s">**</span>微积分<span class="pl-s">**</span>：
+$\delta$（变分符号）、$\epsilon$-$\delta$ 定义
+
+<span class="pl-s">**</span>概率统计<span class="pl-s">**</span>：
+$\mu$（均值）、$\sigma$（标准差）、$\Omega$（样本空间）
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">\Delta x = x_2 - x_1</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<p><strong>物理学</strong>：<br>
+$F = ma$（力）、$\omega = 2\pi f$（角频率）、$\lambda$（波长）、$\rho$（密度）</p>
+<p><strong>微积分</strong>：<br>
+$\delta$（变分符号）、$\epsilon$-$\delta$ 定义</p>
+<p><strong>概率统计</strong>：<br>
+$\mu$（均值）、$\sigma$（标准差）、$\Omega$（样本空间）</p>
+<p>$$
+\Delta x = x_2 - x_1
+$$</p>
+<hr>
+<h2>求和与积分</h2>
+<h3>求和与连乘</h3>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">**</span>求和符号<span class="pl-s">**</span> <span class="pl-s">`</span><span class="pl-c1">\sum</span><span class="pl-s">`</span>：
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">\sum_{i=1}^{n} i^2 = \frac{n(n+1)(2n+1)}{6}</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span>
+
+<span class="pl-s">**</span>连乘符号<span class="pl-s">**</span> <span class="pl-s">`</span><span class="pl-c1">\prod</span><span class="pl-s">`</span>：
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">n! = \prod_{i=1}^{n} i</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span>
+
+<span class="pl-s">**</span>极限<span class="pl-s">**</span> <span class="pl-s">`</span><span class="pl-c1">\lim</span><span class="pl-s">`</span>：
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">\lim_{n \to \infty} \left(1 + \frac{1}{n}\right)^n = e</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span>
+
+行内写法：$\sum<span class="pl-s">_</span>{i=1}^{n} i$、$\prod<span class="pl-s">_</span>{k=1}^{n} k$、$\lim<span class="pl-s">_</span>{x \to 0} f(x)$</pre></div>
+<p><strong>渲染效果：</strong></p>
+<p><strong>求和符号</strong> <code class="notranslate">\sum</code>：</p>
+<p>$$
+\sum_{i=1}^{n} i^2 = \frac{n(n+1)(2n+1)}{6}
+$$</p>
+<p><strong>连乘符号</strong> <code class="notranslate">\prod</code>：</p>
+<p>$$
+n! = \prod_{i=1}^{n} i
+$$</p>
+<p><strong>极限</strong> <code class="notranslate">\lim</code>：</p>
+<p>$$
+\lim_{n \to \infty} \left(1 + \frac{1}{n}\right)^n = e
+$$</p>
+<p>行内写法：$\sum_{i=1}^{n} i$、$\prod_{k=1}^{n} k$、$\lim_{x \to 0} f(x)$</p>
+<hr>
+<h3>积分 (Integrals)</h3>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">**</span>不定积分<span class="pl-s">**</span>：
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">\int x^2 \, dx = \frac{x^3}{3} + C</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span>
+
+<span class="pl-s">**</span>定积分<span class="pl-s">**</span>：
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">\int_{0}^{1} x^2 \, dx = \frac{1}{3}</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span>
+
+<span class="pl-s">**</span>多重积分<span class="pl-s">**</span>：
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">\iint_D f(x,y) \, dx \, dy</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span>
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">\iiint_V f(x,y,z) \, dx \, dy \, dz</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span>
+
+<span class="pl-s">**</span>曲线/曲面积分<span class="pl-s">**</span>：
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">\oint_C \vec{F} \cdot d\vec{r}</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<p><strong>不定积分</strong>：</p>
+<p>$$
+\int x^2 , dx = \frac{x^3}{3} + C
+$$</p>
+<p><strong>定积分</strong>：</p>
+<p>$$
+\int_{0}^{1} x^2 , dx = \frac{1}{3}
+$$</p>
+<p><strong>多重积分</strong>：</p>
+<p>$$
+\iint_D f(x,y) , dx , dy
+$$</p>
+<p>$$
+\iiint_V f(x,y,z) , dx , dy , dz
+$$</p>
+<p><strong>曲线/曲面积分</strong>：</p>
+<p>$$
+\oint_C \vec{F} \cdot d\vec{r}
+$$</p>
+<hr>
+<h2>矩阵</h2>
+<h3>基本矩阵</h3>
+<p>使用 <code class="notranslate">\begin{matrix}</code> 创建无括号矩阵。</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate">无括号矩阵：
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">\begin{matrix}</span>
+<span class="pl-c1">1 &amp; 2 &amp; 3 \\</span>
+<span class="pl-c1">4 &amp; 5 &amp; 6 \\</span>
+<span class="pl-c1">7 &amp; 8 &amp; 9</span>
+<span class="pl-c1">\end{matrix}</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span>
+
+圆括号矩阵 <span class="pl-s">`</span><span class="pl-c1">\begin{pmatrix}</span><span class="pl-s">`</span>：
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">\begin{pmatrix}</span>
+<span class="pl-c1">a &amp; b \\</span>
+<span class="pl-c1">c &amp; d</span>
+<span class="pl-c1">\end{pmatrix}</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span>
+
+方括号矩阵 <span class="pl-s">`</span><span class="pl-c1">\begin{bmatrix}</span><span class="pl-s">`</span>：
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">\begin{bmatrix}</span>
+<span class="pl-c1">1 &amp; 0 \\</span>
+<span class="pl-c1">0 &amp; 1</span>
+<span class="pl-c1">\end{bmatrix}</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<p>无括号矩阵：</p>
+<p>$$
+\begin{matrix}
+1 &amp; 2 &amp; 3 \\
+4 &amp; 5 &amp; 6 \\
+7 &amp; 8 &amp; 9
+\end{matrix}
+$$</p>
+<p>圆括号矩阵 <code class="notranslate">\begin{pmatrix}</code>：</p>
+<p>$$
+\begin{pmatrix}
+a &amp; b \\
+c &amp; d
+\end{pmatrix}
+$$</p>
+<p>方括号矩阵 <code class="notranslate">\begin{bmatrix}</code>：</p>
+<p>$$
+\begin{bmatrix}
+1 &amp; 0 \\
+0 &amp; 1
+\end{bmatrix}
+$$</p>
+<hr>
+<h3>更多矩阵样式与行列式</h3>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">**</span>花括号矩阵<span class="pl-s">**</span> <span class="pl-s">`</span><span class="pl-c1">\begin{Bmatrix}</span><span class="pl-s">`</span>：
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">\begin{Bmatrix}</span>
+<span class="pl-c1">a &amp; b \\</span>
+<span class="pl-c1">c &amp; d</span>
+<span class="pl-c1">\end{Bmatrix}</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span>
+
+<span class="pl-s">**</span>行列式<span class="pl-s">**</span> <span class="pl-s">`</span><span class="pl-c1">\begin{vmatrix}</span><span class="pl-s">`</span>：
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">\begin{vmatrix}</span>
+<span class="pl-c1">a &amp; b \\</span>
+<span class="pl-c1">c &amp; d</span>
+<span class="pl-c1">\end{vmatrix} = ad - bc</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span>
+
+<span class="pl-s">**</span>省略号矩阵<span class="pl-s">**</span>：
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">\begin{pmatrix}</span>
+<span class="pl-c1">a_{11} &amp; a_{12} &amp; \cdots &amp; a_{1n} \\</span>
+<span class="pl-c1">a_{21} &amp; a_{22} &amp; \cdots &amp; a_{2n} \\</span>
+<span class="pl-c1">\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\</span>
+<span class="pl-c1">a_{m1} &amp; a_{m2} &amp; \cdots &amp; a_{mn}</span>
+<span class="pl-c1">\end{pmatrix}</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<p><strong>花括号矩阵</strong> <code class="notranslate">\begin{Bmatrix}</code>：</p>
+<p>$$
+\begin{Bmatrix}
+a &amp; b \\
+c &amp; d
+\end{Bmatrix}
+$$</p>
+<p><strong>行列式</strong> <code class="notranslate">\begin{vmatrix}</code>：</p>
+<p>$$
+\begin{vmatrix}
+a &amp; b \\
+c &amp; d
+\end{vmatrix} = ad - bc
+$$</p>
+<p><strong>省略号矩阵</strong>：</p>
+<p>$$
+\begin{pmatrix}
+a_{11} &amp; a_{12} &amp; \cdots &amp; a_{1n} \\
+a_{21} &amp; a_{22} &amp; \cdots &amp; a_{2n} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+a_{m1} &amp; a_{m2} &amp; \cdots &amp; a_{mn}
+\end{pmatrix}
+$$</p>
+<hr>
+<h2>方程与对齐</h2>
+<h3>多行方程对齐</h3>
+<p>使用 <code class="notranslate">align</code> 环境对齐多行方程，<code class="notranslate">&amp;</code> 指定对齐位置。</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">\begin{align}</span>
+<span class="pl-c1">f(x) &amp;= x^2 + 2x + 1 \\</span>
+<span class="pl-c1">&amp;= (x+1)^2</span>
+<span class="pl-c1">\end{align}</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span>
+
+多步骤推导：
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">\begin{align}</span>
+<span class="pl-c1">(a+b)^2 &amp;= (a+b)(a+b) \\</span>
+<span class="pl-c1">&amp;= a^2 + ab + ba + b^2 \\</span>
+<span class="pl-c1">&amp;= a^2 + 2ab + b^2</span>
+<span class="pl-c1">\end{align}</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<p>$$
+\begin{align}
+f(x) &amp;= x^2 + 2x + 1 \\
+&amp;= (x+1)^2
+\end{align}
+$$</p>
+<p>多步骤推导：</p>
+<p>$$
+\begin{align}
+(a+b)^2 &amp;= (a+b)(a+b) \\
+&amp;= a^2 + ab + ba + b^2 \\
+&amp;= a^2 + 2ab + b^2
+\end{align}
+$$</p>
+<hr>
+<h3>方程组</h3>
+<p>使用 <code class="notranslate">cases</code> 环境创建分段函数或方程组。</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">**</span>分段函数<span class="pl-s">**</span>：
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">f(x) = \begin{cases}</span>
+<span class="pl-c1">x^2 &amp; \text{if } x \geq 0 \\</span>
+<span class="pl-c1">-x^2 &amp; \text{if } x &lt; 0</span>
+<span class="pl-c1">\end{cases}</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span>
+
+<span class="pl-s">**</span>方程组<span class="pl-s">**</span>：
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">\begin{cases}</span>
+<span class="pl-c1">x + y = 5 \\</span>
+<span class="pl-c1">2x - y = 1</span>
+<span class="pl-c1">\end{cases}</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span>
+
+<span class="pl-s">**</span>绝对值函数<span class="pl-s">**</span>：
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">|x| = \begin{cases}</span>
+<span class="pl-c1">x &amp; x \geq 0 \\</span>
+<span class="pl-c1">-x &amp; x &lt; 0</span>
+<span class="pl-c1">\end{cases}</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<p><strong>分段函数</strong>：</p>
+<p>$$
+f(x) = \begin{cases}
+x^2 &amp; \text{if } x \geq 0 \\
+-x^2 &amp; \text{if } x &lt; 0
+\end{cases}
+$$</p>
+<p><strong>方程组</strong>：</p>
+<p>$$
+\begin{cases}
+x + y = 5 \\
+2x - y = 1
+\end{cases}
+$$</p>
+<p><strong>绝对值函数</strong>：</p>
+<p>$$
+|x| = \begin{cases}
+x &amp; x \geq 0 \\
+-x &amp; x &lt; 0
+\end{cases}
+$$</p>
+<hr>
+<h2>常用数学符号</h2>
+<h3>集合与逻辑符号</h3>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">**</span>集合符号<span class="pl-s">**</span>：
+
+<span class="pl-v">-</span> 属于：$x \in A$
+<span class="pl-v">-</span> 不属于：$x \notin A$
+<span class="pl-v">-</span> 子集：$A \subset B$、$A \subseteq B$
+<span class="pl-v">-</span> 真子集：$A \subsetneq B$
+<span class="pl-v">-</span> 并集：$A \cup B$
+<span class="pl-v">-</span> 交集：$A \cap B$
+<span class="pl-v">-</span> 空集：$\emptyset$ 或 $\varnothing$
+<span class="pl-v">-</span> 全集：$\mathbb{U}$
+
+<span class="pl-s">**</span>逻辑符号<span class="pl-s">**</span>：
+
+<span class="pl-v">-</span> 且：$p \land q$
+<span class="pl-v">-</span> 或：$p \lor q$
+<span class="pl-v">-</span> 非：$\neg p$
+<span class="pl-v">-</span> 推出：$p \Rightarrow q$
+<span class="pl-v">-</span> 等价：$p \Leftrightarrow q$
+<span class="pl-v">-</span> 任意：$\forall$
+<span class="pl-v">-</span> 存在：$\exists$</pre></div>
+<p><strong>渲染效果：</strong></p>
+<p><strong>集合符号</strong>：</p>
+<ul>
+<li>属于：$x \in A$</li>
+<li>不属于：$x \notin A$</li>
+<li>子集：$A \subset B$、$A \subseteq B$</li>
+<li>真子集：$A \subsetneq B$</li>
+<li>并集：$A \cup B$</li>
+<li>交集：$A \cap B$</li>
+<li>空集：$\emptyset$ 或 $\varnothing$
+</li>
+<li>全集：$\mathbb{U}$</li>
+</ul>
+<p><strong>逻辑符号</strong>：</p>
+<ul>
+<li>且：$p \land q$</li>
+<li>或：$p \lor q$</li>
+<li>非：$\neg p$</li>
+<li>推出：$p \Rightarrow q$</li>
+<li>等价：$p \Leftrightarrow q$</li>
+<li>任意：$\forall$</li>
+<li>存在：$\exists$</li>
+</ul>
+<hr>
+<h3>箭头与特殊符号</h3>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">**</span>箭头<span class="pl-s">**</span>：
+
+<span class="pl-v">-</span> 右箭头：$\rightarrow$ 或 $\to$
+<span class="pl-v">-</span> 左箭头：$\leftarrow$
+<span class="pl-v">-</span> 双向箭头：$\leftrightarrow$
+<span class="pl-v">-</span> 长箭头：$\Longrightarrow$
+<span class="pl-v">-</span> 映射箭头：$\mapsto$
+
+<span class="pl-s">**</span>特殊符号<span class="pl-s">**</span>：
+
+<span class="pl-v">-</span> 无穷大：$\infty$
+<span class="pl-v">-</span> 偏导：$\partial$
+<span class="pl-v">-</span> 纳布拉（梯度算子）：$\nabla$
+<span class="pl-v">-</span> 正负号：$\pm$、$\mp$
+<span class="pl-v">-</span> 省略号：$\ldots$、$\cdots$、$\vdots$、$\ddots$
+<span class="pl-v">-</span> 度数：$30^\circ$
+<span class="pl-v">-</span> 角度：$\angle ABC$</pre></div>
+<p><strong>渲染效果：</strong></p>
+<p><strong>箭头</strong>：</p>
+<ul>
+<li>右箭头：$\rightarrow$ 或 $\to$
+</li>
+<li>左箭头：$\leftarrow$</li>
+<li>双向箭头：$\leftrightarrow$</li>
+<li>长箭头：$\Longrightarrow$</li>
+<li>映射箭头：$\mapsto$</li>
+</ul>
+<p><strong>特殊符号</strong>：</p>
+<ul>
+<li>无穷大：$\infty$</li>
+<li>偏导：$\partial$</li>
+<li>纳布拉（梯度算子）：$\nabla$</li>
+<li>正负号：$\pm$、$\mp$</li>
+<li>省略号：$\ldots$、$\cdots$、$\vdots$、$\ddots$</li>
+<li>度数：$30^\circ$</li>
+<li>角度：$\angle ABC$</li>
+</ul>
+<hr>
+<h2>高级用法</h2>
+<h3>括号与定界符</h3>
+<p>LaTeX 提供多种括号，使用 <code class="notranslate">\left</code> 和 <code class="notranslate">\right</code> 自动调整大小。</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">**</span>手动大小<span class="pl-s">**</span>：
+$(\frac{a}{b})$ vs $\left(\frac{a}{b}\right)$
+
+<span class="pl-s">**</span>括号类型<span class="pl-s">**</span>：
+
+<span class="pl-v">-</span> 圆括号：$\left( \frac{a}{b} \right)$
+<span class="pl-v">-</span> 方括号：$\left<span class="pl-s">[</span> \frac{a}{b} \right<span class="pl-s">]</span>$
+<span class="pl-v">-</span> 花括号：$\left<span class="pl-c1">\{</span> \frac{a}{b} \right<span class="pl-c1">\}</span>$
+<span class="pl-v">-</span> 尖括号：$\left\langle \frac{a}{b} \right\rangle$
+<span class="pl-v">-</span> 绝对值：$\left| \frac{a}{b} \right|$
+<span class="pl-v">-</span> 范数：$\left<span class="pl-c1">\|</span> \vec{v} \right<span class="pl-c1">\|</span>$
+
+<span class="pl-s">**</span>单侧括号<span class="pl-s">**</span>：
+$\left. \frac{dy}{dx} \right|<span class="pl-s">_</span>{x=1}$</pre></div>
+<p><strong>渲染效果：</strong></p>
+<p><strong>手动大小</strong>：<br>
+$(\frac{a}{b})$ vs $\left(\frac{a}{b}\right)$</p>
+<p><strong>括号类型</strong>：</p>
+<ul>
+<li>圆括号：$\left( \frac{a}{b} \right)$</li>
+<li>方括号：$\left[ \frac{a}{b} \right]$</li>
+<li>花括号：$\left{ \frac{a}{b} \right}$</li>
+<li>尖括号：$\left\langle \frac{a}{b} \right\rangle$</li>
+<li>绝对值：$\left| \frac{a}{b} \right|$</li>
+<li>范数：$\left| \vec{v} \right|$</li>
+</ul>
+<p><strong>单侧括号</strong>：<br>
+$\left. \frac{dy}{dx} \right|_{x=1}$</p>
+<hr>
+<h3>字体与函数名</h3>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">**</span>数学字体<span class="pl-s">**</span>：
+
+<span class="pl-v">-</span> 粗体：$\mathbf{A}$（向量/矩阵）
+<span class="pl-v">-</span> 花体：$\mathbb{R}$（实数集）、$\mathbb{N}$（自然数集）
+<span class="pl-v">-</span> 斜体：$\mathit{x}$（变量）
+<span class="pl-v">-</span> 罗马体：$\mathrm{d}x$（微分符号）
+<span class="pl-v">-</span> 哥特体：$\mathfrak{g}$
+
+<span class="pl-s">**</span>常用函数名<span class="pl-s">**</span>（正体显示）：
+$\sin x$、$\cos x$、$\tan x$
+$\log x$、$\ln x$、$\exp(x)$
+$\max(a,b)$、$\min(a,b)$
+$\det(A)$、$\dim(V)$
+
+向量：
+$\vec{a}$、$\mathbf{a}$、$\hat{x}$</pre></div>
+<p><strong>渲染效果：</strong></p>
+<p><strong>数学字体</strong>：</p>
+<ul>
+<li>粗体：$\mathbf{A}$（向量/矩阵）</li>
+<li>花体：$\mathbb{R}$（实数集）、$\mathbb{N}$（自然数集）</li>
+<li>斜体：$\mathit{x}$（变量）</li>
+<li>罗马体：$\mathrm{d}x$（微分符号）</li>
+<li>哥特体：$\mathfrak{g}$</li>
+</ul>
+<p><strong>常用函数名</strong>（正体显示）：<br>
+$\sin x$、$\cos x$、$\tan x$<br>
+$\log x$、$\ln x$、$\exp(x)$<br>
+$\max(a,b)$、$\min(a,b)$<br>
+$\det(A)$、$\dim(V)$</p>
+<p>向量：<br>
+$\vec{a}$、$\mathbf{a}$、$\hat{x}$</p>
+<hr>
+<h3>空格与排版技巧</h3>
+<p>LaTeX 数学模式中的空格控制。</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-v">-</span> 无空格：$ab$
+<span class="pl-v">-</span> 小空格：$a<span class="pl-c1">\,</span>b$
+<span class="pl-v">-</span> 中等空格：$a<span class="pl-c1">\;</span>b$
+<span class="pl-v">-</span> 大空格：$a\quad b$
+<span class="pl-v">-</span> 超大空格：$a\qquad b$
+
+在积分中添加空格：
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">\int_0^1 x^2 \, dx \quad \text{vs} \quad \int_0^1 x^2 dx</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span>
+
+使用 <span class="pl-s">`</span><span class="pl-c1">\text{}</span><span class="pl-s">`</span> 在公式中插入文字：
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">\text{当 } x &gt; 0 \text{ 时，有 } f(x) = \sqrt{x}</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span>
+
+使用 <span class="pl-s">`</span><span class="pl-c1">\color{}</span><span class="pl-s">`</span> 改变颜色（部分支持）：
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">\textcolor{red}{E} = mc^2</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<ul>
+<li>无空格：$ab$</li>
+<li>小空格：$a,b$</li>
+<li>中等空格：$a;b$</li>
+<li>大空格：$a\quad b$</li>
+<li>超大空格：$a\qquad b$</li>
+</ul>
+<p>在积分中添加空格：</p>
+<p>$$
+\int_0^1 x^2 , dx \quad \text{vs} \quad \int_0^1 x^2 dx
+$$</p>
+<p>使用 <code class="notranslate">\text{}</code> 在公式中插入文字：</p>
+<p>$$
+\text{当 } x &gt; 0 \text{ 时，有 } f(x) = \sqrt{x}
+$$</p>
+<p>使用 <code class="notranslate">\color{}</code> 改变颜色（部分支持）：</p>
+<p>$$
+\textcolor{red}{E} = mc^2
+$$</p>
+<hr>
+<h2>实用技巧</h2>
+<h3>常见物理与数学公式</h3>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">**</span>牛顿第二定律<span class="pl-s">**</span>：
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">\vec{F} = m\vec{a} = m\frac{d\vec{v}}{dt}</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span>
+
+<span class="pl-s">**</span>薛定谔方程<span class="pl-s">**</span>：
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">i\hbar\frac{\partial}{\partial t}\Psi(\vec{r},t) = \hat{H}\Psi(\vec{r},t)</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span>
+
+<span class="pl-s">**</span>欧拉公式<span class="pl-s">**</span>：
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">e^{i\pi} + 1 = 0</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span>
+
+<span class="pl-s">**</span>泰勒展开<span class="pl-s">**</span>：
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">f(x) = \sum_{n=0}^{\infty} \frac{f^{(n)}(a)}{n!}(x-a)^n</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span>
+
+<span class="pl-s">**</span>高斯积分<span class="pl-s">**</span>：
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">\int_{-\infty}^{\infty} e^{-x^2} \, dx = \sqrt{\pi}</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<p><strong>牛顿第二定律</strong>：</p>
+<p>$$
+\vec{F} = m\vec{a} = m\frac{d\vec{v}}{dt}
+$$</p>
+<p><strong>薛定谔方程</strong>：</p>
+<p>$$
+i\hbar\frac{\partial}{\partial t}\Psi(\vec{r},t) = \hat{H}\Psi(\vec{r},t)
+$$</p>
+<p><strong>欧拉公式</strong>：</p>
+<p>$$
+e^{i\pi} + 1 = 0
+$$</p>
+<p><strong>泰勒展开</strong>：</p>
+<p>$$
+f(x) = \sum_{n=0}^{\infty} \frac{f^{(n)}(a)}{n!}(x-a)^n
+$$</p>
+<p><strong>高斯积分</strong>：</p>
+<p>$$
+\int_{-\infty}^{\infty} e^{-x^2} , dx = \sqrt{\pi}
+$$</p>
+<hr>
+<h3>编写技巧与注意事项</h3>
+<p><strong>1. 特殊字符转义</strong></p>
+<p>在 LaTeX 中，以下字符需要转义：<code class="notranslate"># $ % &amp; _ { }</code><br>
+使用反斜杠转义：<code class="notranslate">\#</code>、<code class="notranslate">\$</code>、<code class="notranslate">\%</code>、<code class="notranslate">\&amp;</code>、<code class="notranslate">\_</code></p>
+<p><strong>2. 长公式换行</strong></p>
+<p>使用 <code class="notranslate">\\</code> 在 align 环境中换行：</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">\begin{align}</span>
+<span class="pl-c1">y &amp;= a_0 + a_1x + a_2x^2 \\</span>
+<span class="pl-c1">&amp;\quad + a_3x^3 + a_4x^4</span>
+<span class="pl-c1">\end{align}</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<p>$$
+\begin{align}
+y &amp;= a_0 + a_1x + a_2x^2 \\
+&amp;\quad + a_3x^3 + a_4x^4
+\end{align}
+$$</p>
+<hr>
+<p><strong>3. 多行公式编号</strong></p>
+<p>使用 <code class="notranslate">\tag{}</code> 自定义编号。</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">a^n + b^n = c^n \tag{1}</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<p>$$
+a^n + b^n = c^n \tag{1}
+$$</p>
+<p><strong>4. 行内公式建议</strong></p>
+<p>对于行内公式，较复杂的表达式建议使用块级公式以获得更好的可读性。</p>
+<hr>
+<blockquote>
+<p>💡 <strong>提示</strong>：如需查阅更多 LaTeX 符号，可参考 <a href="https://katex.org/docs/supported" rel="nofollow">KaTeX 官方文档</a>。</p>
+</blockquote></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://pigrass.github.io">pigrass的轻博客</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行 "+diffDay+" 天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.disabled=true;
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","pigrass/pigrass.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+<script src='https://blog.meekdai.com/Gmeek/plugins/GmeekTOC.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script><script>(function(){if(document.getElementById('gmeek-share-tw'))return;var u=encodeURIComponent(location.href),t=encodeURIComponent(document.title);var b=document.createElement('a');b.id='gmeek-share-tw';b.href='https://twitter.com/intent/tweet?url='+u+'&text='+t;b.target='_blank';b.rel='noopener noreferrer';b.title='分享到 X / Twitter';b.innerHTML=`<svg width='18' height='18' viewBox='0 0 24 24' fill='#fff'><path d='M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z'/></svg>`;b.style.cssText='display:inline-flex;width:32px;height:32px;border-radius:50%;background:#000;align-items:center;justify-content:center;vertical-align:middle;text-decoration:none;opacity:.85';b.onmouseenter=function(){b.style.opacity='1'};b.onmouseleave=function(){b.style.opacity='.85'};var p=document.getElementById('postBody');if(!p)return;var box=document.createElement('div');box.style.cssText='margin:28px 0 4px;padding-top:16px;border-top:1px solid rgba(140,140,140,.35);font-size:14px;line-height:32px';var lab=document.createElement('span');lab.textContent='分享到：';lab.style.marginRight='8px';box.appendChild(lab);box.appendChild(b);p.parentNode.insertBefore(box,p.nextSibling)})();</script><script>MathJax = {tex: {inlineMath: [["$", "$"]]}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</html>
