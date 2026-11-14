@@ -10,21 +10,21 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="原文摘自 https://markdown.buxiantang.top/
+<meta name="description" content=">引用: https://www.markdownassistant.com/zh/syntax
 
----------------------------------------------------
 
-欢迎来到 Markdown 的奇妙世界！无论你是写作爱好者、开发者、博主，还是想要简单记录点什么的人，Markdown 都能成为你新的好伙伴。">
-<meta property="og:title" content="Markdown语法">
-<meta property="og:description" content="原文摘自 https://markdown.buxiantang.top/
+# 语法示例
+全面的 Markdown 语法示例与实时渲染对照，覆盖标题、粗体斜体、列表、引用、链接、图片、表格、代码块、脚注等常用语法，帮助您快速掌握 Markdown 写作。">
+<meta property="og:title" content="Markdown 语法示例与速查表">
+<meta property="og:description" content=">引用: https://www.markdownassistant.com/zh/syntax
 
----------------------------------------------------
 
-欢迎来到 Markdown 的奇妙世界！无论你是写作爱好者、开发者、博主，还是想要简单记录点什么的人，Markdown 都能成为你新的好伙伴。">
+# 语法示例
+全面的 Markdown 语法示例与实时渲染对照，覆盖标题、粗体斜体、列表、引用、链接、图片、表格、代码块、脚注等常用语法，帮助您快速掌握 Markdown 写作。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://pigrass.github.io/post/3.html">
 <meta property="og:image" content="https://raw.githubusercontent.com/pigrass/pigrass.github.io/bcada41e2e0dfd929b69f443dbe667b903d5d88d/avatar.png">
-<title>Markdown语法</title>
+<title>Markdown 语法示例与速查表</title>
 <link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 
@@ -67,7 +67,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
 <body>
     <div id="header">
-<h1 class="postTitle">Markdown语法</h1>
+<h1 class="postTitle">Markdown 语法示例与速查表</h1>
 <div class="title-right">
     <a href="https://pigrass.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
@@ -91,240 +91,276 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>原文摘自 <a href="https://markdown.buxiantang.top/" rel="nofollow">https://markdown.buxiantang.top/</a></p>
+<div class="markdown-body" id="postBody"><blockquote>
+<p>引用: <a href="https://www.markdownassistant.com/zh/syntax" rel="nofollow">https://www.markdownassistant.com/zh/syntax</a></p>
+</blockquote>
+<h1>语法示例</h1>
+<p>全面的 Markdown 语法示例与实时渲染对照，覆盖标题、粗体斜体、列表、引用、链接、图片、表格、代码块、脚注等常用语法，帮助您快速掌握 Markdown 写作。</p>
 <hr>
-<p>欢迎来到 Markdown 的奇妙世界！无论你是写作爱好者、开发者、博主，还是想要简单记录点什么的人，Markdown 都能成为你新的好伙伴。它不仅让写作变得简单明了，还能轻松地将内容转化为漂亮的网页格式。今天，我们将全面探讨 Markdown 的基础和进阶语法，让你在这个过程中充分享受写作的乐趣！</p>
-<p>Markdown 是一种轻量级标记语言，用于格式化纯文本。它以简单、直观的语法而著称，可以快速地生成 HTML。Markdown 是写作与代码的完美结合，既简单又强大。</p>
-<h2>Markdown 基础语法</h2>
-<h3>1. 标题：让你的内容层次分明</h3>
-<p>用 <code class="notranslate">#</code> 号来创建标题。标题从 <code class="notranslate">#</code> 开始，<code class="notranslate">#</code> 的数量表示标题的级别。</p>
-<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-mh"># <span class="pl-en">一级标题</span></span>
+<h2>基础格式</h2>
+<h3>标题 (Headings)</h3>
+<p><strong>Markdown 源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-mh"># <span class="pl-en">这是一级标题</span></span>
+<span class="pl-mh">## <span class="pl-en">这是二级标题</span></span>
+<span class="pl-mh">### <span class="pl-en">这是三级标题</span></span>
+<span class="pl-mh">#### <span class="pl-en">这是四级标题</span></span>
+<span class="pl-mh">##### <span class="pl-en">这是五级标题</span></span>
+<span class="pl-mh">###### <span class="pl-en">这是六级标题</span></span></pre></div>
+<hr>
+<h3>文本样式 (Text Style)</h3>
+<p><strong>Markdown 源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">**</span>这是加粗文本<span class="pl-s">**</span>
+<span class="pl-s">*</span>这是斜体文本<span class="pl-s">*</span>
+<span class="pl-s">~~</span>这是删除线文本<span class="pl-s">~~</span>
+<span class="pl-s">**</span><span class="pl-s">_</span>这是加粗斜体文本<span class="pl-s">_</span><span class="pl-s">**</span>
+==这是高亮文本==
+^这是上标^
+<span class="pl-s">~</span>这是下标<span class="pl-s">~</span></pre></div>
+<hr>
+<h3>引用 (Blockquotes)</h3>
+<p><strong>Markdown 源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-ent"><span class="pl-ent">&gt; </span>这是一个引用块。</span>
+<span class="pl-ent"><span class="pl-ent">&gt;</span></span>
+<span class="pl-ent"><span class="pl-ent">&gt; <span class="pl-ent">&gt; </span>这是一个嵌套的引用块。</span></span>
+<span class="pl-ent"><span class="pl-ent">&gt; <span class="pl-ent">&gt; </span>它可以有多层。</span></span>
+<span class="pl-ent"><span class="pl-ent">&gt;</span></span>
+<span class="pl-ent"><span class="pl-ent">&gt; </span>回到第一层。</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<blockquote>
+<p>这是一个引用块。</p>
+<blockquote>
+<p>这是一个嵌套的引用块。<br>
+它可以有多层。</p>
+</blockquote>
+<p>回到第一层。</p>
+</blockquote>
+<hr>
+<h3>列表 (Lists)</h3>
+<p><strong>Markdown 源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">**</span>无序列表<span class="pl-s">**</span>：
+<span class="pl-v">-</span> 项目 1
+<span class="pl-v">-</span> 项目 2
+  <span class="pl-v">-</span> 子项目 A
+  <span class="pl-v">-</span> 子项目 B
 
-<span class="pl-mh">## <span class="pl-en">二级标题</span></span>
+<span class="pl-s">**</span>有序列表<span class="pl-s">**</span>：
+<span class="pl-s">1</span><span class="pl-v">.</span> 第一步
+<span class="pl-s">2</span><span class="pl-v">.</span> 第二步
+<span class="pl-s">3</span><span class="pl-v">.</span> 第三步
 
-<span class="pl-mh">### <span class="pl-en">三级标题</span></span>
-
-<span class="pl-mh">#### <span class="pl-en">四级标题</span></span></pre></div>
-<p>以上代码将渲染出一组层次分明的标题，使你的内容井井有条。</p>
-<h3>2. 段落与换行：自然流畅</h3>
-<p>Markdown 中的段落就是一行接一行的文本。要创建新段落，只需在两行文本之间空一行。</p>
-<h3>3. 字体样式：强调你的文字</h3>
+<span class="pl-s">**</span>任务列表<span class="pl-s">**</span>：
+<span class="pl-v">-</span> <span class="pl-k">[x]</span> 已完成的任务
+<span class="pl-v">-</span> <span class="pl-k">[ ]</span> 待办任务 A
+<span class="pl-v">-</span> <span class="pl-k">[ ]</span> 待办任务 B</pre></div>
+<p><strong>渲染效果：</strong></p>
+<p><strong>无序列表</strong>：</p>
 <ul>
-<li><strong>粗体</strong>：用两个星号或下划线包裹文字，如 <code class="notranslate">**粗体**</code> 或 <code class="notranslate">__粗体__</code>。</li>
-<li><em>斜体</em>：用一个星号或下划线包裹文字，如 <code class="notranslate">*斜体*</code> 或 <code class="notranslate">_斜体_</code>。</li>
-<li><del>删除线</del>：用两个波浪线包裹文字，如 <code class="notranslate">~~删除线~~</code>。</li>
-<li>==高亮==：用两个等号包裹文字，如 <code class="notranslate">==高亮==</code>。</li>
-<li>++下划线++：用两个加号包裹文字，如 <code class="notranslate">++下划线++</code>。</li>
-<li><del>波浪线</del>：用一个波浪线包裹文字，如 <code class="notranslate">~波浪线~</code>。</li>
+<li>项目 1</li>
+<li>项目 2
+<ul>
+<li>子项目 A</li>
+<li>子项目 B</li>
 </ul>
-<p>这些简单的标记可以让你的内容更有层次感和重点突出。</p>
-<h3>4. 列表：整洁有序</h3>
-<ul>
-<li><strong>无序列表</strong>：用 <code class="notranslate">-</code>、<code class="notranslate">*</code> 或 <code class="notranslate">+</code> 加空格开始一行。</li>
-<li><strong>有序列表</strong>：使用数字加点号（<code class="notranslate">1.</code>、<code class="notranslate">2.</code>）开始一行。</li>
-</ul>
-<p>在列表中嵌套其他内容？只需缩进即可实现嵌套效果。</p>
-<ul>
-<li>无序列表项 1
-<ol>
-<li>嵌套有序列表项 1</li>
-<li>嵌套有序列表项 2</li>
-</ol>
 </li>
-<li>无序列表项 2</li>
 </ul>
+<p><strong>有序列表</strong>：</p>
 <ol>
-<li>有序列表项 1</li>
-<li>有序列表项 2</li>
+<li>第一步</li>
+<li>第二步</li>
+<li>第三步</li>
 </ol>
-<h3>5. 链接与图片：丰富内容</h3>
-<ul>
-<li><strong>链接</strong>：用方括号和圆括号创建链接 <code class="notranslate">[显示文本](链接地址)</code>。</li>
-<li><strong>图片</strong>：和链接类似，只需在前面加上 <code class="notranslate">!</code>，如 <code class="notranslate">![描述文本](图片链接)</code>。</li>
+<p><strong>任务列表</strong>：</p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" id="" disabled="" class="task-list-item-checkbox" aria-label="Completed task" checked=""> 已完成的任务</li>
+<li class="task-list-item"><input type="checkbox" id="" disabled="" class="task-list-item-checkbox" aria-label="Incomplete task"> 待办任务 A</li>
+<li class="task-list-item"><input type="checkbox" id="" disabled="" class="task-list-item-checkbox" aria-label="Incomplete task"> 待办任务 B</li>
 </ul>
-<p><code class="notranslate">[访问 Doocs](https://github.com/doocs)</code><br>
-<a href="https://github.com/doocs">访问 Doocs</a><br>
-<code class="notranslate">![doocs](https://cdn-doocs.oss-cn-shenzhen.aliyuncs.com/gh/doocs/md/images/logo-2.png)</code><br>
-<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/6f578dab9921cda66bdd83dd8f4b80a994023f3743ee7e52700a67704ecdffce/68747470733a2f2f63646e2d646f6f63732e6f73732d636e2d7368656e7a68656e2e616c6979756e63732e636f6d2f67682f646f6f63732f6d642f696d616765732f6c6f676f2d322e706e67"><img src="https://camo.githubusercontent.com/6f578dab9921cda66bdd83dd8f4b80a994023f3743ee7e52700a67704ecdffce/68747470733a2f2f63646e2d646f6f63732e6f73732d636e2d7368656e7a68656e2e616c6979756e63732e636f6d2f67682f646f6f63732f6d642f696d616765732f6c6f676f2d322e706e67" alt="doocs" data-canonical-src="https://cdn-doocs.oss-cn-shenzhen.aliyuncs.com/gh/doocs/md/images/logo-2.png" style="max-width: 100%;"></a></p>
-<p>轻松实现富媒体内容展示！</p>
-<blockquote>
-<p>因微信公众号平台不支持除公众号内容以外的链接，故其他平台的链接，会呈现链接样式但无法点击跳转。</p>
-</blockquote>
-<blockquote>
-<p>对于这些链接请注意明文书写，或点击左上角「格式-&gt;微信外链接转底部引用」开启引用，这样就可以在底部观察到链接指向。</p>
-</blockquote>
-<p>另外，使用 <code class="notranslate">&lt;![alt](url),![alt](url)&gt;</code> 语法可以创建横屏滑动幻灯片，支持微信公众号平台。建议使用相似尺寸的图片以获得最佳显示效果。</p>
-<h3>6. 引用：引用名言或引人深思的句子</h3>
-<p>使用 <code class="notranslate">&gt;</code> 来创建引用，只需在文本前面加上它。多层引用？在前一层 <code class="notranslate">&gt;</code> 后再加一个就行。</p>
-<blockquote>
-<p>这是一个引用</p>
-<blockquote>
-<p>这是一个嵌套引用</p>
-</blockquote>
-</blockquote>
-<p>这让你的引用更加富有层次感。</p>
-<h3>7. 代码块：展示你的代码</h3>
-<ul>
-<li><strong>行内代码</strong>：用反引号包裹，如 <code class="notranslate">code</code>。</li>
-<li><strong>代码块</strong>：用三个反引号包裹，并指定语言，如：</li>
-</ul>
-<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s">`Hello, Doocs!`</span><span class="pl-kos">)</span></pre></div>
-<p>语法高亮让你的代码更易读。</p>
-<h3>8. 分割线：分割内容</h3>
-<p>用三个或更多的 <code class="notranslate">-</code>、<code class="notranslate">*</code> 或 <code class="notranslate">_</code> 来创建分割线。</p>
 <hr>
-<p>为你的内容添加视觉分隔。</p>
-<h3>9. 表格：清晰展示数据</h3>
-<p>Markdown 支持简单的表格，用 <code class="notranslate">|</code> 和 <code class="notranslate">-</code> 分隔单元格和表头。</p>
+<h2>代码与表格</h2>
+<h3>代码 (Code)</h3>
+<p><strong>Markdown 源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate">这是 <span class="pl-s">`</span><span class="pl-c1">行内代码</span><span class="pl-s">`</span> 示例。
+
+下面是代码块：
+
+<span class="pl-s">```</span><span class="pl-en">javascript</span>
+<span class="pl-k">function</span> <span class="pl-en">greet</span>(<span class="pl-smi">name</span>) {
+  <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">`</span>Hello, <span class="pl-s1"><span class="pl-pse">${</span>name<span class="pl-pse">}</span></span>!<span class="pl-pds">`</span></span>);
+}
+
+<span class="pl-en">greet</span>(<span class="pl-s"><span class="pl-pds">'</span>World<span class="pl-pds">'</span></span>);
+<span class="pl-s">```</span>
+
+<span class="pl-s">```</span><span class="pl-en">python</span>
+<span class="pl-k">def</span> <span class="pl-en">factorial</span>(<span class="pl-smi">n</span>):
+    <span class="pl-k">if</span> n <span class="pl-k">==</span> <span class="pl-c1">0</span>:
+        <span class="pl-k">return</span> <span class="pl-c1">1</span>
+    <span class="pl-k">return</span> n <span class="pl-k">*</span> factorial(n<span class="pl-k">-</span><span class="pl-c1">1</span>)
+<span class="pl-s">```</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<p>这是 <code class="notranslate">行内代码</code> 示例。</p>
+<p>下面是代码块：</p>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-k">function</span> <span class="pl-en">greet</span><span class="pl-kos">(</span><span class="pl-s1">name</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+  <span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s">`Hello, <span class="pl-s1"><span class="pl-kos">${</span><span class="pl-s1">name</span><span class="pl-kos">}</span></span>!`</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+<span class="pl-kos">}</span>
+
+<span class="pl-en">greet</span><span class="pl-kos">(</span><span class="pl-s">'World'</span><span class="pl-kos">)</span><span class="pl-kos">;</span></pre></div>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">def</span> <span class="pl-en">factorial</span>(<span class="pl-s1">n</span>):
+    <span class="pl-k">if</span> <span class="pl-s1">n</span> <span class="pl-c1">==</span> <span class="pl-c1">0</span>:
+        <span class="pl-k">return</span> <span class="pl-c1">1</span>
+    <span class="pl-k">return</span> <span class="pl-s1">n</span> <span class="pl-c1">*</span> <span class="pl-en">factorial</span>(<span class="pl-s1">n</span><span class="pl-c1">-</span><span class="pl-c1">1</span>)</pre></div>
+<hr>
+<h3>表格 (Tables)</h3>
+<p><strong>Markdown 源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-ml">|</span> 姓名 <span class="pl-ml">|</span> 年龄 <span class="pl-ml">|</span> 职业 <span class="pl-ml">|</span>
+<span class="pl-ml">|</span> :--- <span class="pl-ml">|</span> :--: <span class="pl-ml">|</span> ---: <span class="pl-ml">|</span>
+<span class="pl-ml">|</span> 张三 <span class="pl-ml">|</span> 25 <span class="pl-ml">|</span> 工程师 <span class="pl-ml">|</span>
+<span class="pl-ml">|</span> 李四 <span class="pl-ml">|</span> 30 <span class="pl-ml">|</span> 设计师 <span class="pl-ml">|</span>
+<span class="pl-ml">|</span> 王五 <span class="pl-ml">|</span> 28 <span class="pl-ml">|</span> 产品经理 <span class="pl-ml">|</span>
+
+<span class="pl-s">*</span>注：冒号用于控制列的对齐方式（左对齐、居中、右对齐）。<span class="pl-s">*</span></pre></div>
+<p><strong>渲染效果：</strong></p>
 <markdown-accessiblity-table><table role="table">
 <thead>
 <tr>
-<th>项目人员</th>
-<th>邮箱</th>
-<th>微信号</th>
+<th align="left">姓名</th>
+<th align="center">年龄</th>
+<th align="right">职业</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><a href="https://github.com/yanglbme">yanglbme</a></td>
-<td><a href="mailto:contact@yanglibin.info">contact@yanglibin.info</a></td>
-<td>YLB0109</td>
+<td align="left">张三</td>
+<td align="center">25</td>
+<td align="right">工程师</td>
 </tr>
 <tr>
-<td><a href="https://github.com/YangFong">YangFong</a></td>
-<td><a href="mailto:yangfong2022@gmail.com">yangfong2022@gmail.com</a></td>
-<td>yq2419731931</td>
+<td align="left">李四</td>
+<td align="center">30</td>
+<td align="right">设计师</td>
 </tr>
 <tr>
-<td><a href="https://github.com/thinkasany">thinkasany</a></td>
-<td><a href="mailto:thinkasany@gmail.com">thinkasany@gmail.com</a></td>
-<td>thinkasany</td>
+<td align="left">王五</td>
+<td align="center">28</td>
+<td align="right">产品经理</td>
 </tr>
 </tbody>
 </table></markdown-accessiblity-table>
-<p>这样的表格让数据展示更为清爽！</p>
-<blockquote>
-<p>手动编写标记太麻烦？我们提供了便捷方式。左上方点击「编辑-&gt;插入表格」，即可快速实现表格渲染。</p>
-</blockquote>
-<h2>Markdown 进阶技巧</h2>
-<h3>1. LaTeX 公式：完美展示数学表达式</h3>
-<p>Markdown 允许嵌入 LaTeX 语法展示数学公式：</p>
-<ul>
-<li>
-<p><strong>行内公式</strong>：用 <code class="notranslate">$</code> 包裹公式，如 <code class="notranslate">$E = mc^2$</code><br>
-$E = mc^2$。</p>
-</li>
-<li>
-<p><strong>块级公式</strong>：用 <code class="notranslate">$$</code> 包裹公式，如：<br>
-$$<br>
-\begin{aligned}<br>
-d_{i, j} &amp;\leftarrow d_{i, j} + 1 \<br>
-d_{i, y + 1} &amp;\leftarrow d_{i, y + 1} - 1 \<br>
-d_{x + 1, j} &amp;\leftarrow d_{x + 1, j} - 1 \<br>
-d_{x + 1, y + 1} &amp;\leftarrow d_{x + 1, y + 1} + 1<br>
-\end{aligned}<br>
-$$</p>
-</li>
-</ul>
-<p>现在还支持 <strong>LaTeX 标准格式</strong>：</p>
-<ul>
-<li><strong>行内公式</strong>：用 <code class="notranslate">\(...\)</code> 包裹公式，如 (x^2 + y^2 = z^2)。</li>
-<li><strong>块级公式</strong>：用 <code class="notranslate">\[...\]</code> 包裹公式，如：</li>
-</ul>
-<p>[<br>
-\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}<br>
-]</p>
-<p>混合使用示例：传统格式 $a + b = c$ 和 LaTeX 格式 (d + e = f) 可以在同一段落中共存。</p>
-<ol>
-<li>列表内块公式 1</li>
-</ol>
-<p>$$
-\chi^2 = \sum \frac{(O - E)^2}{E}
-$$</p>
-<ol start="2">
-<li>列表内块公式 2</li>
-</ol>
-<p>$$
-\chi^2 = \sum \frac{(|O - E| - 0.5)^2}{E}
-$$</p>
-<p>这是展示复杂数学表达的利器！</p>
-<h3>2. Mermaid 流程图：可视化流程</h3>
-<p>Mermaid 是强大的可视化工具，可以在 Markdown 中创建流程图、时序图等。</p>
-<div class="highlight highlight-source-mermaid"><pre class="notranslate"><span class="pl-k">graph</span> <span class="pl-c1">LR</span>
-  <span class="pl-ent">A</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>GraphCommand<span class="pl-pds"><span class="pl-sg">]</span></span></span> <span class="pl-k">--&gt;</span> <span class="pl-ent">B</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>update<span class="pl-pds"><span class="pl-sg">]</span></span></span>
-  <span class="pl-ent">A</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">C</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>goto<span class="pl-pds"><span class="pl-sg">]</span></span></span>
-  <span class="pl-ent">A</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">D</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>send<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+<p><em>注：冒号用于控制列的对齐方式（左对齐、居中、右对齐）。</em></p>
+<hr>
+<h2>链接与媒体</h2>
+<h3>链接与图片</h3>
+<p><strong>Markdown 源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">[</span>访问谷歌<span class="pl-s">]</span><span class="pl-s">(</span><span class="pl-corl">https://www.google.com</span><span class="pl-s">)</span>
 
-  <span class="pl-ent">B</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">B1</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>更新状态<span class="pl-pds"><span class="pl-sg">]</span></span></span>
-  <span class="pl-ent">C</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">C1</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>流程控制<span class="pl-pds"><span class="pl-sg">]</span></span></span>
-  <span class="pl-ent">D</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">D1</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>消息传递<span class="pl-pds"><span class="pl-sg">]</span></span></span></pre></div>
-<div class="highlight highlight-source-mermaid"><pre class="notranslate"><span class="pl-k">graph</span> <span class="pl-ent">TD</span><span class="pl-sg">;</span>
-  <span class="pl-ent">A</span><span class="pl-k">--&gt;</span><span class="pl-ent">B</span><span class="pl-sg">;</span>
-  <span class="pl-ent">A</span><span class="pl-k">--&gt;</span><span class="pl-ent">C</span><span class="pl-sg">;</span>
-  <span class="pl-ent">B</span><span class="pl-k">--&gt;</span><span class="pl-ent">D</span><span class="pl-sg">;</span>
-  <span class="pl-ent">C</span><span class="pl-k">--&gt;</span><span class="pl-ent">D</span><span class="pl-sg">;</span></pre></div>
-<div class="highlight highlight-source-mermaid"><pre class="notranslate"><span class="pl-k">pie</span>
-  <span class="pl-k">title</span> <span class="pl-s">Key elements in Product X</span>
-  <span class="pl-s">"Calcium<span class="pl-pds">"</span></span> <span class="pl-k">:</span> <span class="pl-c1">42.96</span>
-  <span class="pl-s">"Potassium<span class="pl-pds">"</span></span> <span class="pl-k">:</span> <span class="pl-c1">50.05</span>
-  <span class="pl-s">"Magnesium<span class="pl-pds">"</span></span> <span class="pl-k">:</span> <span class="pl-c1">10.01</span>
-  <span class="pl-s">"Iron<span class="pl-pds">"</span></span> <span class="pl-k">:</span> <span class="pl-c1">5</span></pre></div>
-<div class="highlight highlight-source-mermaid"><pre class="notranslate"><span class="pl-k">pie</span>
-  <span class="pl-k">title</span> <span class="pl-s">为什么总是宅在家里？</span>
-  <span class="pl-s">"喜欢宅<span class="pl-pds">"</span></span> <span class="pl-k">:</span> <span class="pl-c1">45</span>
-  <span class="pl-s">"天气太热<span class="pl-pds">"</span></span> <span class="pl-k">:</span> <span class="pl-c1">70</span>
-  <span class="pl-s">"穷<span class="pl-pds">"</span></span> <span class="pl-k">:</span> <span class="pl-c1">500</span>
-  <span class="pl-s">"没人约<span class="pl-pds">"</span></span> <span class="pl-k">:</span> <span class="pl-c1">95</span></pre></div>
-<p>这种方式不仅能直观展示流程，还能提升文档的专业性。</p>
-<blockquote>
-<p>更多用法，参见：<a href="https://mermaid.js.org/intro/getting-started.html" rel="nofollow">Mermaid User Guide</a>。</p>
-</blockquote>
-<h3>3. PlantUML 流程图：可视化流程</h3>
-<p>PlantUML 是强大的可视化工具，可以在 Markdown 中创建流程图、时序图等。</p>
-<div class="highlight highlight-source-wsd"><pre class="notranslate"><span class="pl-k">@startuml</span>
-<span class="pl-k">participant</span> <span class="pl-c1">Participant</span> <span class="pl-k">as</span> <span class="pl-c1">Foo</span>
-<span class="pl-k">actor</span>       <span class="pl-c1">Actor</span>       <span class="pl-k">as</span> <span class="pl-c1">Foo1</span>
-<span class="pl-k">boundary</span>    <span class="pl-c1">Boundary</span>    <span class="pl-k">as</span> <span class="pl-c1">Foo2</span>
-<span class="pl-k">control</span>     <span class="pl-c1">Control</span>     <span class="pl-k">as</span> <span class="pl-c1">Foo3</span>
-<span class="pl-k">entity</span>      <span class="pl-c1">Entity</span>      <span class="pl-k">as</span> <span class="pl-c1">Foo4</span>
-<span class="pl-k">database</span>    <span class="pl-c1">Database</span>    <span class="pl-k">as</span> <span class="pl-c1">Foo5</span>
-<span class="pl-k">collections</span> <span class="pl-c1">Collections</span> <span class="pl-k">as</span> <span class="pl-c1">Foo6</span>
-<span class="pl-k">queue</span>       <span class="pl-c1">Queue</span>       <span class="pl-k">as</span> <span class="pl-c1">Foo7</span>
-<span class="pl-c1">Foo</span> <span class="pl-k">-&gt;</span> <span class="pl-c1">Foo1</span> : To actor
-<span class="pl-c1">Foo</span> <span class="pl-k">-&gt;</span> <span class="pl-c1">Foo2</span> : To boundary
-<span class="pl-c1">Foo</span> <span class="pl-k">-&gt;</span> <span class="pl-c1">Foo3</span> : To control
-<span class="pl-c1">Foo</span> <span class="pl-k">-&gt;</span> <span class="pl-c1">Foo4</span> : To entity
-<span class="pl-c1">Foo</span> <span class="pl-k">-&gt;</span> <span class="pl-c1">Foo5</span> : To database
-<span class="pl-c1">Foo</span> <span class="pl-k">-&gt;</span> <span class="pl-c1">Foo6</span> : To collections
-<span class="pl-c1">Foo</span> <span class="pl-k">-&gt;</span> <span class="pl-c1">Foo7</span>: To queue
-<span class="pl-k">@enduml</span></pre></div>
-<blockquote>
-<p>更多用法，参见：<a href="https://plantuml.com/zh/" rel="nofollow">PlantUML 主页</a>。</p>
-</blockquote>
-<h3>4. Ruby 注音：注音标注</h3>
-<p>支持两种格式：</p>
-<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">1</span><span class="pl-v">.</span> <span class="pl-s">[</span>文字<span class="pl-s">]</span>{注音}
-<span class="pl-s">2</span><span class="pl-v">.</span> <span class="pl-s">[</span>文字<span class="pl-s">]</span>^(注音)</pre></div>
-<p>渲染效果如下：</p>
-<p>[你好]{nǐ hǎo} [世界]{shì jiè}</p>
-<p>支持四种分隔符： <code class="notranslate">・</code>（中点）、<code class="notranslate">．</code> (全角句点)、<code class="notranslate">。</code> (中文句号)、<code class="notranslate">-</code> (英文减号)</p>
-<p>示例：</p>
-<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">[</span>你好世界<span class="pl-s">]</span>{nǐ・hǎo・shì・jiè}
-<span class="pl-s">[</span>小夜時雨<span class="pl-s">]</span>^(さ・よ・しぐれ)</pre></div>
-<p>[你好世界]{nǐ・hǎo・shì・jiè}<br>
-[小夜時雨]^(さ・よ・しぐれ)</p>
-<p>当字符串数量与分隔符数量不匹配时，会自动匹配到最合适的分隔符。</p>
-<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">[</span>小夜時雨<span class="pl-s">]</span>{さ・よ・しぐれ}
-<span class="pl-s">[</span>小夜時雨<span class="pl-s">]</span>{さ・よ}
-<span class="pl-s">[</span>小夜<span class="pl-s">]</span>{さ・よ・しぐれ}
-<span class="pl-s">[</span>小夜時雨<span class="pl-s">]</span>{さ・よ・しぐれ・extra}</pre></div>
-<p>[小夜時雨]{さ・よ・しぐれ}<br>
-[小夜時雨]{さ・よ}<br>
-[小夜]{さ・よ・しぐれ}<br>
-[小夜時雨]{さ・よ・しぐれ・extra}</p>
-<h2>结语</h2>
-<p>Markdown 是一种简单、强大且易于掌握的标记语言，通过学习基础和进阶语法，你可以快速创作内容并有效传达信息。无论是技术文档、个人博客还是项目说明，Markdown 都是你的得力助手。希望这篇内容能够带你全面了解 Markdown 的潜力，让你的写作更加丰富多彩！</p>
-<p>现在，拿起 Markdown 编辑器，开始创作吧！探索 Markdown 的世界，你会发现它远比想象中更精彩！</p></div>
+这是一个带有鼠标悬停提示的链接：
+<span class="pl-s">[</span>Markdown 官网<span class="pl-s">]</span><span class="pl-s">(</span><span class="pl-corl">https://daringfireball.net/projects/markdown/</span> <span class="pl-s">"</span><span class="pl-s">Markdown Official</span><span class="pl-s">")</span>
+
+图片示例：
+<span class="pl-s">![</span>风景图<span class="pl-s">]</span><span class="pl-s">(</span><span class="pl-corl">https://images.unsplash.com/photo-1472214103451-9374bd1c798e?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;w=600&amp;q=80</span><span class="pl-s">)</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<p><a href="https://www.google.com" rel="nofollow">访问谷歌</a></p>
+<p>这是一个带有鼠标悬停提示的链接：<br>
+<a href="https://daringfireball.net/projects/markdown/" title="Markdown Official" rel="nofollow">Markdown 官网</a></p>
+<p>图片示例：<br>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/5084ee5a439f22eae6305dd0265702afd0ef38f8aef2367947dc72e50d1a6272/68747470733a2f2f696d616765732e756e73706c6173682e636f6d2f70686f746f2d313437323231343130333435312d3933373462643163373938653f69786c69623d72622d342e302e3326697869643d4d3377784d6a413366444238664878386647567566444238664878386641253344253344266175746f3d666f726d6174266669743d63726f7026773d36303026713d3830"><img src="https://camo.githubusercontent.com/5084ee5a439f22eae6305dd0265702afd0ef38f8aef2367947dc72e50d1a6272/68747470733a2f2f696d616765732e756e73706c6173682e636f6d2f70686f746f2d313437323231343130333435312d3933373462643163373938653f69786c69623d72622d342e302e3326697869643d4d3377784d6a413366444238664878386647567566444238664878386641253344253344266175746f3d666f726d6174266669743d63726f7026773d36303026713d3830" alt="风景图" data-canonical-src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8fHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;w=600&amp;q=80" style="max-width: 100%;"></a></p>
+<hr>
+<h2>数学公式 (LaTeX)</h2>
+<h3>行内与块级公式</h3>
+<p><strong>Markdown 源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate">行内公式：质能方程 $E = mc^2$ 是物理学中最著名的公式之一。
+
+块级公式（二次方程求根公式）：
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span>
+
+复杂公式示例：
+
+<span class="pl-s">$$</span><span class="pl-c1"></span>
+<span class="pl-c1">f(x) = \int_{-\infty}^\infty \hat f(\xi)\,e^{2\pi i \xi x} \,d\xi</span>
+<span class="pl-c1"></span><span class="pl-s">$$</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<p>行内公式：质能方程 $E = mc^2$ 是物理学中最著名的公式之一。</p>
+<p>块级公式（二次方程求根公式）：</p>
+<p>$$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$</p>
+<p>复杂公式示例：</p>
+<p>$$f(x) = \int_{-\infty}^\infty \hat f(\xi),e^{2\pi i \xi x} ,d\xi$$</p>
+<hr>
+<h2>图表 (Mermaid)</h2>
+<h3>流程图 (Flowchart)</h3>
+<p><strong>Markdown 源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">```</span><span class="pl-en">mermaid</span><span class="pl-c1"></span>
+<span class="pl-c1">graph TD</span>
+<span class="pl-c1">    A[开始] --&gt; B{是否注册?}</span>
+<span class="pl-c1">    B -- 是 --&gt; C[登录]</span>
+<span class="pl-c1">    B -- 否 --&gt; D[去注册]</span>
+<span class="pl-c1">    D --&gt; C</span>
+<span class="pl-c1">    C --&gt; E[进入首页]</span>
+<span class="pl-c1">    E --&gt; F[结束]</span>
+<span class="pl-c1"></span><span class="pl-s">```</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<div class="highlight highlight-source-mermaid"><pre class="notranslate"><span class="pl-k">graph</span> <span class="pl-c1">TD</span>
+    <span class="pl-ent">A</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>开始<span class="pl-pds"><span class="pl-sg">]</span></span></span> <span class="pl-k">--&gt;</span> <span class="pl-ent">B</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">{</span></span>是否注册?<span class="pl-pds"><span class="pl-sg">}</span></span></span>
+    <span class="pl-ent">B</span> <span class="pl-k">--</span> <span class="pl-s">是</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">C</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>登录<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+    <span class="pl-ent">B</span> <span class="pl-k">--</span> <span class="pl-s">否</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">D</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>去注册<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+    <span class="pl-ent">D</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">C</span>
+    <span class="pl-ent">C</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">E</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>进入首页<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+    <span class="pl-ent">E</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">F</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>结束<span class="pl-pds"><span class="pl-sg">]</span></span></span></pre></div>
+<hr>
+<h3>时序图 (Sequence Diagram)</h3>
+<p><strong>Markdown 源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">```</span><span class="pl-en">mermaid</span><span class="pl-c1"></span>
+<span class="pl-c1">sequenceDiagram</span>
+<span class="pl-c1">    participant 用户</span>
+<span class="pl-c1">    participant 系统</span>
+<span class="pl-c1">    participant 数据库</span>
+<span class="pl-c1"></span>
+<span class="pl-c1">    用户-&gt;&gt;系统: 发起请求</span>
+<span class="pl-c1">    系统-&gt;&gt;数据库: 查询数据</span>
+<span class="pl-c1">    数据库--&gt;&gt;系统: 返回数据</span>
+<span class="pl-c1">    系统--&gt;&gt;用户: 显示结果</span>
+<span class="pl-c1"></span><span class="pl-s">```</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<div class="highlight highlight-source-mermaid"><pre class="notranslate"><span class="pl-k">sequenceDiagram</span>
+    <span class="pl-k">participant</span> <span class="pl-ent">用户</span>
+    <span class="pl-k">participant</span> <span class="pl-ent">系统</span>
+    <span class="pl-k">participant</span> <span class="pl-ent">数据库</span>
+
+    <span class="pl-ent">用户</span><span class="pl-k">-&gt;&gt;</span><span class="pl-ent">系统</span><span class="pl-k">:</span> <span class="pl-s">发起请求</span>
+    <span class="pl-ent">系统</span><span class="pl-k">-&gt;&gt;</span><span class="pl-ent">数据库</span><span class="pl-k">:</span> <span class="pl-s">查询数据</span>
+    <span class="pl-ent">数据库</span><span class="pl-k">--&gt;&gt;</span><span class="pl-ent">系统</span><span class="pl-k">:</span> <span class="pl-s">返回数据</span>
+    <span class="pl-ent">系统</span><span class="pl-k">--&gt;&gt;</span><span class="pl-ent">用户</span><span class="pl-k">:</span> <span class="pl-s">显示结果</span></pre></div>
+<hr>
+<h3>甘特图 (Gantt Chart)</h3>
+<p><strong>Markdown 源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">```</span><span class="pl-en">mermaid</span><span class="pl-c1"></span>
+<span class="pl-c1">gantt</span>
+<span class="pl-c1">    title 项目开发计划</span>
+<span class="pl-c1">    dateFormat  YYYY-MM-DD</span>
+<span class="pl-c1">    section 设计阶段</span>
+<span class="pl-c1">    需求分析       :a1, 2023-01-01, 7d</span>
+<span class="pl-c1">    UI设计         :after a1, 5d</span>
+<span class="pl-c1">    section 开发阶段</span>
+<span class="pl-c1">    前端开发       :2023-01-13, 10d</span>
+<span class="pl-c1">    后端开发       :2023-01-13, 12d</span>
+<span class="pl-c1">    section 测试阶段</span>
+<span class="pl-c1">    功能测试       :2023-01-25, 5d</span>
+<span class="pl-c1"></span><span class="pl-s">```</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<div class="highlight highlight-source-mermaid"><pre class="notranslate"><span class="pl-k">gantt</span>
+    <span class="pl-k">title</span> <span class="pl-s">项目开发计划</span>
+    <span class="pl-k">dateFormat</span>  <span class="pl-s"><span class="pl-c1">YYYY</span>-<span class="pl-c1">MM</span>-<span class="pl-c1">DD</span></span>
+    <span class="pl-k">section</span> <span class="pl-s">设计阶段</span>
+    <span class="pl-e">需求分析      </span> <span class="pl-k">:</span><span class="pl-en">a1</span><span class="pl-sg">,</span> <span class="pl-c1">2023-01-01</span><span class="pl-sg">,</span> <span class="pl-c1">7</span><span class="pl-k">d</span>
+    <span class="pl-e">UI设计        </span> <span class="pl-k">:</span><span class="pl-k">after</span> <span class="pl-en">a1</span><span class="pl-sg">,</span> <span class="pl-c1">5</span><span class="pl-k">d</span>
+    <span class="pl-k">section</span> <span class="pl-s">开发阶段</span>
+    <span class="pl-e">前端开发      </span> <span class="pl-k">:</span><span class="pl-c1">2023-01-13</span><span class="pl-sg">,</span> <span class="pl-c1">10</span><span class="pl-k">d</span>
+    <span class="pl-e">后端开发      </span> <span class="pl-k">:</span><span class="pl-c1">2023-01-13</span><span class="pl-sg">,</span> <span class="pl-c1">12</span><span class="pl-k">d</span>
+    <span class="pl-k">section</span> <span class="pl-s">测试阶段</span>
+    <span class="pl-e">功能测试      </span> <span class="pl-k">:</span><span class="pl-c1">2023-01-25</span><span class="pl-sg">,</span> <span class="pl-c1">5</span><span class="pl-k">d</span></pre></div>
+<hr></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
