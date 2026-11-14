@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark_colorblind" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    <script src='https://blog.meekdai.com/Gmeek/plugins/GmeekVercount.js'></script>
+    <link rel="icon" href="https://raw.githubusercontent.com/pigrass/pigrass.github.io/bcada41e2e0dfd929b69f443dbe667b903d5d88d/avatar.png"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="> 引用:https://www.markdownassistant.com/zh/mermaid
+
+Mermaid 语法指南：流程图、时序图、类图、状态图、ER 图、甘特图与饼图的完整语法示例，每例均有实时渲染预览，可直接复制到 Markdown 编辑器中使用。">
+<meta property="og:title" content="Mermaid 图表语法指南">
+<meta property="og:description" content="> 引用:https://www.markdownassistant.com/zh/mermaid
+
+Mermaid 语法指南：流程图、时序图、类图、状态图、ER 图、甘特图与饼图的完整语法示例，每例均有实时渲染预览，可直接复制到 Markdown 编辑器中使用。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://pigrass.github.io/post/12.html">
+<meta property="og:image" content="https://raw.githubusercontent.com/pigrass/pigrass.github.io/bcada41e2e0dfd929b69f443dbe667b903d5d88d/avatar.png">
+<title>Mermaid 图表语法指南</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">Mermaid 图表语法指南</h1>
+<div class="title-right">
+    <a href="https://pigrass.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/pigrass/pigrass.github.io/issues/12" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><blockquote>
+<p>引用:<a href="https://www.markdownassistant.com/zh/mermaid" rel="nofollow">https://www.markdownassistant.com/zh/mermaid</a></p>
+</blockquote>
+<p>Mermaid 语法指南：流程图、时序图、类图、状态图、ER 图、甘特图与饼图的完整语法示例，每例均有实时渲染预览，可直接复制到 Markdown 编辑器中使用。</p>
+<h2>快速上手</h2>
+<h3>在 Markdown 中使用 Mermaid</h3>
+<p>Mermaid 是一种用文本描述生成图表的语法，Markdown 编辑器会把 <code class="notranslate">mermaid</code> 代码块渲染成流程图、时序图、甘特图等图表。你只需要写几行文本，无需任何绘图软件。</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">```</span><span class="pl-en">mermaid</span><span class="pl-c1"></span>
+<span class="pl-c1">graph TD</span>
+<span class="pl-c1">A[写下 Mermaid 代码] --&gt; B[编辑器实时渲染]</span>
+<span class="pl-c1">B --&gt; C[复制到文档或导出 PDF]</span>
+<span class="pl-c1"></span><span class="pl-s">```</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<div class="highlight highlight-source-mermaid"><pre class="notranslate"><span class="pl-k">graph</span> <span class="pl-c1">TD</span>
+<span class="pl-ent">A</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>写下 Mermaid 代码<span class="pl-pds"><span class="pl-sg">]</span></span></span> <span class="pl-k">--&gt;</span> <span class="pl-ent">B</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>编辑器实时渲染<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+<span class="pl-ent">B</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">C</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>复制到文档或导出 PDF<span class="pl-pds"><span class="pl-sg">]</span></span></span></pre></div>
+<p>编写时注意三点：代码块语言标记必须写成 <code class="notranslate">mermaid</code>；每行指令从行首开始（不要混用 Tab 与空格缩进）；图表声明（如 <code class="notranslate">graph TD</code>）必须是第一行。</p>
+<h3>第一个流程图：方向与连线</h3>
+<p><code class="notranslate">graph TD</code> 声明一个自上而下（Top-Down）的流程图，<code class="notranslate">graph LR</code> 则是从左到右（Left-Right）。节点用任意标识符命名，<code class="notranslate">--&gt;</code> 表示箭头连线：</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">```</span><span class="pl-en">mermaid</span><span class="pl-c1"></span>
+<span class="pl-c1">graph LR</span>
+<span class="pl-c1">A[起草] --&gt; B[编辑]</span>
+<span class="pl-c1">B --&gt; C{满意?}</span>
+<span class="pl-c1">C --&gt;|是| D[发布]</span>
+<span class="pl-c1">C --&gt;|否| B</span>
+<span class="pl-c1"></span><span class="pl-s">```</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<div class="highlight highlight-source-mermaid"><pre class="notranslate"><span class="pl-k">graph</span> <span class="pl-c1">LR</span>
+<span class="pl-ent">A</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>起草<span class="pl-pds"><span class="pl-sg">]</span></span></span> <span class="pl-k">--&gt;</span> <span class="pl-ent">B</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>编辑<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+<span class="pl-ent">B</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">C</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">{</span></span>满意?<span class="pl-pds"><span class="pl-sg">}</span></span></span>
+<span class="pl-ent">C</span> <span class="pl-k">--&gt;</span><span class="pl-k">|</span><span class="pl-s">是</span><span class="pl-k">|</span> <span class="pl-ent">D</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>发布<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+<span class="pl-ent">C</span> <span class="pl-k">--&gt;</span><span class="pl-k">|</span><span class="pl-s">否</span><span class="pl-k">|</span> <span class="pl-ent">B</span></pre></div>
+<p>把 <code class="notranslate">TD</code> 换成 <code class="notranslate">LR</code>、<code class="notranslate">BT</code>、<code class="notranslate">RL</code> 可以得到四个方向的布局。相同标识符的节点只会出现一次，重复写连线即可表达分支与循环。</p>
+<h2>流程图（Flowchart）</h2>
+<h3>节点形状</h3>
+<p>不同的括号代表不同的节点形状，用于区分普通步骤、判断、起止等：</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">```</span><span class="pl-en">mermaid</span><span class="pl-c1"></span>
+<span class="pl-c1">graph TD</span>
+<span class="pl-c1">A[矩形：普通步骤]</span>
+<span class="pl-c1">B(圆角：开始或结束)</span>
+<span class="pl-c1">C{菱形：判断条件}</span>
+<span class="pl-c1">D((圆形：连接点))</span>
+<span class="pl-c1">E([体育场形：流程起止])</span>
+<span class="pl-c1">F[(圆柱：数据库)]</span>
+<span class="pl-c1">A --&gt; B --&gt; C</span>
+<span class="pl-c1">C --&gt; D</span>
+<span class="pl-c1">C --&gt; E</span>
+<span class="pl-c1">D --&gt; F</span>
+<span class="pl-c1"></span><span class="pl-s">```</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<div class="highlight highlight-source-mermaid"><pre class="notranslate"><span class="pl-k">graph</span> <span class="pl-c1">TD</span>
+<span class="pl-ent">A</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>矩形：普通步骤<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+<span class="pl-ent">B</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">(</span></span>圆角：开始或结束<span class="pl-pds"><span class="pl-sg">)</span></span></span>
+<span class="pl-ent">C</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">{</span></span>菱形：判断条件<span class="pl-pds"><span class="pl-sg">}</span></span></span>
+<span class="pl-ent">D</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">((</span></span>圆形：连接点<span class="pl-pds"><span class="pl-sg">))</span></span></span>
+<span class="pl-ent">E</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">([</span></span>体育场形：流程起止<span class="pl-pds"><span class="pl-sg">])</span></span></span>
+<span class="pl-ent">F</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[(</span></span>圆柱：数据库<span class="pl-pds"><span class="pl-sg">)]</span></span></span>
+<span class="pl-ent">A</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">B</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">C</span>
+<span class="pl-ent">C</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">D</span>
+<span class="pl-ent">C</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">E</span>
+<span class="pl-ent">D</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">F</span></pre></div>
+<p>如果节点文字里包含括号、引号等特殊字符，用引号包裹文字即可：<code class="notranslate">A["含(括号)的文字"]</code>。</p>
+<h3>连线样式与标签</h3>
+<p>连线支持实线、虚线、粗线三种样式，还可以在连线上标注文字：</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">```</span><span class="pl-en">mermaid</span><span class="pl-c1"></span>
+<span class="pl-c1">graph LR</span>
+<span class="pl-c1">A --&gt; B[实线箭头]</span>
+<span class="pl-c1">B -.- C[虚线无箭头]</span>
+<span class="pl-c1">C -.-&gt; D[虚线箭头]</span>
+<span class="pl-c1">D ==&gt; E[粗线箭头]</span>
+<span class="pl-c1">E -- 带文字的连线 --&gt; F[目标]</span>
+<span class="pl-c1">F --&gt;|另一种写法| G[目标]</span>
+<span class="pl-c1"></span><span class="pl-s">```</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<div class="highlight highlight-source-mermaid"><pre class="notranslate"><span class="pl-k">graph</span> <span class="pl-c1">LR</span>
+<span class="pl-ent">A</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">B</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>实线箭头<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+<span class="pl-ent">B</span> <span class="pl-k">-.-</span> <span class="pl-ent">C</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>虚线无箭头<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+<span class="pl-ent">C</span> <span class="pl-k">-.-&gt;</span> <span class="pl-ent">D</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>虚线箭头<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+<span class="pl-ent">D</span> <span class="pl-k">==&gt;</span> <span class="pl-ent">E</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>粗线箭头<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+<span class="pl-ent">E</span> <span class="pl-k">--</span> <span class="pl-s">带文字的连线</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">F</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>目标<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+<span class="pl-ent">F</span> <span class="pl-k">--&gt;</span><span class="pl-k">|</span><span class="pl-s">另一种写法</span><span class="pl-k">|</span> <span class="pl-ent">G</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>目标<span class="pl-pds"><span class="pl-sg">]</span></span></span></pre></div>
+<p>用箭头长度还能控制间距：<code class="notranslate">---&gt;</code> 比 <code class="notranslate">--&gt;</code> 更长。标签写法 <code class="notranslate">-- 文字 --&gt;</code> 与 <code class="notranslate">--&gt;|文字|</code> 效果相同，选一种保持全文统一即可。</p>
+<h3>子图（Subgraph）分组</h3>
+<p><code class="notranslate">subgraph ... end</code> 把相关节点圈成一个分组，常用于划分模块或角色，配合连线表达模块间调用：</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">```</span><span class="pl-en">mermaid</span><span class="pl-c1"></span>
+<span class="pl-c1">graph TB</span>
+<span class="pl-c1">subgraph 前端</span>
+<span class="pl-c1">P[编辑页面] --&gt; V[实时预览]</span>
+<span class="pl-c1">end</span>
+<span class="pl-c1">subgraph 后端静态托管</span>
+<span class="pl-c1">S[静态资源] --&gt; H[HTML 文档]</span>
+<span class="pl-c1">end</span>
+<span class="pl-c1">P --&gt; S</span>
+<span class="pl-c1">V --&gt; H</span>
+<span class="pl-c1"></span><span class="pl-s">```</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<div class="highlight highlight-source-mermaid"><pre class="notranslate"><span class="pl-k">graph</span> <span class="pl-c1">TB</span>
+<span class="pl-k">subgraph</span> 前端
+<span class="pl-ent">P</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>编辑页面<span class="pl-pds"><span class="pl-sg">]</span></span></span> <span class="pl-k">--&gt;</span> <span class="pl-ent">V</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>实时预览<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+<span class="pl-k">end</span>
+<span class="pl-k">subgraph</span> 后端静态托管
+<span class="pl-ent">S</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>静态资源<span class="pl-pds"><span class="pl-sg">]</span></span></span> <span class="pl-k">--&gt;</span> <span class="pl-ent">H</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>HTML 文档<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+<span class="pl-k">end</span>
+<span class="pl-ent">P</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">S</span>
+<span class="pl-ent">V</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">H</span></pre></div>
+<p>子图内还可以用 <code class="notranslate">direction LR</code> 单独指定这一组的布局方向，例如 <code class="notranslate">subgraph 前端</code> 下一行写 <code class="notranslate">direction LR</code>。</p>
+<h2>时序图（Sequence Diagram）</h2>
+<h3>参与者与消息</h3>
+<p><code class="notranslate">sequenceDiagram</code> 声明时序图，<code class="notranslate">participant</code> 定义参与者，<code class="notranslate">-&gt;&gt;</code> 实线箭头表示请求，<code class="notranslate">--&gt;&gt;</code> 虚线箭头表示响应。加上 <code class="notranslate">autonumber</code> 可以为每条消息自动编号：</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">```</span><span class="pl-en">mermaid</span><span class="pl-c1"></span>
+<span class="pl-c1">sequenceDiagram</span>
+<span class="pl-c1">autonumber</span>
+<span class="pl-c1">participant U as 用户</span>
+<span class="pl-c1">participant E as 编辑器</span>
+<span class="pl-c1">participant S as 导出服务</span>
+<span class="pl-c1">U-&gt;&gt;E: 点击导出 PDF</span>
+<span class="pl-c1">E-&gt;&gt;S: 提交文档内容</span>
+<span class="pl-c1">S--&gt;&gt;E: 返回 PDF 文件</span>
+<span class="pl-c1">E--&gt;&gt;U: 触发浏览器下载</span>
+<span class="pl-c1"></span><span class="pl-s">```</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<div class="highlight highlight-source-mermaid"><pre class="notranslate"><span class="pl-k">sequenceDiagram</span>
+<span class="pl-k">autonumber</span>
+<span class="pl-k">participant</span> <span class="pl-ent">U</span> <span class="pl-k">as</span> <span class="pl-ent">用户</span>
+<span class="pl-k">participant</span> <span class="pl-ent">E</span> <span class="pl-k">as</span> <span class="pl-ent">编辑器</span>
+<span class="pl-k">participant</span> <span class="pl-ent">S</span> <span class="pl-k">as</span> <span class="pl-ent">导出服务</span>
+<span class="pl-ent">U</span><span class="pl-k">-&gt;&gt;</span><span class="pl-ent">E</span><span class="pl-k">:</span> <span class="pl-s">点击导出 PDF</span>
+<span class="pl-ent">E</span><span class="pl-k">-&gt;&gt;</span><span class="pl-ent">S</span><span class="pl-k">:</span> <span class="pl-s">提交文档内容</span>
+<span class="pl-ent">S</span><span class="pl-k">--&gt;&gt;</span><span class="pl-ent">E</span><span class="pl-k">:</span> <span class="pl-s">返回 PDF 文件</span>
+<span class="pl-ent">E</span><span class="pl-k">--&gt;&gt;</span><span class="pl-ent">U</span><span class="pl-k">:</span> <span class="pl-s">触发浏览器下载</span></pre></div>
+<p>参与者按声明顺序从左到右排列；<code class="notranslate">as</code> 后面是显示名称，不写则直接显示标识符。</p>
+<h3>激活与生命周期</h3>
+<p><code class="notranslate">activate</code>/<code class="notranslate">deactivate</code> 标记参与者的活跃时段（生命线上的矩形），也可以直接在消息末尾用 <code class="notranslate">+</code>（激活）和 <code class="notranslate">-</code>（结束）简写：</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">```</span><span class="pl-en">mermaid</span><span class="pl-c1"></span>
+<span class="pl-c1">sequenceDiagram</span>
+<span class="pl-c1">participant U as 用户</span>
+<span class="pl-c1">participant A as 应用</span>
+<span class="pl-c1">participant D as 数据库</span>
+<span class="pl-c1">U-&gt;&gt;+A: 请求文档列表</span>
+<span class="pl-c1">A-&gt;&gt;+D: 查询数据</span>
+<span class="pl-c1">D--&gt;&gt;-A: 返回结果</span>
+<span class="pl-c1">A--&gt;&gt;-U: 渲染列表</span>
+<span class="pl-c1"></span><span class="pl-s">```</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<div class="highlight highlight-source-mermaid"><pre class="notranslate"><span class="pl-k">sequenceDiagram</span>
+<span class="pl-k">participant</span> <span class="pl-ent">U</span> <span class="pl-k">as</span> <span class="pl-ent">用户</span>
+<span class="pl-k">participant</span> <span class="pl-ent">A</span> <span class="pl-k">as</span> <span class="pl-ent">应用</span>
+<span class="pl-k">participant</span> <span class="pl-ent">D</span> <span class="pl-k">as</span> <span class="pl-ent">数据库</span>
+<span class="pl-ent">U</span><span class="pl-k">-&gt;&gt;</span><span class="pl-k">+</span><span class="pl-ent">A</span><span class="pl-k">:</span> <span class="pl-s">请求文档列表</span>
+<span class="pl-ent">A</span><span class="pl-k">-&gt;&gt;</span><span class="pl-k">+</span><span class="pl-ent">D</span><span class="pl-k">:</span> <span class="pl-s">查询数据</span>
+<span class="pl-ent">D</span><span class="pl-k">--&gt;&gt;</span><span class="pl-k">-</span><span class="pl-ent">A</span><span class="pl-k">:</span> <span class="pl-s">返回结果</span>
+<span class="pl-ent">A</span><span class="pl-k">--&gt;&gt;</span><span class="pl-k">-</span><span class="pl-ent">U</span><span class="pl-k">:</span> <span class="pl-s">渲染列表</span></pre></div>
+<p><code class="notranslate">+</code> 出现在目标参与者一侧，<code class="notranslate">-</code> 用于配对结束。配对使用能清楚表达调用栈的进入与退出。</p>
+<h3>注释与结构块</h3>
+<p><code class="notranslate">note</code> 添加注释，<code class="notranslate">loop</code>、<code class="notranslate">alt/else</code>、<code class="notranslate">opt</code>、<code class="notranslate">par</code> 等结构块表达循环、分支与并行：</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">```</span><span class="pl-en">mermaid</span><span class="pl-c1"></span>
+<span class="pl-c1">sequenceDiagram</span>
+<span class="pl-c1">participant U as 用户</span>
+<span class="pl-c1">participant S as 搜索服务</span>
+<span class="pl-c1">U-&gt;&gt;S: 输入关键词</span>
+<span class="pl-c1">loop 防抖等待</span>
+<span class="pl-c1">S-&gt;&gt;S: 延迟 300ms 合并请求</span>
+<span class="pl-c1">end</span>
+<span class="pl-c1">alt 命中结果</span>
+<span class="pl-c1">S--&gt;&gt;U: 返回搜索建议</span>
+<span class="pl-c1">else 无结果</span>
+<span class="pl-c1">S--&gt;&gt;U: 返回空列表</span>
+<span class="pl-c1">end</span>
+<span class="pl-c1">Note over U,S: 交互结束</span>
+<span class="pl-c1"></span><span class="pl-s">```</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<div class="highlight highlight-source-mermaid"><pre class="notranslate"><span class="pl-k">sequenceDiagram</span>
+<span class="pl-k">participant</span> <span class="pl-ent">U</span> <span class="pl-k">as</span> <span class="pl-ent">用户</span>
+<span class="pl-k">participant</span> <span class="pl-ent">S</span> <span class="pl-k">as</span> <span class="pl-ent">搜索服务</span>
+<span class="pl-ent">U</span><span class="pl-k">-&gt;&gt;</span><span class="pl-ent">S</span><span class="pl-k">:</span> <span class="pl-s">输入关键词</span>
+<span class="pl-k">loop</span> <span class="pl-s">防抖等待</span>
+<span class="pl-ent">S</span><span class="pl-k">-&gt;&gt;</span><span class="pl-ent">S</span><span class="pl-k">:</span> <span class="pl-s">延迟 300ms 合并请求</span>
+<span class="pl-k">end</span>
+<span class="pl-k">alt</span> <span class="pl-s">命中结果</span>
+<span class="pl-ent">S</span><span class="pl-k">--&gt;&gt;</span><span class="pl-ent">U</span><span class="pl-k">:</span> <span class="pl-s">返回搜索建议</span>
+<span class="pl-k">else</span> <span class="pl-s">无结果</span>
+<span class="pl-ent">S</span><span class="pl-k">--&gt;&gt;</span><span class="pl-ent">U</span><span class="pl-k">:</span> <span class="pl-s">返回空列表</span>
+<span class="pl-k">end</span>
+<span class="pl-k">Note over </span><span class="pl-ent">U</span><span class="pl-sg">,</span><span class="pl-ent">S</span><span class="pl-k">:</span> <span class="pl-s">交互结束</span></pre></div>
+<p><code class="notranslate">note left of</code>、<code class="notranslate">note right of</code> 控制注释位置，<code class="notranslate">note over A,B</code> 让注释横跨多个参与者。</p>
+<h2>类图与状态图</h2>
+<h3>类图（Class Diagram）</h3>
+<p><code class="notranslate">classDiagram</code> 描述类、成员与关系。<code class="notranslate">+</code>、<code class="notranslate">-</code>、<code class="notranslate">#</code> 分别表示公有、私有、受保护；<code class="notranslate">--&gt;</code> 实线关联、<code class="notranslate">..&gt;</code> 虚线依赖、<code class="notranslate">&lt;\|--</code> 继承、<code class="notranslate">&lt;\|..&gt;</code> 实现：</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">```</span><span class="pl-en">mermaid</span><span class="pl-c1"></span>
+<span class="pl-c1">classDiagram</span>
+<span class="pl-c1">class Editor {</span>
+<span class="pl-c1">+String content</span>
+<span class="pl-c1">+render() void</span>
+<span class="pl-c1">+exportTo(format) File</span>
+<span class="pl-c1">-autoSave() void</span>
+<span class="pl-c1">}</span>
+<span class="pl-c1">class Exporter {</span>
+<span class="pl-c1">+toPDF() File</span>
+<span class="pl-c1">+toHTML() File</span>
+<span class="pl-c1">}</span>
+<span class="pl-c1">class Renderer {</span>
+<span class="pl-c1">&lt;&lt;interface&gt;&gt;</span>
+<span class="pl-c1">+render() void</span>
+<span class="pl-c1">}</span>
+<span class="pl-c1">Editor --&gt; Exporter : 调用导出</span>
+<span class="pl-c1">Editor ..&gt; Renderer : 依赖渲染</span>
+<span class="pl-c1">Renderer &lt;|.. VditorRenderer : 实现</span>
+<span class="pl-c1"></span><span class="pl-s">```</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<div class="highlight highlight-source-mermaid"><pre class="notranslate"><span class="pl-k">classDiagram</span>
+<span class="pl-k">class</span> <span class="pl-en">Editor</span> <span class="pl-sg">{</span>
+<span class="pl-k"><span class="pl-sg">+</span></span><span class="pl-k">String</span> <span class="pl-en">content</span>
+<span class="pl-k"><span class="pl-sg">+</span></span><span class="pl-en">render</span>() <span class="pl-k">void</span>
+<span class="pl-k"><span class="pl-sg">+</span></span><span class="pl-en">exportTo</span>(<span class="pl-v">format</span>) <span class="pl-k">File</span>
+<span class="pl-k"><span class="pl-sg">-</span></span><span class="pl-en">autoSave</span>() <span class="pl-k">void</span>
+<span class="pl-sg">}</span>
+<span class="pl-k">class</span> <span class="pl-en">Exporter</span> <span class="pl-sg">{</span>
+<span class="pl-k"><span class="pl-sg">+</span></span><span class="pl-en">toPDF</span>() <span class="pl-k">File</span>
+<span class="pl-k"><span class="pl-sg">+</span></span><span class="pl-en">toHTML</span>() <span class="pl-k">File</span>
+<span class="pl-sg">}</span>
+<span class="pl-k">class</span> <span class="pl-en">Renderer</span> <span class="pl-sg">{</span>
+<span class="pl-sg">&lt;&lt;</span><span class="pl-ent">interface</span><span class="pl-sg">&gt;&gt;</span>
+<span class="pl-k"><span class="pl-sg">+</span></span><span class="pl-en">render</span>() <span class="pl-k">void</span>
+<span class="pl-sg">}</span>
+<span class="pl-en">Editor</span> <span class="pl-k">--&gt;</span> <span class="pl-en">Exporter</span> <span class="pl-k">:</span> <span class="pl-s">调用导出</span>
+<span class="pl-en">Editor</span> <span class="pl-k">..&gt;</span> <span class="pl-en">Renderer</span> <span class="pl-k">:</span> <span class="pl-s">依赖渲染</span>
+<span class="pl-en">Renderer</span> <span class="pl-k">&lt;|..</span> <span class="pl-en">VditorRenderer</span> <span class="pl-k">:</span> <span class="pl-s">实现</span></pre></div>
+<p>关系上的 <code class="notranslate">:</code> 后可以写中文说明；<code class="notranslate">&lt;&lt;interface&gt;&gt;</code> 这类构造型注解放在成员列表第一行。</p>
+<h3>状态图（State Diagram）</h3>
+<p><code class="notranslate">stateDiagram-v2</code> 描述状态与迁移，<code class="notranslate">[*]</code> 表示初始与结束状态，<code class="notranslate">--&gt;</code> 上的 <code class="notranslate">:</code> 后写触发事件：</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">```</span><span class="pl-en">mermaid</span><span class="pl-c1"></span>
+<span class="pl-c1">stateDiagram-v2</span>
+<span class="pl-c1">[*] --&gt; 草稿</span>
+<span class="pl-c1">草稿 --&gt; 审核中 : 提交审核</span>
+<span class="pl-c1">审核中 --&gt; 已发布 : 审核通过</span>
+<span class="pl-c1">审核中 --&gt; 草稿 : 驳回修改</span>
+<span class="pl-c1">已发布 --&gt; [*]</span>
+<span class="pl-c1"></span><span class="pl-s">```</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<div class="highlight highlight-source-mermaid"><pre class="notranslate"><span class="pl-k">stateDiagram-v2</span>
+<span class="pl-c1">[*]</span> <span class="pl-k">--&gt;</span> <span class="pl-v">草稿</span>
+<span class="pl-v">草稿</span> <span class="pl-k">--&gt;</span> <span class="pl-v">审核中</span> <span class="pl-k">:</span> <span class="pl-s">提交审核</span>
+<span class="pl-v">审核中</span> <span class="pl-k">--&gt;</span> <span class="pl-v">已发布</span> <span class="pl-k">:</span> <span class="pl-s">审核通过</span>
+<span class="pl-v">审核中</span> <span class="pl-k">--&gt;</span> <span class="pl-v">草稿</span> <span class="pl-k">:</span> <span class="pl-s">驳回修改</span>
+<span class="pl-v">已发布</span> <span class="pl-k">--&gt;</span> <span class="pl-c1">[*]</span></pre></div>
+<p>复杂状态可以嵌套组合，用 <code class="notranslate">state 名称 { ... }</code> 表达子状态机：</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">```</span><span class="pl-en">mermaid</span><span class="pl-c1"></span>
+<span class="pl-c1">stateDiagram-v2</span>
+<span class="pl-c1">[*] --&gt; 编辑中</span>
+<span class="pl-c1">state 编辑中 {</span>
+<span class="pl-c1">[*] --&gt; 输入内容</span>
+<span class="pl-c1">输入内容 --&gt; 自动保存</span>
+<span class="pl-c1">自动保存 --&gt; 输入内容</span>
+<span class="pl-c1">}</span>
+<span class="pl-c1">编辑中 --&gt; 已保存 : 手动保存</span>
+<span class="pl-c1">已保存 --&gt; [*]</span>
+<span class="pl-c1"></span><span class="pl-s">```</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<div class="highlight highlight-source-mermaid"><pre class="notranslate"><span class="pl-k">stateDiagram-v2</span>
+<span class="pl-c1">[*]</span> <span class="pl-k">--&gt;</span> <span class="pl-v">编辑中</span>
+<span class="pl-k">state</span> <span class="pl-v">编辑中</span> <span class="pl-sg">{</span>
+<span class="pl-c1">[*]</span> <span class="pl-k">--&gt;</span> <span class="pl-v">输入内容</span>
+<span class="pl-v">输入内容</span> <span class="pl-k">--&gt;</span> <span class="pl-v">自动保存</span>
+<span class="pl-v">自动保存</span> <span class="pl-k">--&gt;</span> <span class="pl-v">输入内容</span>
+<span class="pl-sg">}</span>
+<span class="pl-v">编辑中</span> <span class="pl-k">--&gt;</span> <span class="pl-v">已保存</span> <span class="pl-k">:</span> <span class="pl-s">手动保存</span>
+<span class="pl-v">已保存</span> <span class="pl-k">--&gt;</span> <span class="pl-c1">[*]</span></pre></div>
+<h2>ER 图（实体关系图）</h2>
+<h3>实体、属性与关系基数</h3>
+<p><code class="notranslate">erDiagram</code> 描述数据库实体关系。实体名建议用英文大写字母与下划线；大括号内逐行列出 <code class="notranslate">类型 属性名 键约束</code>；关系用 <code class="notranslate">|</code>、<code class="notranslate">o</code>、<code class="notranslate">}</code> 等符号组合表示基数：</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">```</span><span class="pl-en">mermaid</span><span class="pl-c1"></span>
+<span class="pl-c1">erDiagram</span>
+<span class="pl-c1">USER ||--o{ DOCUMENT : 创建</span>
+<span class="pl-c1">DOCUMENT ||--|{ TAG : 标注</span>
+<span class="pl-c1">USER {</span>
+<span class="pl-c1">string id PK</span>
+<span class="pl-c1">string name</span>
+<span class="pl-c1">string email</span>
+<span class="pl-c1">}</span>
+<span class="pl-c1">DOCUMENT {</span>
+<span class="pl-c1">string id PK</span>
+<span class="pl-c1">string user_id FK</span>
+<span class="pl-c1">string title</span>
+<span class="pl-c1">datetime created_at</span>
+<span class="pl-c1">}</span>
+<span class="pl-c1"></span><span class="pl-s">```</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<div class="highlight highlight-source-mermaid"><pre class="notranslate"><span class="pl-k">erDiagram</span>
+<span class="pl-en">USER</span> <span class="pl-k">||--o{</span> <span class="pl-en">DOCUMENT</span> <span class="pl-k">:</span> <span class="pl-ii">创建</span>
+<span class="pl-en">DOCUMENT</span> <span class="pl-k">||--|{</span> <span class="pl-en">TAG</span> <span class="pl-k">:</span> <span class="pl-ii">标注</span>
+<span class="pl-en">USER</span> <span class="pl-sg">{</span>
+<span class="pl-k">string</span> <span class="pl-en">id</span> <span class="pl-c1">PK</span>
+<span class="pl-k">string</span> <span class="pl-en">name</span>
+<span class="pl-k">string</span> <span class="pl-en">email</span>
+<span class="pl-sg">}</span>
+<span class="pl-en">DOCUMENT</span> <span class="pl-sg">{</span>
+<span class="pl-k">string</span> <span class="pl-en">id</span> <span class="pl-c1">PK</span>
+<span class="pl-k">string</span> <span class="pl-en">user_id</span> <span class="pl-c1">FK</span>
+<span class="pl-k">string</span> <span class="pl-en">title</span>
+<span class="pl-k">datetime</span> <span class="pl-en">created_at</span>
+<span class="pl-sg">}</span></pre></div>
+<p>基数符号读法：<code class="notranslate">||</code> 恰好一个、<code class="notranslate">o|</code> 零或一个、<code class="notranslate">}</code> 多个。<code class="notranslate">||--o{</code> 表示"一对多（可为零）"。<code class="notranslate">PK</code>、<code class="notranslate">FK</code> 分别标注主键与外键。</p>
+<h2>甘特图与饼图</h2>
+<h3>甘特图（Gantt）</h3>
+<p><code class="notranslate">gantt</code> 用日期与工期排计划。<code class="notranslate">dateFormat</code> 指定输入日期格式，<code class="notranslate">axisFormat</code> 指定横轴显示格式；任务写成 <code class="notranslate">名称 :状态, 编号, 开始, 工期</code>，用 <code class="notranslate">after 编号</code> 串行衔接：</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">```</span><span class="pl-en">mermaid</span><span class="pl-c1"></span>
+<span class="pl-c1">gantt</span>
+<span class="pl-c1">title 文档改版计划</span>
+<span class="pl-c1">dateFormat YYYY-MM-DD</span>
+<span class="pl-c1">axisFormat %m-%d</span>
+<span class="pl-c1">section 调研</span>
+<span class="pl-c1">竞品分析 :done, t1, 2026-01-05, 3d</span>
+<span class="pl-c1">用户访谈 :active, t2, after t1, 4d</span>
+<span class="pl-c1">section 撰写</span>
+<span class="pl-c1">初稿 :t3, after t2, 5d</span>
+<span class="pl-c1">评审与修订 :t4, after t3, 3d</span>
+<span class="pl-c1">section 上线</span>
+<span class="pl-c1">发布 :t5, after t4, 1d</span>
+<span class="pl-c1">crit 灰度验证 :crit, t6, after t5, 2d</span>
+<span class="pl-c1"></span><span class="pl-s">```</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<div class="highlight highlight-source-mermaid"><pre class="notranslate"><span class="pl-k">gantt</span>
+<span class="pl-k">title</span> <span class="pl-s">文档改版计划</span>
+<span class="pl-k">dateFormat</span> <span class="pl-s"><span class="pl-c1">YYYY</span>-<span class="pl-c1">MM</span>-<span class="pl-c1">DD</span></span>
+<span class="pl-k">axisFormat</span> <span class="pl-s"><span class="pl-c1">%m</span>-<span class="pl-c1">%d</span></span>
+<span class="pl-k">section</span> <span class="pl-s">调研</span>
+<span class="pl-e">竞品分析</span> <span class="pl-k">:</span><span class="pl-ent">done</span><span class="pl-sg">,</span> <span class="pl-en">t1</span><span class="pl-sg">,</span> <span class="pl-c1">2026-01-05</span><span class="pl-sg">,</span> <span class="pl-c1">3</span><span class="pl-k">d</span>
+<span class="pl-e">用户访谈</span> <span class="pl-k">:</span><span class="pl-ent">active</span><span class="pl-sg">,</span> <span class="pl-en">t2</span><span class="pl-sg">,</span> <span class="pl-k">after</span> <span class="pl-en">t1</span><span class="pl-sg">,</span> <span class="pl-c1">4</span><span class="pl-k">d</span>
+<span class="pl-k">section</span> <span class="pl-s">撰写</span>
+<span class="pl-e">初稿</span> <span class="pl-k">:</span><span class="pl-en">t3</span><span class="pl-sg">,</span> <span class="pl-k">after</span> <span class="pl-en">t2</span><span class="pl-sg">,</span> <span class="pl-c1">5</span><span class="pl-k">d</span>
+<span class="pl-e">评审与修订</span> <span class="pl-k">:</span><span class="pl-en">t4</span><span class="pl-sg">,</span> <span class="pl-k">after</span> <span class="pl-en">t3</span><span class="pl-sg">,</span> <span class="pl-c1">3</span><span class="pl-k">d</span>
+<span class="pl-k">section</span> <span class="pl-s">上线</span>
+<span class="pl-e">发布</span> <span class="pl-k">:</span><span class="pl-en">t5</span><span class="pl-sg">,</span> <span class="pl-k">after</span> <span class="pl-en">t4</span><span class="pl-sg">,</span> <span class="pl-c1">1</span><span class="pl-k">d</span>
+<span class="pl-e">crit 灰度验证</span> <span class="pl-k">:</span><span class="pl-ent">crit</span><span class="pl-sg">,</span> <span class="pl-en">t6</span><span class="pl-sg">,</span> <span class="pl-k">after</span> <span class="pl-en">t5</span><span class="pl-sg">,</span> <span class="pl-c1">2</span><span class="pl-k">d</span></pre></div>
+<p>状态标记：<code class="notranslate">done</code> 已完成、<code class="notranslate">active</code> 进行中、<code class="notranslate">crit</code> 关键路径；同一条任务可以叠加，例如 <code class="notranslate">:done,crit,</code>。</p>
+<h3>饼图（Pie）</h3>
+<p><code class="notranslate">pie</code> 生成占比饼图，<code class="notranslate">title</code> 后写标题，每行一条 <code class="notranslate">"名称" : 数值</code>：</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">```</span><span class="pl-en">mermaid</span><span class="pl-c1"></span>
+<span class="pl-c1">pie title 站点内容页流量来源</span>
+<span class="pl-c1">"搜索引擎" : 62</span>
+<span class="pl-c1">"直接访问" : 23</span>
+<span class="pl-c1">"外部推荐" : 10</span>
+<span class="pl-c1">"社交媒体" : 5</span>
+<span class="pl-c1"></span><span class="pl-s">```</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<div class="highlight highlight-source-mermaid"><pre class="notranslate"><span class="pl-k">pie</span> <span class="pl-k">title</span> <span class="pl-s">站点内容页流量来源</span>
+<span class="pl-s">"搜索引擎<span class="pl-pds">"</span></span> <span class="pl-k">:</span> <span class="pl-c1">62</span>
+<span class="pl-s">"直接访问<span class="pl-pds">"</span></span> <span class="pl-k">:</span> <span class="pl-c1">23</span>
+<span class="pl-s">"外部推荐<span class="pl-pds">"</span></span> <span class="pl-k">:</span> <span class="pl-c1">10</span>
+<span class="pl-s">"社交媒体<span class="pl-pds">"</span></span> <span class="pl-k">:</span> <span class="pl-c1">5</span></pre></div>
+<p>数值不需要百分比，Mermaid 会按总和自动换算占比。名称务必用英文双引号包裹。</p>
+<h2>在编辑器中使用</h2>
+<h3>在 MarkdownAssistant 中实时预览</h3>
+<p>把本页任意示例复制到 <a href="/zh/">MarkdownAssistant 在线编辑器</a> 中，即可在右侧预览里实时看到图表，修改代码的瞬间图表会重新渲染。图表与正文、公式、表格可以自由混排：</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">```</span><span class="pl-en">mermaid</span><span class="pl-c1"></span>
+<span class="pl-c1">graph LR</span>
+<span class="pl-c1">A[Markdown 文本] --&gt; B{包含图表?}</span>
+<span class="pl-c1">B --&gt;|是| C[Mermaid 渲染]</span>
+<span class="pl-c1">B --&gt;|否| D[普通排版]</span>
+<span class="pl-c1">C --&gt; E[导出 PDF / HTML]</span>
+<span class="pl-c1">D --&gt; E</span>
+<span class="pl-c1"></span><span class="pl-s">```</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<div class="highlight highlight-source-mermaid"><pre class="notranslate"><span class="pl-k">graph</span> <span class="pl-c1">LR</span>
+<span class="pl-ent">A</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>Markdown 文本<span class="pl-pds"><span class="pl-sg">]</span></span></span> <span class="pl-k">--&gt;</span> <span class="pl-ent">B</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">{</span></span>包含图表?<span class="pl-pds"><span class="pl-sg">}</span></span></span>
+<span class="pl-ent">B</span> <span class="pl-k">--&gt;</span><span class="pl-k">|</span><span class="pl-s">是</span><span class="pl-k">|</span> <span class="pl-ent">C</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>Mermaid 渲染<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+<span class="pl-ent">B</span> <span class="pl-k">--&gt;</span><span class="pl-k">|</span><span class="pl-s">否</span><span class="pl-k">|</span> <span class="pl-ent">D</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>普通排版<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+<span class="pl-ent">C</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">E</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>导出 PDF / HTML<span class="pl-pds"><span class="pl-sg">]</span></span></span>
+<span class="pl-ent">D</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">E</span></pre></div>
+<p>导出 PDF 时图表会按当前主题完整嵌入；切换深色模式后图表配色会自动跟随。</p>
+<h3>常见问题与技巧</h3>
+<p><strong>图表不渲染，显示错误面板？</strong> 多数是语法问题：检查图表声明是否在第一行、括号是否配对、行首是否有多余空格。节点文字含 <code class="notranslate">( ) { } [ ]</code> 等特殊字符时，用引号包裹：<code class="notranslate">A["带(括号)的文字"]</code>。</p>
+<p><strong>想让图表更紧凑或更宽松？</strong> 流程图方向（TD/LR）通常比调整间距更有效；时序图加 <code class="notranslate">autonumber</code> 既美观又便于在正文中引用某一步。</p>
+<p><strong>图表太大被压缩？</strong> 渲染结果默认自适应容器宽度，导出或全屏预览可以看到原始尺寸。</p>
+<p><strong>源码：</strong></p>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">```</span><span class="pl-en">mermaid</span><span class="pl-c1"></span>
+<span class="pl-c1">graph TD</span>
+<span class="pl-c1">A["输入 Mermaid 代码"] --&gt; B{"语法正确?"}</span>
+<span class="pl-c1">B --&gt;|是| C["正常渲染图表"]</span>
+<span class="pl-c1">B --&gt;|否| D["查看错误提示"]</span>
+<span class="pl-c1">D --&gt; A</span>
+<span class="pl-c1"></span><span class="pl-s">```</span></pre></div>
+<p><strong>渲染效果：</strong></p>
+<div class="highlight highlight-source-mermaid"><pre class="notranslate"><span class="pl-k">graph</span> <span class="pl-c1">TD</span>
+<span class="pl-ent">A</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span><span class="pl-s"><span class="pl-pds">"</span>输入 Mermaid 代码<span class="pl-pds">"</span></span><span class="pl-pds"><span class="pl-sg">]</span></span></span> <span class="pl-k">--&gt;</span> <span class="pl-ent">B</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">{</span></span><span class="pl-s"><span class="pl-pds">"</span>语法正确?<span class="pl-pds">"</span></span><span class="pl-pds"><span class="pl-sg">}</span></span></span>
+<span class="pl-ent">B</span> <span class="pl-k">--&gt;</span><span class="pl-k">|</span><span class="pl-s">是</span><span class="pl-k">|</span> <span class="pl-ent">C</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span><span class="pl-s"><span class="pl-pds">"</span>正常渲染图表<span class="pl-pds">"</span></span><span class="pl-pds"><span class="pl-sg">]</span></span></span>
+<span class="pl-ent">B</span> <span class="pl-k">--&gt;</span><span class="pl-k">|</span><span class="pl-s">否</span><span class="pl-k">|</span> <span class="pl-ent">D</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span><span class="pl-s"><span class="pl-pds">"</span>查看错误提示<span class="pl-pds">"</span></span><span class="pl-pds"><span class="pl-sg">]</span></span></span>
+<span class="pl-ent">D</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">A</span></pre></div>
+<hr>
+<blockquote>
+<p>💡 <strong>提示</strong>：如需在线预览和调试，可前往 <a href="https://www.markdownassistant.com/zh/" rel="nofollow">MarkdownAssistant</a> 在线编辑器。</p>
+</blockquote></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://pigrass.github.io">pigrass的轻博客</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行 "+diffDay+" 天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.disabled=true;
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","pigrass/pigrass.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+<script src='https://blog.meekdai.com/Gmeek/plugins/GmeekTOC.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script><script>(function(){if(document.getElementById('gmeek-share-tw'))return;var u=encodeURIComponent(location.href),t=encodeURIComponent(document.title);var b=document.createElement('a');b.id='gmeek-share-tw';b.href='https://twitter.com/intent/tweet?url='+u+'&text='+t;b.target='_blank';b.rel='noopener noreferrer';b.title='分享到 X / Twitter';b.innerHTML=`<svg width='18' height='18' viewBox='0 0 24 24' fill='#fff'><path d='M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z'/></svg>`;b.style.cssText='display:inline-flex;width:32px;height:32px;border-radius:50%;background:#000;align-items:center;justify-content:center;vertical-align:middle;text-decoration:none;opacity:.85';b.onmouseenter=function(){b.style.opacity='1'};b.onmouseleave=function(){b.style.opacity='.85'};var p=document.getElementById('postBody');if(!p)return;var box=document.createElement('div');box.style.cssText='margin:28px 0 4px;padding-top:16px;border-top:1px solid rgba(140,140,140,.35);font-size:14px;line-height:32px';var lab=document.createElement('span');lab.textContent='分享到：';lab.style.marginRight='8px';box.appendChild(lab);box.appendChild(b);p.parentNode.insertBefore(box,p.nextSibling)})();</script>
+
+</html>
