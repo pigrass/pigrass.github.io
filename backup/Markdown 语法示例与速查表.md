@@ -1,7 +1,5 @@
 >引用: https://www.markdownassistant.com/zh/syntax
 
-
-# 语法示例
 全面的 Markdown 语法示例与实时渲染对照，覆盖标题、粗体斜体、列表、引用、链接、图片、表格、代码块、脚注等常用语法，帮助您快速掌握 Markdown 写作。
 
 ---
