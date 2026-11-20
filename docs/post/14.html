@@ -152,6 +152,22 @@ digraph G {
 ### 1/ Mermaid缺点:
 - [ ] Mermaid流程图,各个节点之间的连线默认是弯曲的
 - 解决方案:声明`curve`样式,可选值:`linear`(纯直线),`step/step befroe/step after`直角折线
+
+代码:
+```code
+---
+config:
+  flowchart:
+    curve: step
+---
+flowchart TD
+    A[开始] --> B[判断]
+    B -->|是| C[处理1]
+    B -->|否| D[处理2]
+    C --> E[结束]
+    D --> E
+```
+效果:
 ```mermaid
 ---
 config:
@@ -180,7 +196,7 @@ flowchart TD
     B --> C[稀释]
     C --> D[结束]
     E[反应物] --> B
-    C --> F[副产物]
+    B --> F[副产物]
 ```
 - 解决方案:1/ 同上,Visio/PPT/Excel绘制, 2/ Graphviz 用 ` rank=same ` 锁层
 
@@ -375,6 +391,22 @@ digraph G {
 ### 1/ Mermaid缺点:
 - [ ] Mermaid流程图,各个节点之间的连线默认是弯曲的
 - 解决方案:声明`curve`样式,可选值:`linear`(纯直线),`step/step befroe/step after`直角折线
+
+代码:
+```code
+---
+config:
+  flowchart:
+    curve: step
+---
+flowchart TD
+    A[开始] --> B[判断]
+    B -->|是| C[处理1]
+    B -->|否| D[处理2]
+    C --> E[结束]
+    D --> E
+```
+效果:
 ```mermaid
 ---
 config:
@@ -403,7 +435,7 @@ flowchart TD
     B --> C[稀释]
     C --> D[结束]
     E[反应物] --> B
-    C --> F[副产物]
+    B --> F[副产物]
 ```
 - 解决方案:1/ 同上,Visio/PPT/Excel绘制, 2/ Graphviz 用 ` rank=same ` 锁层
 
@@ -803,6 +835,20 @@ I-&gt;E  [weight=1]
 <li class="task-list-item"><input type="checkbox" id="" disabled="" class="task-list-item-checkbox" aria-label="Incomplete task"> Mermaid流程图,各个节点之间的连线默认是弯曲的</li>
 <li>解决方案:声明<code class="notranslate">curve</code>样式,可选值:<code class="notranslate">linear</code>(纯直线),<code class="notranslate">step/step befroe/step after</code>直角折线</li>
 </ul>
+<p>代码:</p>
+<pre lang="code" class="notranslate"><code class="notranslate">---
+config:
+  flowchart:
+    curve: step
+---
+flowchart TD
+    A[开始] --&gt; B[判断]
+    B --&gt;|是| C[处理1]
+    B --&gt;|否| D[处理2]
+    C --&gt; E[结束]
+    D --&gt; E
+</code></pre>
+<p>效果:</p>
 <div class="highlight highlight-source-mermaid"><pre class="notranslate"><span class="pl-sg">---</span>
 <span class="pl-ent">config</span>:
   <span class="pl-ent">flowchart</span>:
@@ -830,7 +876,7 @@ I-&gt;E  [weight=1]
     <span class="pl-ent">B</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">C</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>稀释<span class="pl-pds"><span class="pl-sg">]</span></span></span>
     <span class="pl-ent">C</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">D</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>结束<span class="pl-pds"><span class="pl-sg">]</span></span></span>
     <span class="pl-ent">E</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>反应物<span class="pl-pds"><span class="pl-sg">]</span></span></span> <span class="pl-k">--&gt;</span> <span class="pl-ent">B</span>
-    <span class="pl-ent">C</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">F</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>副产物<span class="pl-pds"><span class="pl-sg">]</span></span></span></pre></div>
+    <span class="pl-ent">B</span> <span class="pl-k">--&gt;</span> <span class="pl-ent">F</span><span class="pl-s"><span class="pl-pds"><span class="pl-sg">[</span></span>副产物<span class="pl-pds"><span class="pl-sg">]</span></span></span></pre></div>
 <ul>
 <li>解决方案:1/ 同上,Visio/PPT/Excel绘制, 2/ Graphviz 用 <code class="notranslate">rank=same</code> 锁层</li>
 </ul>

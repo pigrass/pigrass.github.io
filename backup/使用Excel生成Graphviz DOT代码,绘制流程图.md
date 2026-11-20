@@ -140,6 +140,22 @@ digraph G {
 ### 1/ Mermaid缺点:
 - [ ] Mermaid流程图,各个节点之间的连线默认是弯曲的
 - 解决方案:声明`curve`样式,可选值:`linear`(纯直线),`step/step befroe/step after`直角折线
+
+代码:
+```code
+---
+config:
+  flowchart:
+    curve: step
+---
+flowchart TD
+    A[开始] --> B[判断]
+    B -->|是| C[处理1]
+    B -->|否| D[处理2]
+    C --> E[结束]
+    D --> E
+```
+效果:
 ```mermaid
 ---
 config:
@@ -168,7 +184,7 @@ flowchart TD
     B --> C[稀释]
     C --> D[结束]
     E[反应物] --> B
-    C --> F[副产物]
+    B --> F[副产物]
 ```
 - 解决方案:1/ 同上,Visio/PPT/Excel绘制, 2/ Graphviz 用 ` rank=same ` 锁层
 

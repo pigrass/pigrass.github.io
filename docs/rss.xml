@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>pigrass的轻博客</title><link>https://pigrass.github.io</link><description>日常唠叨</description><copyright>pigrass的轻博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://raw.githubusercontent.com/pigrass/pigrass.github.io/bcada41e2e0dfd929b69f443dbe667b903d5d88d/avatar.png</url><title>avatar</title><link>https://pigrass.github.io</link></image><lastBuildDate>Fri, 20 Nov 2026 18:15:54 +0000</lastBuildDate><managingEditor>pigrass的轻博客</managingEditor><ttl>60</ttl><webMaster>pigrass的轻博客</webMaster><item><title>使用Excel生成Graphviz DOT代码,绘制流程图</title><link>https://pigrass.github.io/post/14.html</link><description>&gt; 上篇文章,介绍了在Gmeek博客中添加Mermaid图表的支持,方便写博文时直接渲染流程图,而不需要自己绘制后截图上传.但是用多了,问题也很多,最终使用Graphviz DOT绘图以应对复杂的流程图绘制问题
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>pigrass的轻博客</title><link>https://pigrass.github.io</link><description>日常唠叨</description><copyright>pigrass的轻博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://raw.githubusercontent.com/pigrass/pigrass.github.io/bcada41e2e0dfd929b69f443dbe667b903d5d88d/avatar.png</url><title>avatar</title><link>https://pigrass.github.io</link></image><lastBuildDate>Fri, 20 Nov 2026 18:25:20 +0000</lastBuildDate><managingEditor>pigrass的轻博客</managingEditor><ttl>60</ttl><webMaster>pigrass的轻博客</webMaster><item><title>使用Excel生成Graphviz DOT代码,绘制流程图</title><link>https://pigrass.github.io/post/14.html</link><description>&gt; 上篇文章,介绍了在Gmeek博客中添加Mermaid图表的支持,方便写博文时直接渲染流程图,而不需要自己绘制后截图上传.但是用多了,问题也很多,最终使用Graphviz DOT绘图以应对复杂的流程图绘制问题
 
 ## Graphviz DOT代码速览
 ```Graphviz DOT
@@ -141,6 +141,22 @@ digraph G {
 ### 1/ Mermaid缺点:
 - [ ] Mermaid流程图,各个节点之间的连线默认是弯曲的
 - 解决方案:声明`curve`样式,可选值:`linear`(纯直线),`step/step befroe/step after`直角折线
+
+代码:
+```code
+---
+config:
+  flowchart:
+    curve: step
+---
+flowchart TD
+    A[开始] --&gt; B[判断]
+    B --&gt;|是| C[处理1]
+    B --&gt;|否| D[处理2]
+    C --&gt; E[结束]
+    D --&gt; E
+```
+效果:
 ```mermaid
 ---
 config:
@@ -169,7 +185,7 @@ flowchart TD
     B --&gt; C[稀释]
     C --&gt; D[结束]
     E[反应物] --&gt; B
-    C --&gt; F[副产物]
+    B --&gt; F[副产物]
 ```
 - 解决方案:1/ 同上,Visio/PPT/Excel绘制, 2/ Graphviz 用 ` rank=same ` 锁层
 
