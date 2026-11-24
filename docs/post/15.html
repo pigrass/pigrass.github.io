@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark_colorblind" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    <script src='https://blog.meekdai.com/Gmeek/plugins/GmeekVercount.js'></script>
+    <link rel="icon" href="https://raw.githubusercontent.com/pigrass/pigrass.github.io/bcada41e2e0dfd929b69f443dbe667b903d5d88d/avatar.png"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="## 问题:
+
+excel有2张sheet,'sheet1'和'配方'
+其中'配方'表的结构如下
+|  |A  |B  |
+| --- | --- | --- |
+|1  |配方  |物料  |
+|2  |K  |物料A,10/物料B,20/物料C,30  |
+
+物料与重量之间用','分隔,不同物料之间用'/'分隔
+要求使用一个函数,`=RECIPE(A1)`,使得从'配方'表中搜索A1值所在行,将对应B列内容拆分成物料和重量2列
+
+## 解答:
+
+1/ 公式管理器中新建名称`RECIPE`
+2/ 范围'工作簿'
+3/ 引用位置
+
+```excel
+=LAMBDA(配方名,VSTACK({'物料','重量'},LET(data,SPLIT2D(XLOOKUP(配方名,配方!$A:$A,配方!$B:$B),',','/'),HSTACK(INDEX(data,,1),--INDEX(data,,2)))))
+```
+4/ 这样在任意单元格输入`=RECIPE('K')`
+都可以生成下面的2维数组,且对应重量列的数字都是可以直接用于计算的,`=(ISNUMBER())`测试均为`TRUE`
+|物料  |重量  |
+| --- | --- |
+|物料A  |10  |
+|物料B  |20  |
+|物料C  |30  |
+
+## 踩坑记录:
+
+### 1/ 不是所以的名字都可以作为自定义函数名,原本使用'FORMULA'作为自定义函数名,但是excel报错,提示'该函数无效'
+
+**原因**: 函数名 ` FORMULA ` 与 Excel 内部名称冲突
+
+
+Excel 中虽然没有一个叫 ` FORMULA() ` 的内置函数，但 **` FORMULA ` 是 Excel 的保留标识符**（与 ` FORMULATEXT `、` FORMULATYPE ` 等内部机制相关）。">
+<meta property="og:title" content="这个自定义函数为什么不让我用?">
+<meta property="og:description" content="## 问题:
+
+excel有2张sheet,'sheet1'和'配方'
+其中'配方'表的结构如下
+|  |A  |B  |
+| --- | --- | --- |
+|1  |配方  |物料  |
+|2  |K  |物料A,10/物料B,20/物料C,30  |
+
+物料与重量之间用','分隔,不同物料之间用'/'分隔
+要求使用一个函数,`=RECIPE(A1)`,使得从'配方'表中搜索A1值所在行,将对应B列内容拆分成物料和重量2列
+
+## 解答:
+
+1/ 公式管理器中新建名称`RECIPE`
+2/ 范围'工作簿'
+3/ 引用位置
+
+```excel
+=LAMBDA(配方名,VSTACK({'物料','重量'},LET(data,SPLIT2D(XLOOKUP(配方名,配方!$A:$A,配方!$B:$B),',','/'),HSTACK(INDEX(data,,1),--INDEX(data,,2)))))
+```
+4/ 这样在任意单元格输入`=RECIPE('K')`
+都可以生成下面的2维数组,且对应重量列的数字都是可以直接用于计算的,`=(ISNUMBER())`测试均为`TRUE`
+|物料  |重量  |
+| --- | --- |
+|物料A  |10  |
+|物料B  |20  |
+|物料C  |30  |
+
+## 踩坑记录:
+
+### 1/ 不是所以的名字都可以作为自定义函数名,原本使用'FORMULA'作为自定义函数名,但是excel报错,提示'该函数无效'
+
+**原因**: 函数名 ` FORMULA ` 与 Excel 内部名称冲突
+
+
+Excel 中虽然没有一个叫 ` FORMULA() ` 的内置函数，但 **` FORMULA ` 是 Excel 的保留标识符**（与 ` FORMULATEXT `、` FORMULATYPE ` 等内部机制相关）。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://pigrass.github.io/post/15.html">
+<meta property="og:image" content="https://raw.githubusercontent.com/pigrass/pigrass.github.io/bcada41e2e0dfd929b69f443dbe667b903d5d88d/avatar.png">
+<title>这个自定义函数为什么不让我用?</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">这个自定义函数为什么不让我用?</h1>
+<div class="title-right">
+    <a href="https://pigrass.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/pigrass/pigrass.github.io/issues/15" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h2>问题:</h2>
+<p>excel有2张sheet,"sheet1"和"配方"<br>
+其中"配方"表的结构如下</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th></th>
+<th>A</th>
+<th>B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>配方</td>
+<td>物料</td>
+</tr>
+<tr>
+<td>2</td>
+<td>K</td>
+<td>物料A,10/物料B,20/物料C,30</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p>物料与重量之间用","分隔,不同物料之间用"/"分隔<br>
+要求使用一个函数,<code class="notranslate">=RECIPE(A1)</code>,使得从"配方"表中搜索A1值所在行,将对应B列内容拆分成物料和重量2列</p>
+<h2>解答:</h2>
+<p>1/ 公式管理器中新建名称<code class="notranslate">RECIPE</code><br>
+2/ 范围"工作簿"<br>
+3/ 引用位置</p>
+<pre lang="excel" class="notranslate"><code class="notranslate">=LAMBDA(配方名,VSTACK({"物料","重量"},LET(data,SPLIT2D(XLOOKUP(配方名,配方!$A:$A,配方!$B:$B),",","/"),HSTACK(INDEX(data,,1),--INDEX(data,,2)))))
+</code></pre>
+<p>4/ 这样在任意单元格输入<code class="notranslate">=RECIPE("K")</code><br>
+都可以生成下面的2维数组,且对应重量列的数字都是可以直接用于计算的,<code class="notranslate">=(ISNUMBER())</code>测试均为<code class="notranslate">TRUE</code></p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>物料</th>
+<th>重量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>物料A</td>
+<td>10</td>
+</tr>
+<tr>
+<td>物料B</td>
+<td>20</td>
+</tr>
+<tr>
+<td>物料C</td>
+<td>30</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<h2>踩坑记录:</h2>
+<h3>1/ 不是所以的名字都可以作为自定义函数名,原本使用"FORMULA"作为自定义函数名,但是excel报错,提示"该函数无效"</h3>
+<p><strong>原因</strong>: 函数名 <code class="notranslate">FORMULA</code> 与 Excel 内部名称冲突</p>
+<p>Excel 中虽然没有一个叫 <code class="notranslate">FORMULA()</code> 的内置函数，但 <strong><code class="notranslate">FORMULA</code> 是 Excel 的保留标识符</strong>（与 <code class="notranslate">FORMULATEXT</code>、<code class="notranslate">FORMULATYPE</code> 等内部机制相关）。<br>
+当你在名称管理器中定义名为 <code class="notranslate">FORMULA</code> 的 LAMBDA，Excel <strong>不会报错</strong>，但在单元格中调用时，解析器会<strong>优先把它当作内部保留字</strong>而不是你的自定义函数，于是提示"该函数无效"。</p>
+<p>解决方案就是更换一个函数名</p>
+<h3>2/ excel还有哪些保留标识符?</h3>
+<p>微软官方文档<strong>并没有给出一份“Excel 保留标识符黑名单”</strong>.你遇到 <code class="notranslate">FORMULA</code> 无效,本质不是“保留字表”里有它,而是<strong>名称解析冲突 / 解析器优先匹配内置或既有标识</strong>.下面把真正会让 LAMBDA 自定义函数“定义能存进去、调用却报无效/#NAME?”的几类名字讲清楚.</p>
+<h4>一、微软明文禁用的单字母（定义名/表名都不能用）</h4>
+<ul>
+<li><code class="notranslate">C</code>、<code class="notranslate">c</code>、<code class="notranslate">R</code>、<code class="notranslate">r</code><br>
+原因：在名称框/转到框里是“选整列/整行”的快捷键，Excel 直接拦截。</li>
+</ul>
+<h4>二、看起来像单元格引用的名字（会被当地址解析）</h4>
+<ul>
+<li><code class="notranslate">A1</code>、<code class="notranslate">Z$100</code>、<code class="notranslate">R1C1</code>、<code class="notranslate">XFD1048576</code><br>规则：名称不能与 A1 样式或 R1C1 样式单元格引用相同.</li>
+</ul>
+<h4>三、和内置函数同名的（最坑，能建出来但永远调不到你的）</h4>
+<p>Excel <strong>不阻止</strong>你拿 <code class="notranslate">SUM</code>、<code class="notranslate">TEXT</code>、<code class="notranslate">IF</code>、<code class="notranslate">LAMBDA</code>、<code class="notranslate">LET</code>、<code class="notranslate">XLOOKUP</code>、<code class="notranslate">FORMULATEXT</code> 之类当定义名，但单元格里 <code class="notranslate">=SUM(...)</code> 永远走内置，你的 LAMBDA 被忽略，表现就是“函数无效”或结果不对.<br>
+<code class="notranslate">FORMULA</code> 严格说不是内置函数，但它和 <code class="notranslate">FORMULATEXT</code> 同族、且是对象模型里的属性名，解析器在某些版本会优先吞掉，所以你踩到了这个坑.<br>
+同类高危名（别用）:<br>
+<code class="notranslate">TEXT</code>、<code class="notranslate">VALUE</code>、<code class="notranslate">DATE</code>、<code class="notranslate">TIME</code>、<code class="notranslate">LEN</code>、<code class="notranslate">MID</code>、<code class="notranslate">LEFT</code>、<code class="notranslate">RIGHT</code>、<code class="notranslate">AND</code>、<code class="notranslate">OR</code>、<code class="notranslate">NOT</code>、<code class="notranslate">TRUE</code>、<code class="notranslate">FALSE</code>、<code class="notranslate">NA</code>、<code class="notranslate">PI</code>、<code class="notranslate">EOF</code>、<code class="notranslate">RUN</code>、<code class="notranslate">ECHO</code>（后两个是 Excel 4.0 宏函数，官方自定义函数文档明令避开）</p>
+<h4>四、Excel 4.0 宏函数旧名（加载项/自定义函数场景禁用）</h4>
+<p><code class="notranslate">RUN</code>、<code class="notranslate">ECHO</code>、<code class="notranslate">OPEN</code>、<code class="notranslate">CLOSE</code>、<code class="notranslate">NEW</code>、<code class="notranslate">WORKSPACE</code> 等 XLM 老函数，微软自定义函数命名指南直接说 avoid.</p>
+<h4>五、语法层非法（名称管理器当场报错，存不进去）</h4>
+<ul>
+<li>
+<p>含空格:<code class="notranslate">My Func</code> ❌</p>
+</li>
+<li>
+<p>含 <code class="notranslate">@ ! # $ % &amp; * ( ) + - / \ : ; ' " &lt; &gt; , ?</code> 等（只允许 字母/数字/下划线/句点/反斜杠开头）</p>
+</li>
+<li>
+<p>以数字开头:<code class="notranslate">1Func</code> ❌</p>
+</li>
+<li>
+<p>长度 &gt;255</p>
+</li>
+<li>
+<p>与已有定义名重名（不分大小写）</p>
+</li>
+</ul>
+<h4>六、LAMBDA <strong>参数名</strong>的额外限制（很多人忽略）</h4>
+<p>参数名跟 LET 变量一样:</p>
+<ul>
+<li>不能像单元格引用：<code class="notranslate">x1</code>、<code class="notranslate">ab12</code> ❌</li>
+<li>不能含空格/句点</li>
+<li>不能和外层定义名撞车</li>
+</ul>
+<h3>3/ <code class="notranslate">配方!$A:$A,配方!$B:$B</code>中为什么需要加<code class="notranslate">$</code>符号</h3>
+<p>不加<code class="notranslate">$</code>时,在sheet1中的A列其他位置输入函数不会出现问题,但是在B/C/..等列的单元格输入函数后,<code class="notranslate">配方!A:A,配方!B:B</code>实际会变成<code class="notranslate">配方!C:C,配方!D:D</code>等迁移现象,从而导致取值错误</p>
+<h3>4/ <code class="notranslate">--INDEX(data,,2)</code>中为什么需要加<code class="notranslate">--</code>符号</h3>
+<p>不加<code class="notranslate">--</code>时,<code class="notranslate">SPLIT2D</code>函数获得的数组第2列默认为文本型数字,结果获取配方的函数精简了,但是拿到的配方没办法直接计算,白忙活,<code class="notranslate">--</code>符号就是将第2列强制转换为真实的可计算的数字</p>
+<h3>5/ 这个自定义函数如何在新excel中批量导入</h3>
+<p>在 <a href="https://pigrass.github.io/post/9.html" rel="nofollow">这篇文档</a> 中,我们建了一个vba脚本,用于批量导入自定义函数<br>
+新增自定义函数部分的代码如下</p>
+<div class="highlight highlight-source-vba"><pre class="notranslate">   <span class="pl-c">'-----------------------------------------------------</span>
+   <span class="pl-c">'  FORMULA：根据配方名展开物料矩阵</span>
+   <span class="pl-c">'  示例：=RECIPE(A1)</span>
+   <span class="pl-c">'  配方表中,A列配方名,B列物料和重量,按","分割,按"/"分行</span>
+   <span class="pl-c">'-----------------------------------------------------</span>
+   dict.Add <span class="pl-s">"RECIPE"</span>, <span class="pl-c1">_</span>
+       <span class="pl-s">"=LAMBDA(配方名,VSTACK({""物料"",""重量""},LET(data,SPLIT2D(XLOOKUP(配方名,配方!$A:$A,配方!$B:$B),"","",""/""),HSTACK(INDEX(data,,1),--INDEX(data,,2)))))"</span></pre></div>
+<p>相比上面的LAMBDA函数,<code class="notranslate">"物料"</code>、<code class="notranslate">"重量"</code>、<code class="notranslate">","</code>、<code class="notranslate">"/"</code>这几个参数外层都额外套了1层<code class="notranslate">""</code><br>
+原因是 在 VBA 中,字符串内的双引号必须<strong>连续写两个</strong>来表示一个字面双引号.<br>
+否则<code class="notranslate">"</code> 在 VBA 字符串中被当作"字符串结束符",导致语法错误。</p></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://pigrass.github.io">pigrass的轻博客</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行 "+diffDay+" 天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.disabled=true;
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","pigrass/pigrass.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+<script src='https://blog.meekdai.com/Gmeek/plugins/GmeekTOC.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script><script>(function(){if(document.getElementById('gmeek-share-tw'))return;var u=encodeURIComponent(location.href),t=encodeURIComponent(document.title);var b=document.createElement('a');b.id='gmeek-share-tw';b.href='https://twitter.com/intent/tweet?url='+u+'&text='+t;b.target='_blank';b.rel='noopener noreferrer';b.title='分享到 X / Twitter';b.innerHTML=`<svg width='18' height='18' viewBox='0 0 24 24' fill='#fff'><path d='M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z'/></svg>`;b.style.cssText='display:inline-flex;width:32px;height:32px;border-radius:50%;background:#000;align-items:center;justify-content:center;vertical-align:middle;text-decoration:none;opacity:.85';b.onmouseenter=function(){b.style.opacity='1'};b.onmouseleave=function(){b.style.opacity='.85'};var p=document.getElementById('postBody');if(!p)return;var box=document.createElement('div');box.style.cssText='margin:28px 0 4px;padding-top:16px;border-top:1px solid rgba(140,140,140,.35);font-size:14px;line-height:32px';var lab=document.createElement('span');lab.textContent='分享到：';lab.style.marginRight='8px';box.appendChild(lab);box.appendChild(b);p.parentNode.insertBefore(box,p.nextSibling)})();</script><script>(function(){var KW=['graph','flowchart','sequenceDiagram','classDiagram','stateDiagram','erDiagram','gantt','pie','journey','gitGraph','mindmap','timeline','quadrantChart','sankey','xychart','block','packet','architecture','info','zenuml','requirementDiagram','c4Context','%%'];var CDS=['https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js','https://unpkg.com/mermaid@11/dist/mermaid.min.js'];var DBG={found:0,rendered:0,src:'',error:''};window.__gmeekMermaid=DBG;var BOXES=[];function looks(t){t=(t||'').trim();for(var i=0;i<KW.length;i++){if(t.indexOf(KW[i])===0)return true}return false}function collect(){var seen=[],out=[];function add(p,trusted){if(!p||seen.indexOf(p)>=0)return;if(p.hasAttribute&&p.hasAttribute('data-processed'))return;if(p.querySelector&&p.querySelector('svg'))return;if(!trusted&&!looks(p.textContent||''))return;seen.push(p);out.push(p)}var q=document.querySelectorAll('div[class*=highlight-source-mermaid] pre,pre[lang=mermaid],pre[data-lang=mermaid],pre>code[class*=mermaid],div[class*=mermaid]>pre');for(var i=0;i<q.length;i++){var n=q[i];add(n.tagName==='PRE'?n:n.closest('pre'),true)}var all=document.querySelectorAll('pre');for(var j=0;j<all.length;j++){add(all[j],false)}return out}function convert(list){return list.map(function(p){var txt=(p.querySelector('code')||p).textContent;var b=document.createElement('pre');b.className='mermaid';b.textContent=txt;var h=p.parentNode;if(h&&h.classList&&(h.classList.contains('highlight')||h.classList.contains('highlight-source-mermaid'))){h.replaceWith(b)}else{p.replaceWith(b)}return b})}function render(){if(!window.mermaid){DBG.error='引擎未就绪';console.error('[Gmeek Mermaid] 引擎未就绪',DBG);return}try{window.mermaid.initialize({startOnLoad:false,theme:'default'});var r=window.mermaid.run({nodes:BOXES});if(r&&r.then){r.then(function(){DBG.rendered=BOXES.length;console.log('[Gmeek Mermaid] 渲染完成',DBG)},function(e){DBG.error=String(e);console.error('[Gmeek Mermaid] 渲染失败',e)})}else{DBG.rendered=BOXES.length;console.log('[Gmeek Mermaid] 渲染完成',DBG)}}catch(e){DBG.error=String(e);console.error('[Gmeek Mermaid] 渲染异常',e)}}function load(i){if(i>=CDS.length){DBG.error='所有 CDN 均加载失败';console.error('[Gmeek Mermaid]',DBG.error,DBG);return}var s=document.createElement('script');s.src=CDS[i];DBG.src=CDS[i];s.onload=render;s.onerror=function(){load(i+1)};(document.head||document.documentElement).appendChild(s)}function go(){var list=collect();DBG.found=list.length;console.log('[Gmeek Mermaid] 命中代码块',list.length);if(!list.length){DBG.error='未找到 mermaid 代码块';console.warn('[Gmeek Mermaid]',DBG.error,DBG);return}BOXES=convert(list);if(window.mermaid){render()}else{load(0)}}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',go)}else{go()}})();</script>
+
+</html>

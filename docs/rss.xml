@@ -1,5 +1,41 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>pigrass的轻博客</title><link>https://pigrass.github.io</link><description>日常唠叨</description><copyright>pigrass的轻博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://raw.githubusercontent.com/pigrass/pigrass.github.io/bcada41e2e0dfd929b69f443dbe667b903d5d88d/avatar.png</url><title>avatar</title><link>https://pigrass.github.io</link></image><lastBuildDate>Fri, 20 Nov 2026 18:25:20 +0000</lastBuildDate><managingEditor>pigrass的轻博客</managingEditor><ttl>60</ttl><webMaster>pigrass的轻博客</webMaster><item><title>使用Excel生成Graphviz DOT代码,绘制流程图</title><link>https://pigrass.github.io/post/14.html</link><description>&gt; 上篇文章,介绍了在Gmeek博客中添加Mermaid图表的支持,方便写博文时直接渲染流程图,而不需要自己绘制后截图上传.但是用多了,问题也很多,最终使用Graphviz DOT绘图以应对复杂的流程图绘制问题
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>pigrass的轻博客</title><link>https://pigrass.github.io</link><description>日常唠叨</description><copyright>pigrass的轻博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://raw.githubusercontent.com/pigrass/pigrass.github.io/bcada41e2e0dfd929b69f443dbe667b903d5d88d/avatar.png</url><title>avatar</title><link>https://pigrass.github.io</link></image><lastBuildDate>Tue, 24 Nov 2026 12:12:06 +0000</lastBuildDate><managingEditor>pigrass的轻博客</managingEditor><ttl>60</ttl><webMaster>pigrass的轻博客</webMaster><item><title>这个自定义函数为什么不让我用?</title><link>https://pigrass.github.io/post/15.html</link><description>## 问题:
+
+excel有2张sheet,'sheet1'和'配方'
+其中'配方'表的结构如下
+|  |A  |B  |
+| --- | --- | --- |
+|1  |配方  |物料  |
+|2  |K  |物料A,10/物料B,20/物料C,30  |
+
+物料与重量之间用','分隔,不同物料之间用'/'分隔
+要求使用一个函数,`=RECIPE(A1)`,使得从'配方'表中搜索A1值所在行,将对应B列内容拆分成物料和重量2列
+
+## 解答:
+
+1/ 公式管理器中新建名称`RECIPE`
+2/ 范围'工作簿'
+3/ 引用位置
+
+```excel
+=LAMBDA(配方名,VSTACK({'物料','重量'},LET(data,SPLIT2D(XLOOKUP(配方名,配方!$A:$A,配方!$B:$B),',','/'),HSTACK(INDEX(data,,1),--INDEX(data,,2)))))
+```
+4/ 这样在任意单元格输入`=RECIPE('K')`
+都可以生成下面的2维数组,且对应重量列的数字都是可以直接用于计算的,`=(ISNUMBER())`测试均为`TRUE`
+|物料  |重量  |
+| --- | --- |
+|物料A  |10  |
+|物料B  |20  |
+|物料C  |30  |
+
+## 踩坑记录:
+
+### 1/ 不是所以的名字都可以作为自定义函数名,原本使用'FORMULA'作为自定义函数名,但是excel报错,提示'该函数无效'
+
+**原因**: 函数名 ` FORMULA ` 与 Excel 内部名称冲突
+
+
+Excel 中虽然没有一个叫 ` FORMULA() ` 的内置函数，但 **` FORMULA ` 是 Excel 的保留标识符**（与 ` FORMULATEXT `、` FORMULATYPE ` 等内部机制相关）。</description><guid isPermaLink="true">https://pigrass.github.io/post/15.html</guid><pubDate>Tue, 24 Nov 2026 12:11:39 +0000</pubDate></item><item><title>使用Excel生成Graphviz DOT代码,绘制流程图</title><link>https://pigrass.github.io/post/14.html</link><description>&gt; 上篇文章,介绍了在Gmeek博客中添加Mermaid图表的支持,方便写博文时直接渲染流程图,而不需要自己绘制后截图上传.但是用多了,问题也很多,最终使用Graphviz DOT绘图以应对复杂的流程图绘制问题
 
 ## Graphviz DOT代码速览
 ```Graphviz DOT
