@@ -21,6 +21,7 @@ excel有2张sheet,'sheet1'和'配方'
 
 物料与重量之间用','分隔,不同物料之间用'/'分隔
 要求使用一个函数,`=RECIPE(A1)`,使得从'配方'表中搜索A1值所在行,将对应B列内容拆分成物料和重量2列
+> 相比一个配方按2列N行的存储方式,这个存储结构可以按简单的`XLOOKUP函数`进行查询,唯一需要解决的就是将B列单元格内容还原为2列N行的2维数组
 
 ## 解答:
 
@@ -32,12 +33,13 @@ excel有2张sheet,'sheet1'和'配方'
 =LAMBDA(配方名,VSTACK({'物料','重量'},LET(data,SPLIT2D(XLOOKUP(配方名,配方!$A:$A,配方!$B:$B),',','/'),HSTACK(INDEX(data,,1),--INDEX(data,,2)))))
 ```
 4/ 这样在任意单元格输入`=RECIPE('K')`
-都可以生成下面的2维数组,且对应重量列的数字都是可以直接用于计算的,`=(ISNUMBER())`测试均为`TRUE`
+都可以生成下面的2维数组,且对应重量列的数字都是可以直接用于计算的,`=ISNUMBER()`测试均为`TRUE`
 |物料  |重量  |
 | --- | --- |
 |物料A  |10  |
 |物料B  |20  |
 |物料C  |30  |
+> 这个函数可以算是自定义函数`SPLIT2D`的拓展应用
 
 ## 踩坑记录:
 
@@ -47,7 +49,7 @@ excel有2张sheet,'sheet1'和'配方'
 
 
 Excel 中虽然没有一个叫 ` FORMULA() ` 的内置函数，但 **` FORMULA ` 是 Excel 的保留标识符**（与 ` FORMULATEXT `、` FORMULATYPE ` 等内部机制相关）。">
-<meta property="og:title" content="这个自定义函数为什么不让我用?">
+<meta property="og:title" content="excel自定义函数的踩坑记录">
 <meta property="og:description" content="## 问题:
 
 excel有2张sheet,'sheet1'和'配方'
@@ -59,6 +61,7 @@ excel有2张sheet,'sheet1'和'配方'
 
 物料与重量之间用','分隔,不同物料之间用'/'分隔
 要求使用一个函数,`=RECIPE(A1)`,使得从'配方'表中搜索A1值所在行,将对应B列内容拆分成物料和重量2列
+> 相比一个配方按2列N行的存储方式,这个存储结构可以按简单的`XLOOKUP函数`进行查询,唯一需要解决的就是将B列单元格内容还原为2列N行的2维数组
 
 ## 解答:
 
@@ -70,12 +73,13 @@ excel有2张sheet,'sheet1'和'配方'
 =LAMBDA(配方名,VSTACK({'物料','重量'},LET(data,SPLIT2D(XLOOKUP(配方名,配方!$A:$A,配方!$B:$B),',','/'),HSTACK(INDEX(data,,1),--INDEX(data,,2)))))
 ```
 4/ 这样在任意单元格输入`=RECIPE('K')`
-都可以生成下面的2维数组,且对应重量列的数字都是可以直接用于计算的,`=(ISNUMBER())`测试均为`TRUE`
+都可以生成下面的2维数组,且对应重量列的数字都是可以直接用于计算的,`=ISNUMBER()`测试均为`TRUE`
 |物料  |重量  |
 | --- | --- |
 |物料A  |10  |
 |物料B  |20  |
 |物料C  |30  |
+> 这个函数可以算是自定义函数`SPLIT2D`的拓展应用
 
 ## 踩坑记录:
 
@@ -88,7 +92,7 @@ Excel 中虽然没有一个叫 ` FORMULA() ` 的内置函数，但 **` FORMULA `
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://pigrass.github.io/post/15.html">
 <meta property="og:image" content="https://raw.githubusercontent.com/pigrass/pigrass.github.io/bcada41e2e0dfd929b69f443dbe667b903d5d88d/avatar.png">
-<title>这个自定义函数为什么不让我用?</title>
+<title>excel自定义函数的踩坑记录</title>
 <link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 
@@ -131,7 +135,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
 <body>
     <div id="header">
-<h1 class="postTitle">这个自定义函数为什么不让我用?</h1>
+<h1 class="postTitle">excel自定义函数的踩坑记录</h1>
 <div class="title-right">
     <a href="https://pigrass.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
@@ -181,6 +185,9 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </table></markdown-accessiblity-table>
 <p>物料与重量之间用","分隔,不同物料之间用"/"分隔<br>
 要求使用一个函数,<code class="notranslate">=RECIPE(A1)</code>,使得从"配方"表中搜索A1值所在行,将对应B列内容拆分成物料和重量2列</p>
+<blockquote>
+<p>相比一个配方按2列N行的存储方式,这个存储结构可以按简单的<code class="notranslate">XLOOKUP函数</code>进行查询,唯一需要解决的就是将B列单元格内容还原为2列N行的2维数组</p>
+</blockquote>
 <h2>解答:</h2>
 <p>1/ 公式管理器中新建名称<code class="notranslate">RECIPE</code><br>
 2/ 范围"工作簿"<br>
@@ -188,7 +195,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <pre lang="excel" class="notranslate"><code class="notranslate">=LAMBDA(配方名,VSTACK({"物料","重量"},LET(data,SPLIT2D(XLOOKUP(配方名,配方!$A:$A,配方!$B:$B),",","/"),HSTACK(INDEX(data,,1),--INDEX(data,,2)))))
 </code></pre>
 <p>4/ 这样在任意单元格输入<code class="notranslate">=RECIPE("K")</code><br>
-都可以生成下面的2维数组,且对应重量列的数字都是可以直接用于计算的,<code class="notranslate">=(ISNUMBER())</code>测试均为<code class="notranslate">TRUE</code></p>
+都可以生成下面的2维数组,且对应重量列的数字都是可以直接用于计算的,<code class="notranslate">=ISNUMBER()</code>测试均为<code class="notranslate">TRUE</code></p>
 <markdown-accessiblity-table><table role="table">
 <thead>
 <tr>
@@ -211,6 +218,9 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </tr>
 </tbody>
 </table></markdown-accessiblity-table>
+<blockquote>
+<p>这个函数可以算是自定义函数<code class="notranslate">SPLIT2D</code>的拓展应用</p>
+</blockquote>
 <h2>踩坑记录:</h2>
 <h3>1/ 不是所以的名字都可以作为自定义函数名,原本使用"FORMULA"作为自定义函数名,但是excel报错,提示"该函数无效"</h3>
 <p><strong>原因</strong>: 函数名 <code class="notranslate">FORMULA</code> 与 Excel 内部名称冲突</p>

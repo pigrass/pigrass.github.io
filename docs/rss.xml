@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>pigrass的轻博客</title><link>https://pigrass.github.io</link><description>日常唠叨</description><copyright>pigrass的轻博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://raw.githubusercontent.com/pigrass/pigrass.github.io/bcada41e2e0dfd929b69f443dbe667b903d5d88d/avatar.png</url><title>avatar</title><link>https://pigrass.github.io</link></image><lastBuildDate>Tue, 24 Nov 2026 12:12:06 +0000</lastBuildDate><managingEditor>pigrass的轻博客</managingEditor><ttl>60</ttl><webMaster>pigrass的轻博客</webMaster><item><title>这个自定义函数为什么不让我用?</title><link>https://pigrass.github.io/post/15.html</link><description>## 问题:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>pigrass的轻博客</title><link>https://pigrass.github.io</link><description>日常唠叨</description><copyright>pigrass的轻博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://raw.githubusercontent.com/pigrass/pigrass.github.io/bcada41e2e0dfd929b69f443dbe667b903d5d88d/avatar.png</url><title>avatar</title><link>https://pigrass.github.io</link></image><lastBuildDate>Tue, 24 Nov 2026 15:54:33 +0000</lastBuildDate><managingEditor>pigrass的轻博客</managingEditor><ttl>60</ttl><webMaster>pigrass的轻博客</webMaster><item><title>excel自定义函数的踩坑记录</title><link>https://pigrass.github.io/post/15.html</link><description>## 问题:
 
 excel有2张sheet,'sheet1'和'配方'
 其中'配方'表的结构如下
@@ -10,6 +10,7 @@ excel有2张sheet,'sheet1'和'配方'
 
 物料与重量之间用','分隔,不同物料之间用'/'分隔
 要求使用一个函数,`=RECIPE(A1)`,使得从'配方'表中搜索A1值所在行,将对应B列内容拆分成物料和重量2列
+&gt; 相比一个配方按2列N行的存储方式,这个存储结构可以按简单的`XLOOKUP函数`进行查询,唯一需要解决的就是将B列单元格内容还原为2列N行的2维数组
 
 ## 解答:
 
@@ -21,12 +22,13 @@ excel有2张sheet,'sheet1'和'配方'
 =LAMBDA(配方名,VSTACK({'物料','重量'},LET(data,SPLIT2D(XLOOKUP(配方名,配方!$A:$A,配方!$B:$B),',','/'),HSTACK(INDEX(data,,1),--INDEX(data,,2)))))
 ```
 4/ 这样在任意单元格输入`=RECIPE('K')`
-都可以生成下面的2维数组,且对应重量列的数字都是可以直接用于计算的,`=(ISNUMBER())`测试均为`TRUE`
+都可以生成下面的2维数组,且对应重量列的数字都是可以直接用于计算的,`=ISNUMBER()`测试均为`TRUE`
 |物料  |重量  |
 | --- | --- |
 |物料A  |10  |
 |物料B  |20  |
 |物料C  |30  |
+&gt; 这个函数可以算是自定义函数`SPLIT2D`的拓展应用
 
 ## 踩坑记录:
 
